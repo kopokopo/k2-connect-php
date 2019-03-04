@@ -1,0 +1,24 @@
+{
+    "name": "kopokopo/kopokopo",
+    "description": "Kopokopo's php SDK",
+    "type": "library",
+    "require": {
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7"
+    },
+    "authors": [
+        {
+            "name": "Nicollet Njora",
+            "email": "nicollet.njora05@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Kopokopo\\SDK\\": "src/",
+            "Kopokopo\\SDK\\Requests\\": "src/requests",
+            "Kopokopo\\SDK\\Tests\\": "tests"
+        }
+    }
+}
