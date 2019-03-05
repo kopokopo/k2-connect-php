@@ -33,6 +33,7 @@ class StkTest extends TestCase
                 'lastName' => 'Doe',
                 'phone' => '0712345678',
                 'amount' => 3455,
+                'currency' => 'KES',
                 'email' => 'example@example.com',
                 'callbackUrl' => 'http://localhost:8000/test',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -50,6 +51,7 @@ class StkTest extends TestCase
                 'lastName' => 'Doe',
                 'phone' => '0712345678',
                 'amount' => 3455,
+                'currency' => 'KES',
                 'email' => 'example@example.com',
                 'callbackUrl' => 'http://localhost:8000/test',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -67,6 +69,7 @@ class StkTest extends TestCase
                 'firstName' => 'Jane',
                 'phone' => '0712345678',
                 'amount' => 3455,
+                'currency' => 'KES',
                 'email' => 'example@example.com',
                 'callbackUrl' => 'http://localhost:8000/test',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -84,6 +87,7 @@ class StkTest extends TestCase
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
                 'amount' => 3455,
+                'currency' => 'KES',
                 'email' => 'example@example.com',
                 'callbackUrl' => 'http://localhost:8000/test',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -101,6 +105,7 @@ class StkTest extends TestCase
                 'lastName' => 'Doe',
                 'phone' => '0712345678',
                 'amount' => 3455,
+                'currency' => 'KES',
                 'email' => 'example@example.com',
                 'callbackUrl' => 'http://localhost:8000/test',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -119,6 +124,7 @@ class StkTest extends TestCase
                 'lastName' => 'Doe',
                 'phone' => '0712345678',
                 'amount' => 3455,
+                'currency' => 'KES',
                 'email' => 'example@example.com',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
@@ -136,6 +142,25 @@ class StkTest extends TestCase
                 'lastName' => 'Doe',
                 'phone' => '0712345678',
                 'amount' => 3455,
+                'currency' => 'KES',
+                'callbackUrl' => 'http://localhost:8000/test',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+            ])
+        );
+    }
+
+    public function testPaymentRequestWithNoCurrency()
+    {
+        $this->assertArraySubset(
+            ['data' => 'You have to provide the currency'],
+            $this->client->paymentRequest([
+                'paymentChannel' => 'M-PESA',
+                'tillNumber' => '13432',
+                'firstName' => 'Jane',
+                'lastName' => 'Doe',
+                'phone' => '0712345678',
+                'amount' => 3455,
+                'email' => 'example@example.com',
                 'callbackUrl' => 'http://localhost:8000/test',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
@@ -153,6 +178,7 @@ class StkTest extends TestCase
                 'lastName' => 'Doe',
                 'phone' => '0712345678',
                 'amount' => 3455,
+                'currency' => 'KES',
                 'email' => 'example@example.com',
                 'callbackUrl' => 'http://localhost:8000/test',
             ])

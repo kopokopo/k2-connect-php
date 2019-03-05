@@ -9,6 +9,11 @@ class SettleFundsRequest extends BaseRequest
         return $this->getRequestData('amount');
     }
 
+    public function getCurrency()
+    {
+        return $this->getRequestData('currency');
+    }
+
     public function getDestination()
     {
         if (!isset($this->data['destination'])) {
@@ -21,7 +26,10 @@ class SettleFundsRequest extends BaseRequest
     public function getSettleFundsBody()
     {
         return [
-            'amount' => $this->getAmount(),
+            'amount' => [
+                $this->getCurrency(),
+                $this->getAmount(),
+            ],
             'destination' => $this->getDestination(),
         ];
     }

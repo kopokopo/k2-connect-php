@@ -43,6 +43,11 @@ class StkPaymentRequest extends BaseRequest
         return $this->getRequestData('amount');
     }
 
+    public function getCurrency()
+    {
+        return $this->getRequestData('currency');
+    }
+
     public function getUrl()
     {
         return $this->getRequestData('callbackUrl');
@@ -68,7 +73,10 @@ class StkPaymentRequest extends BaseRequest
                 'phone' => $this->getPhone(),
                 'email' => $this->getEmail(),
             ],
-            'amount' => $this->getAmount(),
+            'amount' => [
+                $this->getCurrency(),
+                $this->getAmount(),
+            ],
             'metadata' => $this->getMetadata(),
             '_links' => [
                 'call_back_url' => $this->getUrl(),

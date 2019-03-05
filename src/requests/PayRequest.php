@@ -14,6 +14,11 @@ class PayRequest extends BaseRequest
         return $this->getRequestData('amount');
     }
 
+    public function getCurrency()
+    {
+        return $this->getRequestData('currency');
+    }
+
     public function getUrl()
     {
         return $this->getRequestData('callbackUrl');
@@ -32,7 +37,10 @@ class PayRequest extends BaseRequest
     {
         return [
             'destination' => $this->getDestination(),
-            'amount' => $this->getAmount(),
+            'amount' => [
+                $this->getCurrency(),
+                $this->getAmount(),
+            ],
             'metadata' => $this->getMetadata(),
             '_links' => [
                 'callback_url' => $this->getUrl(),

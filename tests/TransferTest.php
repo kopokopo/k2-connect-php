@@ -111,6 +111,7 @@ class TransferTest extends TestCase
             ['status' => 'success'],
             $this->client->settleFunds([
                 'amount' => 333,
+                'currency' => 'KES',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
@@ -122,6 +123,7 @@ class TransferTest extends TestCase
             ['data' => 'You have to provide the accessToken'],
             $this->client->settleFunds([
                 'amount' => 333,
+                'currency' => 'KES',
             ])
         );
     }
@@ -132,6 +134,18 @@ class TransferTest extends TestCase
             ['data' => 'You have to provide the amount'],
             $this->client->settleFunds([
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
+                'currency' => 'KES',
+            ])
+        );
+    }
+
+    public function testSettleFundsWithNoCurrency()
+    {
+        $this->assertArraySubset(
+            ['data' => 'You have to provide the currency'],
+            $this->client->settleFunds([
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+                'amount' => 333,
             ])
         );
     }

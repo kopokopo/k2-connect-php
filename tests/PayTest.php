@@ -266,6 +266,7 @@ class PayTest extends TestCase
             $this->client->sendPay([
                 'destination' => 'my_destination_alias',
                 'amount' => 3444,
+                'currency' => 'KES',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
                 'callbackUrl' => 'http://localhost:8000/webhook',
             ])
@@ -278,6 +279,7 @@ class PayTest extends TestCase
             ['data' => 'You have to provide the destination'],
             $this->client->sendPay([
                 'amount' => 3444,
+                'currency' => 'KES',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
                 'callbackUrl' => 'http://localhost:8000/webhook',
             ])
@@ -289,6 +291,20 @@ class PayTest extends TestCase
         $this->assertArraySubset(
             ['data' => 'You have to provide the destination'],
             $this->client->sendPay([
+                'currency' => 'KES',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+                'callbackUrl' => 'http://localhost:8000/webhook',
+            ])
+        );
+    }
+
+    public function testSendPayWithNoCurrency()
+    {
+        $this->assertArraySubset(
+            ['data' => 'You have to provide the currency'],
+            $this->client->sendPay([
+                'destination' => 'my_destination_alias',
+                'amount' => 3444,
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
                 'callbackUrl' => 'http://localhost:8000/webhook',
             ])
@@ -302,6 +318,7 @@ class PayTest extends TestCase
             $this->client->sendPay([
                 'destination' => 'my_destination_alias',
                 'amount' => 3444,
+                'currency' => 'KES',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
@@ -314,6 +331,7 @@ class PayTest extends TestCase
             $this->client->sendPay([
                 'destination' => 'my_destination_alias',
                 'amount' => 3444,
+                'currency' => 'KES',
                 'callbackUrl' => 'http://localhost:8000/webhook',
             ])
         );
