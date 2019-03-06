@@ -31,7 +31,7 @@ class StkTest extends TestCase
                 'tillNumber' => '13432',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '0712345678',
+                'phone' => '+254712345678',
                 'amount' => 3455,
                 'currency' => 'KES',
                 'email' => 'example@example.com',
@@ -49,7 +49,7 @@ class StkTest extends TestCase
                 'paymentChannel' => 'M-PESA',
                 'tillNumber' => '13432',
                 'lastName' => 'Doe',
-                'phone' => '0712345678',
+                'phone' => '+254712345678',
                 'amount' => 3455,
                 'currency' => 'KES',
                 'email' => 'example@example.com',
@@ -67,7 +67,7 @@ class StkTest extends TestCase
                 'paymentChannel' => 'M-PESA',
                 'tillNumber' => '13432',
                 'firstName' => 'Jane',
-                'phone' => '0712345678',
+                'phone' => '+254712345678',
                 'amount' => 3455,
                 'currency' => 'KES',
                 'email' => 'example@example.com',
@@ -95,6 +95,43 @@ class StkTest extends TestCase
         );
     }
 
+    public function testPaymentRequestWithInvalidPhoneFormat()
+    {
+        $this->assertArraySubset(
+            ['data' => 'Invalid phone format'],
+            $this->client->paymentRequest([
+                'paymentChannel' => 'M-PESA',
+                'tillNumber' => '13432',
+                'firstName' => 'Jane',
+                'lastName' => 'Doe',
+                'phone' => '0712345678',
+                'amount' => 3455,
+                'currency' => 'KES',
+                'email' => 'example@example.com',
+                'callbackUrl' => 'http://localhost:8000/test',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+            ])
+        );
+    }
+
+    public function testPaymentRequestWithNoEmail()
+    {
+        $this->assertArraySubset(
+            ['status' => 'success'],
+            $this->client->paymentRequest([
+                'paymentChannel' => 'M-PESA',
+                'tillNumber' => '13432',
+                'firstName' => 'Jane',
+                'lastName' => 'Doe',
+                'phone' => '+254712345678',
+                'amount' => 3455,
+                'currency' => 'KES',
+                'callbackUrl' => 'http://localhost:8000/test',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+            ])
+        );
+    }
+
     public function testPaymentRequestWithNoTill()
     {
         $this->assertArraySubset(
@@ -103,7 +140,7 @@ class StkTest extends TestCase
                 'paymentChannel' => 'M-PESA',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '0712345678',
+                'phone' => '+254712345678',
                 'amount' => 3455,
                 'currency' => 'KES',
                 'email' => 'example@example.com',
@@ -122,7 +159,7 @@ class StkTest extends TestCase
                 'tillNumber' => '13432',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '0712345678',
+                'phone' => '+254712345678',
                 'amount' => 3455,
                 'currency' => 'KES',
                 'email' => 'example@example.com',
@@ -140,7 +177,7 @@ class StkTest extends TestCase
                 'tillNumber' => '13432',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '0712345678',
+                'phone' => '+254712345678',
                 'amount' => 3455,
                 'currency' => 'KES',
                 'callbackUrl' => 'http://localhost:8000/test',
@@ -158,11 +195,35 @@ class StkTest extends TestCase
                 'tillNumber' => '13432',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '0712345678',
+                'phone' => '+254712345678',
                 'amount' => 3455,
                 'email' => 'example@example.com',
                 'callbackUrl' => 'http://localhost:8000/test',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
+            ])
+        );
+    }
+
+    public function testPaymentRequestWithMetadata()
+    {
+        $this->assertArraySubset(
+            ['status' => 'success'],
+            $this->client->paymentRequest([
+                'paymentChannel' => 'M-PESA',
+                'tillNumber' => '13432',
+                'firstName' => 'Jane',
+                'lastName' => 'Doe',
+                'phone' => '+254712345678',
+                'amount' => 3455,
+                'currency' => 'KES',
+                'email' => 'example@example.com',
+                'callbackUrl' => 'http://localhost:8000/test',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+                'metadata' => [
+                    'customer_id' => '123456789',
+                    'reference' => '123456',
+                    'notes' => 'Payment for invoice 12345',
+                ],
             ])
         );
     }
@@ -176,7 +237,7 @@ class StkTest extends TestCase
                 'tillNumber' => '13432',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '0712345678',
+                'phone' => '+254712345678',
                 'amount' => 3455,
                 'currency' => 'KES',
                 'email' => 'example@example.com',

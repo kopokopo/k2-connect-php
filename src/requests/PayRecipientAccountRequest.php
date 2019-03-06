@@ -45,11 +45,13 @@ class PayRecipientAccountRequest extends BaseRequest
 
     public function getPhone()
     {
+        $validate = new Validate();
+
         if (!isset($this->data['phone'])) {
             return null;
+        } elseif ($validate->isPhoneValid($this->getRequestData('phone'))) {
+            return $this->getRequestData('phone');
         }
-
-        return $this->getRequestData('phone');
     }
 
     public function getPayRecipientBody()

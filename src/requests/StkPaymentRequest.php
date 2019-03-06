@@ -26,7 +26,11 @@ class StkPaymentRequest extends BaseRequest
 
     public function getPhone()
     {
-        return $this->getRequestData('phone');
+        $validate = new Validate();
+
+        if ($validate->isPhoneValid($this->getRequestData('phone'))) {
+            return $this->getRequestData('phone');
+        }
     }
 
     public function getEmail()

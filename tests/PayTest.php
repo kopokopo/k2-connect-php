@@ -30,7 +30,7 @@ class PayTest extends TestCase
                 'type' => 'mobile_wallet',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '0712345678',
+                'phone' => '+254712345678',
                 'network' => 'safaricom',
                 'email' => 'example@example.com',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -45,7 +45,7 @@ class PayTest extends TestCase
             $this->client->addPayRecipient([
                 'type' => 'mobile_wallet',
                 'lastName' => 'Doe',
-                'phone' => '0712345678',
+                'phone' => '+254712345678',
                 'network' => 'safaricom',
                 'email' => 'example@example.com',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -60,7 +60,7 @@ class PayTest extends TestCase
             $this->client->addPayRecipient([
                 'type' => 'mobile_wallet',
                 'firstName' => 'Jane',
-                'phone' => '0712345678',
+                'phone' => '+254712345678',
                 'network' => 'safaricom',
                 'email' => 'example@example.com',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -83,6 +83,22 @@ class PayTest extends TestCase
         );
     }
 
+    public function testAddPayRecipientMobileWithInvalidPhoneFormat()
+    {
+        $this->assertArraySubset(
+            ['data' => 'Invalid phone format'],
+            $this->client->addPayRecipient([
+                'type' => 'mobile_wallet',
+                'firstName' => 'Jane',
+                'lastName' => 'Doe',
+                'phone' => '0712345678',
+                'network' => 'safaricom',
+                'email' => 'example@example.com',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+            ])
+        );
+    }
+
     public function testAddPayRecipientMobileWithNoNetwork()
     {
         $this->assertArraySubset(
@@ -91,7 +107,7 @@ class PayTest extends TestCase
                 'type' => 'mobile_wallet',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '0712345678',
+                'phone' => '+254712345678',
                 'email' => 'example@example.com',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
@@ -106,7 +122,7 @@ class PayTest extends TestCase
                 'type' => 'mobile_wallet',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '0712345678',
+                'phone' => '+254712345678',
                 'network' => 'safaricom',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
@@ -121,7 +137,7 @@ class PayTest extends TestCase
                 'type' => 'mobile_wallet',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '0712345678',
+                'phone' => '+254712345678',
                 'network' => 'safaricom',
             ])
         );
@@ -142,7 +158,7 @@ class PayTest extends TestCase
                 'bankRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'accountNumber' => '1234567890',
-                'phone' => '0712345678',
+                'phone' => '+254712345678',
                 'email' => 'example@example.com',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
@@ -159,7 +175,7 @@ class PayTest extends TestCase
                 'bankRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'accountNumber' => '1234567890',
-                'phone' => '0712345678',
+                'phone' => '+254712345678',
                 'email' => 'example@example.com',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
@@ -176,7 +192,7 @@ class PayTest extends TestCase
                 'accountName' => 'Doe',
                 'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'accountNumber' => '1234567890',
-                'phone' => '0712345678',
+                'phone' => '+254712345678',
                 'email' => 'example@example.com',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
@@ -193,7 +209,7 @@ class PayTest extends TestCase
                 'accountName' => 'Doe',
                 'bankRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'accountNumber' => '1234567890',
-                'phone' => '0712345678',
+                'phone' => '+254712345678',
                 'email' => 'example@example.com',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
@@ -210,8 +226,60 @@ class PayTest extends TestCase
                 'accountName' => 'Doe',
                 'bankRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
+                'phone' => '+254712345678',
+                'email' => 'example@example.com',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+            ])
+        );
+    }
+
+    public function testAddPayRecipientAccountWithNoPhone()
+    {
+        $this->assertArraySubset(
+            ['status' => 'success'],
+            $this->client->addPayRecipient([
+                'type' => 'bank_account',
+                'name' => 'Jane',
+                'accountName' => 'Doe',
+                'bankRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
+                'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
+                'accountNumber' => '1234567890',
+                'email' => 'example@example.com',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+            ])
+        );
+    }
+
+    public function testAddPayRecipientAccountWithInvalidPhoneFormat()
+    {
+        $this->assertArraySubset(
+            ['data' => 'Invalid phone format'],
+            $this->client->addPayRecipient([
+                'type' => 'bank_account',
+                'name' => 'Jane',
+                'accountName' => 'Doe',
+                'bankRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
+                'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
+                'accountNumber' => '1234567890',
                 'phone' => '0712345678',
                 'email' => 'example@example.com',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+            ])
+        );
+    }
+
+    public function testAddPayRecipientAccountWithNoEmail()
+    {
+        $this->assertArraySubset(
+            ['status' => 'success'],
+            $this->client->addPayRecipient([
+                'type' => 'bank_account',
+                'name' => 'Jane',
+                'accountName' => 'Doe',
+                'bankRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
+                'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
+                'accountNumber' => '1234567890',
+                'phone' => '+254712345678',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
@@ -228,7 +296,7 @@ class PayTest extends TestCase
                 'bankRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'accountNumber' => '1234567890',
-                'phone' => '0712345678',
+                'phone' => '+254712345678',
                 'email' => 'example@example.com',
             ])
         );
@@ -248,7 +316,7 @@ class PayTest extends TestCase
                 'bankRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'accountNumber' => '1234567890',
-                'phone' => '0712345678',
+                'phone' => '+254712345678',
                 'email' => 'example@example.com',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
