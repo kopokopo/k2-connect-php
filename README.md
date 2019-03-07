@@ -1,5 +1,5 @@
 # DISCLAIMER: 
-This is still in production. To connect to the current kopokopo's api check out it's documentation on https://app.kopokopo.com/push_api
+This is still in development. To connect to the current kopokopo's api check out it's documentation on https://app.kopokopo.com/push_api
 
 # Kopokopo PHP SDK
 
