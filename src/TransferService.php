@@ -15,7 +15,7 @@ class TransferService extends Service
     {
         $settlementAccountRequest = new SettlementAccountRequest($options);
         try {
-            $response = $this->client->post('createsettlement', ['body' => json_encode($settlementAccountRequest->getSettlementAccountBody()), 'headers' => $settlementAccountRequest->getHeaders()]);
+            $response = $this->client->post('merchant_bank_accounts', ['body' => json_encode($settlementAccountRequest->getSettlementAccountBody()), 'headers' => $settlementAccountRequest->getHeaders()]);
 
             return $this->success($response);
         } catch (Exception $e) {
@@ -27,7 +27,7 @@ class TransferService extends Service
     {
         $settleFundsRequest = new SettleFundsRequest($options);
         try {
-            $response = $this->client->post('transfer', ['body' => json_encode($settleFundsRequest->getSettleFundsBody()), 'headers' => $settleFundsRequest->getHeaders()]);
+            $response = $this->client->post('transfers', ['body' => json_encode($settleFundsRequest->getSettleFundsBody()), 'headers' => $settleFundsRequest->getHeaders()]);
 
             return $this->success($response);
         } catch (Exception $e) {

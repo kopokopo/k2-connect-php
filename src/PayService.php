@@ -15,10 +15,9 @@ class PayService extends Service
     public function addPayRecipient($options)
     {
         try {
-            if(!isset($options['type'])){
-                throw new \InvalidArgumentException("You have to provide the type");
-            }
-            else if ($options['type'] === 'bank_account') {
+            if (!isset($options['type'])) {
+                throw new \InvalidArgumentException('You have to provide the type');
+            } elseif ($options['type'] === 'bank_account') {
                 $payRecipientrequest = new PayRecipientAccountRequest($options);
             } else {
                 $payRecipientrequest = new PayRecipientMobileRequest($options);
@@ -36,7 +35,7 @@ class PayService extends Service
     {
         $payRequest = new PayRequest($options);
         try {
-            $response = $this->client->post('pay', ['body' => json_encode($payRequest->getPayBody()), 'headers' => $payRequest->getHeaders()]);
+            $response = $this->client->post('payments', ['body' => json_encode($payRequest->getPayBody()), 'headers' => $payRequest->getHeaders()]);
 
             return $this->success($response);
         } catch (Exception $e) {
