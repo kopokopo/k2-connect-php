@@ -8,7 +8,7 @@ class K2
 {
     // Mock server
     // For testing purposes
-    const BASE_DOMAIN = 'https://7a060151-ec31-478c-bc6b-cfa5868e4380.mock.pstmn.io';
+    const BASE_DOMAIN = 'https://9284bede-3488-4b2b-a1e8-d6e9f8d86aff.mock.pstmn.io';
 
     protected $clientId;
     protected $clientSecret;

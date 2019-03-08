@@ -22,7 +22,7 @@ class PayTest extends TestCase
     *   Add Pay Recipient (Mobile) tests
     */
 
-    public function testAddPayRecipientMobile()
+    public function testAddPayRecipientMobileSuccess()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
@@ -38,7 +38,7 @@ class PayTest extends TestCase
         );
     }
 
-    public function testAddPayRecipientMobileWithNoFirstName()
+    public function testAddPayRecipientMobileWithNoFirstNameFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the firstName'],
@@ -53,7 +53,7 @@ class PayTest extends TestCase
         );
     }
 
-    public function testAddPayRecipientMobileWithNoLastName()
+    public function testAddPayRecipientMobileWithNoLastNameFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the lastName'],
@@ -68,7 +68,7 @@ class PayTest extends TestCase
         );
     }
 
-    public function testAddPayRecipientMobileWithNoPhone()
+    public function testAddPayRecipientMobileWithNoPhoneFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the phone'],
@@ -83,7 +83,7 @@ class PayTest extends TestCase
         );
     }
 
-    public function testAddPayRecipientMobileWithInvalidPhoneFormat()
+    public function testAddPayRecipientMobileWithInvalidPhoneFormatFails()
     {
         $this->assertArraySubset(
             ['data' => 'Invalid phone format'],
@@ -99,7 +99,7 @@ class PayTest extends TestCase
         );
     }
 
-    public function testAddPayRecipientMobileWithNoNetwork()
+    public function testAddPayRecipientMobileWithNoNetworkFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the network'],
@@ -114,7 +114,7 @@ class PayTest extends TestCase
         );
     }
 
-    public function testAddPayRecipientMobileWithNoEmail()
+    public function testAddPayRecipientMobileWithNoEmailSucceeds()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
@@ -129,7 +129,7 @@ class PayTest extends TestCase
         );
     }
 
-    public function testAddPayRecipientMobileWithNoAccessToken()
+    public function testAddPayRecipientMobileWithNoAccessTokenFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
@@ -165,7 +165,7 @@ class PayTest extends TestCase
         );
     }
 
-    public function testAddPayRecipientAccountWithNoAccountName()
+    public function testAddPayRecipientAccountWithNoAccountNameFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accountName'],
@@ -182,7 +182,7 @@ class PayTest extends TestCase
         );
     }
 
-    public function testAddPayRecipientAccountWithNoBankRef()
+    public function testAddPayRecipientAccountWithNoBankRefFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the bankRef'],
@@ -199,7 +199,7 @@ class PayTest extends TestCase
         );
     }
 
-    public function testAddPayRecipientAccountWithNoBankBranchRef()
+    public function testAddPayRecipientAccountWithNoBankBranchRefFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the bankBranchRef'],
@@ -216,7 +216,7 @@ class PayTest extends TestCase
         );
     }
 
-    public function testAddPayRecipientAccountWithNoAccountNumber()
+    public function testAddPayRecipientAccountWithNoAccountNumberFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accountNumber'],
@@ -233,7 +233,7 @@ class PayTest extends TestCase
         );
     }
 
-    public function testAddPayRecipientAccountWithNoPhone()
+    public function testAddPayRecipientAccountWithNoPhoneFails()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
@@ -250,7 +250,7 @@ class PayTest extends TestCase
         );
     }
 
-    public function testAddPayRecipientAccountWithInvalidPhoneFormat()
+    public function testAddPayRecipientAccountWithInvalidPhoneFormatFails()
     {
         $this->assertArraySubset(
             ['data' => 'Invalid phone format'],
@@ -268,7 +268,7 @@ class PayTest extends TestCase
         );
     }
 
-    public function testAddPayRecipientAccountWithNoEmail()
+    public function testAddPayRecipientAccountWithNoEmailSucceeds()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
@@ -285,7 +285,7 @@ class PayTest extends TestCase
         );
     }
 
-    public function testAddPayRecipientAccountWithNoAccessToken()
+    public function testAddPayRecipientAccountWithNoAccessTokenFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
@@ -306,7 +306,7 @@ class PayTest extends TestCase
     *   Add Pay Recipient tests
     */
 
-    public function testAddPayRecipientWithNoType()
+    public function testAddPayRecipientWithNoTypeFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the type'],
@@ -341,7 +341,7 @@ class PayTest extends TestCase
         );
     }
 
-    public function testSendPayWithNoDestination()
+    public function testSendPayWithNoDestinationFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the destination'],
@@ -354,7 +354,7 @@ class PayTest extends TestCase
         );
     }
 
-    public function testSendPayWithNoAmount()
+    public function testSendPayWithNoAmountFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the destination'],
@@ -366,7 +366,7 @@ class PayTest extends TestCase
         );
     }
 
-    public function testSendPayWithNoCurrency()
+    public function testSendPayWithNoCurrencyFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the currency'],
@@ -379,7 +379,7 @@ class PayTest extends TestCase
         );
     }
 
-    public function testSendPayWithNoCallbackUrl()
+    public function testSendPayWithNoCallbackUrlFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the callbackUrl'],
@@ -392,7 +392,7 @@ class PayTest extends TestCase
         );
     }
 
-    public function testSendPayWithNoAccessToken()
+    public function testSendPayWithNoAccessTokenFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
@@ -420,7 +420,7 @@ class PayTest extends TestCase
         );
     }
 
-    public function testPayStatusWithNoLocation()
+    public function testPayStatusWithNoLocationFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the location'],
@@ -430,7 +430,7 @@ class PayTest extends TestCase
         );
     }
 
-    public function testPayStatusWithNoAccessToken()
+    public function testPayStatusWithNoAccessTokenFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
