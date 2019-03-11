@@ -22,7 +22,7 @@ class StkTest extends TestCase
     *   Payment Request tests
     */
 
-    public function testPaymentRequest()
+    public function testPaymentRequestSucceeds()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
@@ -41,7 +41,7 @@ class StkTest extends TestCase
         );
     }
 
-    public function testPaymentRequestWithNoFirstName()
+    public function testPaymentRequestWithNoFirstNameFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the firstName'],
@@ -59,7 +59,7 @@ class StkTest extends TestCase
         );
     }
 
-    public function testPaymentRequestWithNoLastName()
+    public function testPaymentRequestWithNoLastNameFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the lastName'],
@@ -77,7 +77,7 @@ class StkTest extends TestCase
         );
     }
 
-    public function testPaymentRequestWithNoPhone()
+    public function testPaymentRequestWithNoPhoneFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the phone'],
@@ -95,7 +95,7 @@ class StkTest extends TestCase
         );
     }
 
-    public function testPaymentRequestWithInvalidPhoneFormat()
+    public function testPaymentRequestWithInvalidPhoneFormatFails()
     {
         $this->assertArraySubset(
             ['data' => 'Invalid phone format'],
@@ -114,7 +114,7 @@ class StkTest extends TestCase
         );
     }
 
-    public function testPaymentRequestWithNoEmail()
+    public function testPaymentRequestWithNoEmailSucceeds()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
@@ -132,7 +132,7 @@ class StkTest extends TestCase
         );
     }
 
-    public function testPaymentRequestWithNoTill()
+    public function testPaymentRequestWithNoTillFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the tillNumber'],
@@ -150,7 +150,7 @@ class StkTest extends TestCase
         );
     }
 
-    public function testPaymentRequestWithNoCallbackUrl()
+    public function testPaymentRequestWithNoCallbackUrlFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the callbackUrl'],
@@ -168,7 +168,7 @@ class StkTest extends TestCase
         );
     }
 
-    public function testPaymentRequestWithoutEmail()
+    public function testPaymentRequestWithoutEmailSucceeds()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
@@ -186,7 +186,7 @@ class StkTest extends TestCase
         );
     }
 
-    public function testPaymentRequestWithNoCurrency()
+    public function testPaymentRequestWithNoCurrencyFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the currency'],
@@ -204,7 +204,7 @@ class StkTest extends TestCase
         );
     }
 
-    public function testPaymentRequestWithMetadata()
+    public function testPaymentRequestWithMetadataSucceeds()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
@@ -228,7 +228,7 @@ class StkTest extends TestCase
         );
     }
 
-    public function testPaymentRequestWithNoAccessToken()
+    public function testPaymentRequestWithNoAccessTokenFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
@@ -250,7 +250,7 @@ class StkTest extends TestCase
     *   Payment Request status tests
     */
 
-    public function testPaymentRequestStatus()
+    public function testPaymentRequestStatusSucceeds()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
@@ -261,7 +261,7 @@ class StkTest extends TestCase
         );
     }
 
-    public function testPaymentRequestStatusWithNoLocation()
+    public function testPaymentRequestStatusWithNoLocationFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the location'],
@@ -271,7 +271,7 @@ class StkTest extends TestCase
         );
     }
 
-    public function testPaymentRequestStatusWithNoAccessToken()
+    public function testPaymentRequestStatusWithNoAccessTokenFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],

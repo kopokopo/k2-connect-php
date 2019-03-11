@@ -17,27 +17,27 @@ class K2Test extends TestCase
         $this->client = new K2($this->client_id, $this->client_secret);
     }
 
-    public function testTokenServiceClass()
+    public function testTokenServiceClassInitialised()
     {
         $this->assertInstanceOf(\Kopokopo\SDK\TokenService::class, $this->client->TokenService());
     }
 
-    public function testWebhooksClass()
+    public function testWebhooksClassInitialised()
     {
         $this->assertInstanceOf(\Kopokopo\SDK\Webhooks::class, $this->client->Webhooks());
     }
 
-    public function testStkServiceClass()
+    public function testStkServiceClassInitialised()
     {
         $this->assertInstanceOf(\Kopokopo\SDK\StkService::class, $this->client->StkService());
     }
 
-    public function testPayServiceClass()
+    public function testPayServiceClassInitialised()
     {
         $this->assertInstanceOf(\Kopokopo\SDK\PayService::class, $this->client->PayService());
     }
 
-    public function testTransferServiceClass()
+    public function testTransferServiceClassInitialised()
     {
         $this->assertInstanceOf(\Kopokopo\SDK\TransferService::class, $this->client->TransferService());
     }

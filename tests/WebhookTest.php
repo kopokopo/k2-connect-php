@@ -22,7 +22,7 @@ class WebhookTest extends TestCase
     *   Webhook subscribe tests
     */
 
-    public function testWebhookSubscribe()
+    public function testWebhookSubscribeSucceeds()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
@@ -35,7 +35,7 @@ class WebhookTest extends TestCase
         );
     }
 
-    public function testWebhookSubscribeWithNoEventType()
+    public function testWebhookSubscribeWithNoEventTypeFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the eventType'],
@@ -47,7 +47,7 @@ class WebhookTest extends TestCase
         );
     }
 
-    public function testWebhookSubscribeWithNoUrl()
+    public function testWebhookSubscribeWithNoUrlFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the url'],
@@ -59,7 +59,7 @@ class WebhookTest extends TestCase
         );
     }
 
-    public function testWebhookSubscribeWithNoWebhookSecret()
+    public function testWebhookSubscribeWithNoWebhookSecretFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the webhookSecret'],
@@ -71,7 +71,7 @@ class WebhookTest extends TestCase
         );
     }
 
-    public function testWebhookSubscribeWithNoAccessToken()
+    public function testWebhookSubscribeWithNoAccessTokenFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
@@ -90,7 +90,7 @@ class WebhookTest extends TestCase
     /**
      * @expectedException \ArgumentCountError
      */
-    public function testWebhookHandlerWithNoData()
+    public function testWebhookHandlerWithNoDataFails()
     {
         $this->expectException($this->client->webhookHandler());
     }

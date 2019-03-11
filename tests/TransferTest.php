@@ -22,7 +22,7 @@ class TransferTest extends TestCase
     *   Create Settlement account tests
     */
 
-    public function testCreateSettlementAccount()
+    public function testCreateSettlementAccountSucceeds()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
@@ -36,7 +36,7 @@ class TransferTest extends TestCase
         );
     }
 
-    public function testCreateSettlementAccountWithNoAccountName()
+    public function testCreateSettlementAccountWithNoAccountNameFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accountName'],
@@ -49,7 +49,7 @@ class TransferTest extends TestCase
         );
     }
 
-    public function testCreateSettlementAccountWithNoBankRef()
+    public function testCreateSettlementAccountWithNoBankRefFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the bankRef'],
@@ -62,7 +62,7 @@ class TransferTest extends TestCase
         );
     }
 
-    public function testCreateSettlementAccountWithNoBankBranchRef()
+    public function testCreateSettlementAccountWithNoBankBranchRefFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the bankBranchRef'],
@@ -75,7 +75,7 @@ class TransferTest extends TestCase
         );
     }
 
-    public function testCreateSettlementAccountWithNoAccountNumber()
+    public function testCreateSettlementAccountWithNoAccountNumberFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accountNumber'],
@@ -88,7 +88,7 @@ class TransferTest extends TestCase
         );
     }
 
-    public function testCreateSettlementAccountWithNoAccessToken()
+    public function testCreateSettlementAccountWithNoAccessTokenFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
@@ -105,7 +105,7 @@ class TransferTest extends TestCase
     *   Settle Funds tests
     */
 
-    public function testSettleFunds()
+    public function testSettleFundsSucceeds()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
@@ -117,7 +117,7 @@ class TransferTest extends TestCase
         );
     }
 
-    public function testSettleFundsWithNoAccessToken()
+    public function testSettleFundsWithNoAccessTokenFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
@@ -128,7 +128,7 @@ class TransferTest extends TestCase
         );
     }
 
-    public function testSettleFundsWithNoAmount()
+    public function testSettleFundsWithNoAmountFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the amount'],
@@ -139,7 +139,7 @@ class TransferTest extends TestCase
         );
     }
 
-    public function testSettleFundsWithNoCurrency()
+    public function testSettleFundsWithNoCurrencyFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the currency'],
@@ -154,7 +154,7 @@ class TransferTest extends TestCase
     *   Settlement Status tests
     */
 
-    public function testSettlementStatus()
+    public function testSettlementStatusSucceeds()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
@@ -165,7 +165,7 @@ class TransferTest extends TestCase
         );
     }
 
-    public function testSettlementStatusWithNoLocation()
+    public function testSettlementStatusWithNoLocationFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the location'],
@@ -175,7 +175,7 @@ class TransferTest extends TestCase
         );
     }
 
-    public function testSettlementStatusWithNoAccessToken()
+    public function testSettlementStatusWithNoAccessTokenFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],

@@ -22,7 +22,7 @@ class PayTest extends TestCase
     *   Add Pay Recipient (Mobile) tests
     */
 
-    public function testAddPayRecipientMobileSuccess()
+    public function testAddPayRecipientMobileSucceeds()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
@@ -147,7 +147,7 @@ class PayTest extends TestCase
     *   Add Pay Recipient (Bank Account) tests
     */
 
-    public function testAddPayRecipientAccount()
+    public function testAddPayRecipientAccountSucceeds()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
@@ -327,7 +327,7 @@ class PayTest extends TestCase
     *   Send Pay tests
     */
 
-    public function testSendPay()
+    public function testSendPaySucceeds()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
