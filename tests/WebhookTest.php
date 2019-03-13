@@ -5,7 +5,14 @@ namespace Kopokopo\SDK\Tests;
 require 'vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Exception\RequestException;
 use Kopokopo\SDK\K2;
+use Kopokopo\SDK\Webhooks;
 
 class WebhookTest extends TestCase
 {
@@ -16,6 +23,28 @@ class WebhookTest extends TestCase
 
         $k2 = new K2($this->clientId, $this->clientSecret);
         $this->client = $k2->Webhooks();
+
+        /*
+        *    subscribe() setup
+        */
+
+        // subscribe() response headers
+        $subscribeHeaders = file_get_contents(__DIR__.'/Mocks/subscribeHeaders.json');
+
+        // Create an instance of MockHandler for returning responses for subscribe()
+        $subscribeMock = new MockHandler([
+            new Response(200, json_decode($subscribeHeaders, true)),
+            new RequestException('Error Communicating with Server', new Request('GET', 'test')),
+        ]);
+
+        // Assign the instance of MockHandler to a HandlerStack
+        $subscribeHandler = HandlerStack::create($subscribeMock);
+
+        // Create a new instance of client using the subscribe() handler
+        $subscribeClient = new Client(['handler' => $subscribeHandler]);
+
+        // Use $subscribeClient to create an instance of the Webhooks() class
+        $this->subscribeClient = new Webhooks($subscribeClient, $this->clientId, $this->clientSecret);
     }
 
     /*
@@ -26,7 +55,7 @@ class WebhookTest extends TestCase
     {
         $this->assertArraySubset(
             ['status' => 'success'],
-            $this->client->subscribe([
+            $this->subscribeClient->subscribe([
                 'eventType' => 'buy_goods_received',
                 'url' => 'http://localhost:8000/webhook',
                 'webhookSecret' => 'my_webhook_secret',
@@ -39,7 +68,7 @@ class WebhookTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the eventType'],
-            $this->client->subscribe([
+            $this->subscribeClient->subscribe([
                 'url' => 'http://localhost:8000/webhook',
                 'webhookSecret' => 'my_webhook_secret',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -51,7 +80,7 @@ class WebhookTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the url'],
-            $this->client->subscribe([
+            $this->subscribeClient->subscribe([
                 'eventType' => 'buy_goods_received',
                 'webhookSecret' => 'my_webhook_secret',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -63,7 +92,7 @@ class WebhookTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the webhookSecret'],
-            $this->client->subscribe([
+            $this->subscribeClient->subscribe([
                 'eventType' => 'buy_goods_received',
                 'url' => 'http://localhost:8000/webhook',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -75,7 +104,7 @@ class WebhookTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
-            $this->client->subscribe([
+            $this->subscribeClient->subscribe([
                 'eventType' => 'buy_goods_received',
                 'url' => 'http://localhost:8000/webhook',
                 'webhookSecret' => 'my_webhook_secret',
@@ -99,30 +128,12 @@ class WebhookTest extends TestCase
     // {
     //     $k2Sig = '2fa35c36b207fccef1e9d95608c2abdb6702151cab525e74a69426d686dedf30';
     //     // $k2Secret = "10af7ad062a21d9c841877f87b7dec3dbe51aeb3";/
-    //     $reqBody = [
-    //         'id' => 'cac95329-9fa5-42f1-a4fc-c08af7b868fb',
-    //         'resourceId' => 'cdb5f11f-62df-e611-80ee-0aa34a9b2388',
-    //         'topic' => 'customer_created',
-    //         'created_at' => '2017-01-20T22:45:12.790Z',
-    //         'event' => [
-    //             'type' => 'Customer Created',
-    //             'resource' => [
-    //                 'first_name' => 'Nicollet',
-    //                 'middle_name' => 'N',
-    //                 'last_name' => 'Njora',
-    //                 'msisdn' => '+25472589598'
-    //             ]
-    //         ],
-    //         '_links' => [
-    //             'self' => 'https://api-sandbox.kopokopo.com/events/cac95329-9fa5-42f1-a4fc-c08af7b868fb',
-    //             'resource' => 'https://api-sandbox.kopokopo.com/customers/cdb5f11f-62df-e611-80ee-0aa34a9b2388'
-    //         ]
-    //     ];
 
-    //     print_r(json_encode($reqBody, JSON_FORCE_OBJECT));
+    //     $reqBody = file_get_contents(__DIR__.'/Mocks/webhook.json');
+
     //     $this->assertArraySubset(
     //         ['status' => 'success'],
-    //         $this->client->webhookHandler(json_encode($reqBody, JSON_FORCE_OBJECT), $k2Sig)
+    //         $this->client->webhookHandler(json_encode($reqBody), $k2Sig)
     //     );
     // }
 }

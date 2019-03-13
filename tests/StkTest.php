@@ -5,7 +5,13 @@ namespace Kopokopo\SDK\Tests;
 require 'vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
-use Kopokopo\SDK\K2;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Exception\RequestException;
+use Kopokopo\SDK\StkService;
 
 class StkTest extends TestCase
 {
@@ -14,8 +20,49 @@ class StkTest extends TestCase
         $this->clientId = 'your_client_id';
         $this->clientSecret = '10af7ad062a21d9c841877f87b7dec3dbe51aeb3';
 
-        $k2 = new K2($this->clientId, $this->clientSecret);
-        $this->client = $k2->StkService();
+        /*
+        *    paymentRequest() setup
+        */
+
+        // paymentRequest() response headers
+        $paymentRequestHeaders = file_get_contents(__DIR__.'/Mocks/paymentRequestHeaders.json');
+
+        // Create an instance of MockHandler for returning responses for paymentRequest()
+        $paymentRequestMock = new MockHandler([
+            new Response(200, json_decode($paymentRequestHeaders, true)),
+            new RequestException('Error Communicating with Server', new Request('GET', 'test')),
+        ]);
+
+        // Assign the instance of MockHandler to a HandlerStack
+        $paymentRequestHandler = HandlerStack::create($paymentRequestMock);
+
+        // Create a new instance of client using the paymentRequest() handler
+        $paymentRequestClient = new Client(['handler' => $paymentRequestHandler]);
+
+        // Use $paymentRequestClient to create an instance of the StkService() class
+        $this->paymentRequestClient = new StkService($paymentRequestClient, $this->clientId, $this->clientSecret);
+
+        /*
+        *    paymentRequestStatus() setup
+        */
+
+        // json response to be returned
+        $statusBody = file_get_contents(__DIR__.'/Mocks/stk-status.json');
+
+        // Create an instance of MockHandler for returning responses for paymentRequestStatus()
+        $statusMock = new MockHandler([
+            new Response(200, [], $statusBody),
+            new RequestException('Error Communicating with Server', new Request('GET', 'test')),
+        ]);
+
+        // Assign the instance of MockHandler to a HandlerStack
+        $statusHandler = HandlerStack::create($statusMock);
+
+        // Create a new instance of client using the paymentRequestStatus() handler
+        $statusClient = new Client(['handler' => $statusHandler]);
+
+        // Use the $statusClient to create an instance of the StkService() class
+        $this->statusClient = new StkService($statusClient, $this->clientId, $this->clientSecret);
     }
 
     /*
@@ -26,7 +73,7 @@ class StkTest extends TestCase
     {
         $this->assertArraySubset(
             ['status' => 'success'],
-            $this->client->paymentRequest([
+            $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
                 'tillNumber' => '13432',
                 'firstName' => 'Jane',
@@ -45,7 +92,7 @@ class StkTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the firstName'],
-            $this->client->paymentRequest([
+            $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
                 'tillNumber' => '13432',
                 'lastName' => 'Doe',
@@ -63,7 +110,7 @@ class StkTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the lastName'],
-            $this->client->paymentRequest([
+            $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
                 'tillNumber' => '13432',
                 'firstName' => 'Jane',
@@ -81,7 +128,7 @@ class StkTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the phone'],
-            $this->client->paymentRequest([
+            $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
                 'tillNumber' => '13432',
                 'firstName' => 'Jane',
@@ -99,7 +146,7 @@ class StkTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'Invalid phone format'],
-            $this->client->paymentRequest([
+            $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
                 'tillNumber' => '13432',
                 'firstName' => 'Jane',
@@ -118,7 +165,7 @@ class StkTest extends TestCase
     {
         $this->assertArraySubset(
             ['status' => 'success'],
-            $this->client->paymentRequest([
+            $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
                 'tillNumber' => '13432',
                 'firstName' => 'Jane',
@@ -136,7 +183,7 @@ class StkTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the tillNumber'],
-            $this->client->paymentRequest([
+            $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
@@ -154,7 +201,7 @@ class StkTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the callbackUrl'],
-            $this->client->paymentRequest([
+            $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
                 'tillNumber' => '13432',
                 'firstName' => 'Jane',
@@ -172,7 +219,7 @@ class StkTest extends TestCase
     {
         $this->assertArraySubset(
             ['status' => 'success'],
-            $this->client->paymentRequest([
+            $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
                 'tillNumber' => '13432',
                 'firstName' => 'Jane',
@@ -190,7 +237,7 @@ class StkTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the currency'],
-            $this->client->paymentRequest([
+            $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
                 'tillNumber' => '13432',
                 'firstName' => 'Jane',
@@ -208,7 +255,7 @@ class StkTest extends TestCase
     {
         $this->assertArraySubset(
             ['status' => 'success'],
-            $this->client->paymentRequest([
+            $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
                 'tillNumber' => '13432',
                 'firstName' => 'Jane',
@@ -232,7 +279,7 @@ class StkTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
-            $this->client->paymentRequest([
+            $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
                 'tillNumber' => '13432',
                 'firstName' => 'Jane',
@@ -254,7 +301,7 @@ class StkTest extends TestCase
     {
         $this->assertArraySubset(
             ['status' => 'success'],
-            $this->client->paymentRequestStatus([
+            $this->statusClient->paymentRequestStatus([
                 'location' => 'my_request_id',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
@@ -265,7 +312,7 @@ class StkTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the location'],
-            $this->client->paymentRequestStatus([
+            $this->statusClient->paymentRequestStatus([
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
@@ -275,7 +322,7 @@ class StkTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
-            $this->client->paymentRequestStatus([
+            $this->statusClient->paymentRequestStatus([
                 'location' => 'my_request_id',
             ])
         );

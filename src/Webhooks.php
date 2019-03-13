@@ -32,6 +32,8 @@ class Webhooks extends Service
     {
         $expectedSignature = hash_hmac('sha256', $details, $this->clientSecret);
 
+        print_r($expectedSignature);
+
         if (hash_equals($signature, $expectedSignature)) {
             return 200;
         } else {

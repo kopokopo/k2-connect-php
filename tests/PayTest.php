@@ -5,7 +5,13 @@ namespace Kopokopo\SDK\Tests;
 require 'vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
-use Kopokopo\SDK\K2;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Exception\RequestException;
+use Kopokopo\SDK\PayService;
 
 class PayTest extends TestCase
 {
@@ -14,8 +20,71 @@ class PayTest extends TestCase
         $this->clientId = 'your_client_id';
         $this->clientSecret = '10af7ad062a21d9c841877f87b7dec3dbe51aeb3';
 
-        $k2 = new K2($this->clientId, $this->clientSecret);
-        $this->client = $k2->PayService();
+        /*
+        *    addPayRecipient() setup
+        */
+
+        // Headers to be returned by the addPayRecipient() mock
+        $payRecipientHeaders = file_get_contents(__DIR__.'/Mocks/payRecipientHeaders.json');
+
+        // Create an instance of MockHandler for returning responses for addPayRecipient()
+        $payRecipientMock = new MockHandler([
+            new Response(200, json_decode($payRecipientHeaders, true)),
+            new RequestException('Error Communicating with Server', new Request('GET', 'test')),
+        ]);
+
+        // Assign the instance of MockHandler to a HandlerStack
+        $payRecipientHandler = HandlerStack::create($payRecipientMock);
+
+        // Create a new instance of client using the addPayRecipient() handler
+        $payRecipientClient = new Client(['handler' => $payRecipientHandler]);
+
+        // Use $payRecipientClient to create an instance of the PayService() class
+        $this->payRecipientClient = new PayService($payRecipientClient, $this->clientId, $this->clientSecret);
+
+        /*
+        *    sendPay() setup
+        */
+
+        // Headers to be returned by the sendPay() mock
+        $sendPayHeaders = file_get_contents(__DIR__.'/Mocks/sendPayHeaders.json');
+
+        // Create an instance of MockHandler for returning responses for sendPay()
+        $sendPayMock = new MockHandler([
+            new Response(200, json_decode($sendPayHeaders, true)),
+            new RequestException('Error Communicating with Server', new Request('GET', 'test')),
+        ]);
+
+        // Assign the instance of MockHandler to a HandlerStack
+        $sendPayHandler = HandlerStack::create($sendPayMock);
+
+        // Create a new instance of client using the sendPay() handler
+        $sendPayClient = new Client(['handler' => $sendPayHandler]);
+
+        // Use $sendPayClient to create an instance of the PayService() class
+        $this->sendPayClient = new PayService($sendPayClient, $this->clientId, $this->clientSecret);
+
+        /*
+        *    payStatus() setup
+        */
+
+        // json response to be returned
+        $statusBody = file_get_contents(__DIR__.'/Mocks/pay-status.json');
+
+        // Create an instance of MockHandler for returning responses for payStatus()
+        $statusMock = new MockHandler([
+            new Response(200, [], $statusBody),
+            new RequestException('Error Communicating with Server', new Request('GET', 'test')),
+        ]);
+
+        // Assign the instance of MockHandler to a HandlerStack
+        $statusHandler = HandlerStack::create($statusMock);
+
+        // Create a new instance of client using the payStatus() handler
+        $statusClient = new Client(['handler' => $statusHandler]);
+
+        // Use $statusClient to create an instance of the PayService() class
+        $this->statusClient = new PayService($statusClient, $this->clientId, $this->clientSecret);
     }
 
     /*
@@ -26,7 +95,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['status' => 'success'],
-            $this->client->addPayRecipient([
+            $this->payRecipientClient->addPayRecipient([
                 'type' => 'mobile_wallet',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
@@ -42,7 +111,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the firstName'],
-            $this->client->addPayRecipient([
+            $this->payRecipientClient->addPayRecipient([
                 'type' => 'mobile_wallet',
                 'lastName' => 'Doe',
                 'phone' => '+254712345678',
@@ -57,7 +126,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the lastName'],
-            $this->client->addPayRecipient([
+            $this->payRecipientClient->addPayRecipient([
                 'type' => 'mobile_wallet',
                 'firstName' => 'Jane',
                 'phone' => '+254712345678',
@@ -72,7 +141,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the phone'],
-            $this->client->addPayRecipient([
+            $this->payRecipientClient->addPayRecipient([
                 'type' => 'mobile_wallet',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
@@ -87,7 +156,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'Invalid phone format'],
-            $this->client->addPayRecipient([
+            $this->payRecipientClient->addPayRecipient([
                 'type' => 'mobile_wallet',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
@@ -103,7 +172,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the network'],
-            $this->client->addPayRecipient([
+            $this->payRecipientClient->addPayRecipient([
                 'type' => 'mobile_wallet',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
@@ -118,7 +187,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['status' => 'success'],
-            $this->client->addPayRecipient([
+            $this->payRecipientClient->addPayRecipient([
                 'type' => 'mobile_wallet',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
@@ -133,7 +202,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
-            $this->client->addPayRecipient([
+            $this->payRecipientClient->addPayRecipient([
                 'type' => 'mobile_wallet',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
@@ -151,7 +220,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['status' => 'success'],
-            $this->client->addPayRecipient([
+            $this->payRecipientClient->addPayRecipient([
                 'type' => 'bank_account',
                 'name' => 'Jane',
                 'accountName' => 'Doe',
@@ -169,7 +238,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accountName'],
-            $this->client->addPayRecipient([
+            $this->payRecipientClient->addPayRecipient([
                 'type' => 'bank_account',
                 'name' => 'Jane',
                 'bankRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
@@ -186,7 +255,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the bankRef'],
-            $this->client->addPayRecipient([
+            $this->payRecipientClient->addPayRecipient([
                 'type' => 'bank_account',
                 'name' => 'Jane',
                 'accountName' => 'Doe',
@@ -203,7 +272,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the bankBranchRef'],
-            $this->client->addPayRecipient([
+            $this->payRecipientClient->addPayRecipient([
                 'type' => 'bank_account',
                 'name' => 'Jane',
                 'accountName' => 'Doe',
@@ -220,7 +289,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accountNumber'],
-            $this->client->addPayRecipient([
+            $this->payRecipientClient->addPayRecipient([
                 'type' => 'bank_account',
                 'name' => 'Jane',
                 'accountName' => 'Doe',
@@ -237,7 +306,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['status' => 'success'],
-            $this->client->addPayRecipient([
+            $this->payRecipientClient->addPayRecipient([
                 'type' => 'bank_account',
                 'name' => 'Jane',
                 'accountName' => 'Doe',
@@ -254,7 +323,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'Invalid phone format'],
-            $this->client->addPayRecipient([
+            $this->payRecipientClient->addPayRecipient([
                 'type' => 'bank_account',
                 'name' => 'Jane',
                 'accountName' => 'Doe',
@@ -272,7 +341,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['status' => 'success'],
-            $this->client->addPayRecipient([
+            $this->payRecipientClient->addPayRecipient([
                 'type' => 'bank_account',
                 'name' => 'Jane',
                 'accountName' => 'Doe',
@@ -289,7 +358,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
-            $this->client->addPayRecipient([
+            $this->payRecipientClient->addPayRecipient([
                 'type' => 'bank_account',
                 'name' => 'Jane',
                 'accountName' => 'Doe',
@@ -310,7 +379,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the type'],
-            $this->client->addPayRecipient([
+            $this->payRecipientClient->addPayRecipient([
                 'name' => 'Jane',
                 'accountName' => 'Doe',
                 'bankRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
@@ -331,7 +400,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['status' => 'success'],
-            $this->client->sendPay([
+            $this->sendPayClient->sendPay([
                 'destination' => 'my_destination_alias',
                 'amount' => 3444,
                 'currency' => 'KES',
@@ -345,7 +414,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the destination'],
-            $this->client->sendPay([
+            $this->sendPayClient->sendPay([
                 'amount' => 3444,
                 'currency' => 'KES',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -358,7 +427,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the destination'],
-            $this->client->sendPay([
+            $this->sendPayClient->sendPay([
                 'currency' => 'KES',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
                 'callbackUrl' => 'http://localhost:8000/webhook',
@@ -370,7 +439,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the currency'],
-            $this->client->sendPay([
+            $this->sendPayClient->sendPay([
                 'destination' => 'my_destination_alias',
                 'amount' => 3444,
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -383,7 +452,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the callbackUrl'],
-            $this->client->sendPay([
+            $this->sendPayClient->sendPay([
                 'destination' => 'my_destination_alias',
                 'amount' => 3444,
                 'currency' => 'KES',
@@ -396,7 +465,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
-            $this->client->sendPay([
+            $this->sendPayClient->sendPay([
                 'destination' => 'my_destination_alias',
                 'amount' => 3444,
                 'currency' => 'KES',
@@ -413,7 +482,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['status' => 'success'],
-            $this->client->payStatus([
+            $this->statusClient->payStatus([
                 'location' => 'my_request_id',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
@@ -424,7 +493,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the location'],
-            $this->client->payStatus([
+            $this->statusClient->payStatus([
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
@@ -434,7 +503,7 @@ class PayTest extends TestCase
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
-            $this->client->payStatus([
+            $this->statusClient->payStatus([
                 'location' => 'my_request_id',
             ])
         );
