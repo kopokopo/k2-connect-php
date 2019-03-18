@@ -17,9 +17,9 @@ class K2
     protected $tokenClient;
     public $baseUrl;
 
-    public function __construct($clientId, $clientSecret)
+    public function __construct($clientId, $clientSecret, $baseUrl)
     {
-        $this->baseUrl = self::BASE_DOMAIN;
+        $this->baseUrl = $baseUrl;
 
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;

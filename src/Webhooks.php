@@ -21,7 +21,7 @@ class Webhooks extends Service
 
         // TODO: return the whole body or what? figure out.
         if ($statusCode == 200) {
-            return $this->webhookSuccess($details);
+            return $this->webhookSuccess(json_decode($details, true));
         } else {
             return $this->error('Unauthorized');
         }
@@ -54,8 +54,29 @@ class Webhooks extends Service
         }
     }
 
-    //TODO: Finish up on this; In the case I will have to digest webhook data.
-    public function resourceDetails($details)
+    // //TODO: Finish up on this; In the case I will have to digest webhook data.
+    // public function resourceDetails($details)
+    // {
+    //     if (!isset($this->data[$key])) {
+    //         throw new \InvalidArgumentException("You have to provide the $key");
+    //     }
+
+    //     return $this->data[$key];
+    // }
+
+    public function flatten(array $array)
     {
+        $branch = [];
+
+        foreach ($array as $item) {
+            $children = [];
+            if (isset($item['children']) && is_array($item['children'])) {
+                $children = flatten($item['children']);
+                unset($item['children']);
+            }
+            $branch = array_merge($branch, [$item], $children);
+        }
+
+        return $branch;
     }
 }

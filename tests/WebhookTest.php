@@ -124,16 +124,27 @@ class WebhookTest extends TestCase
         $this->expectException($this->client->webhookHandler());
     }
 
-    // public function testAuth()
-    // {
-    //     $k2Sig = '2fa35c36b207fccef1e9d95608c2abdb6702151cab525e74a69426d686dedf30';
-    //     // $k2Secret = "10af7ad062a21d9c841877f87b7dec3dbe51aeb3";/
+    public function testAuth()
+    {
+        $k2Sig = 'b3ffb46cb9960b7a8972be1107685e5512c9675e224d8f923eee163c085ad7d0';
 
-    //     $reqBody = file_get_contents(__DIR__.'/Mocks/webhook.json');
+        $reqBody = file_get_contents(__DIR__.'/Mocks/webhook.json');
 
-    //     $this->assertArraySubset(
-    //         ['status' => 'success'],
-    //         $this->client->webhookHandler(json_encode($reqBody), $k2Sig)
-    //     );
-    // }
+        $this->assertEquals(200, $this->client->auth($reqBody, $k2Sig));
+    }
+
+    public function testWebhookHandler()
+    {
+        $k2Sig = 'b3ffb46cb9960b7a8972be1107685e5512c9675e224d8f923eee163c085ad7d0';
+
+        $reqBody = file_get_contents(__DIR__.'/Mocks/webhook.json');
+        $response = $this->client->webhookHandler($reqBody, $k2Sig);
+
+        print_r($response['data']['event']['type']);
+
+        $this->assertArraySubset(
+            ['status' => 'success'],
+            $response
+        );
+    }
 }
