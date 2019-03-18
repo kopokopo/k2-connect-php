@@ -20,8 +20,9 @@ class WebhookTest extends TestCase
     {
         $this->clientId = 'your_client_id';
         $this->clientSecret = '10af7ad062a21d9c841877f87b7dec3dbe51aeb3';
+        $this->baseUrl = 'https://9284bede-3488-4b2b-a1e8-d6e9f8d86aff.mock.pstmn.io';
 
-        $k2 = new K2($this->clientId, $this->clientSecret);
+        $k2 = new K2($this->clientId, $this->clientSecret, $this->baseUrl);
         $this->client = $k2->Webhooks();
 
         /*
