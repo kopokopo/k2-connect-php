@@ -125,23 +125,14 @@ class WebhookTest extends TestCase
         $this->expectException($this->client->webhookHandler());
     }
 
-    public function testAuth()
+    public function testCustomerCreatedWebhookHandler()
     {
         $k2Sig = 'b3ffb46cb9960b7a8972be1107685e5512c9675e224d8f923eee163c085ad7d0';
 
-        $reqBody = file_get_contents(__DIR__.'/Mocks/webhook.json');
-
-        $this->assertEquals(200, $this->client->auth($reqBody, $k2Sig));
-    }
-
-    public function testWebhookHandler()
-    {
-        $k2Sig = 'b3ffb46cb9960b7a8972be1107685e5512c9675e224d8f923eee163c085ad7d0';
-
-        $reqBody = file_get_contents(__DIR__.'/Mocks/webhook.json');
+        $reqBody = file_get_contents(__DIR__.'/Mocks/hooks/customercreated.json');
         $response = $this->client->webhookHandler($reqBody, $k2Sig);
 
-        print_r($response['data']['event']['type']);
+        print_r($response['data']['eventType']);
 
         $this->assertArraySubset(
             ['status' => 'success'],
