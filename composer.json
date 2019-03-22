@@ -6,8 +6,7 @@
         "guzzlehttp/guzzle": "^6.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7",
-        "sebastian/phpcpd": "^4.1"
+        "phpunit/phpunit": "^7"
     },
     "authors": [
         {
@@ -19,6 +18,8 @@
         "psr-4": {
             "Kopokopo\\SDK\\": "src/",
             "Kopokopo\\SDK\\Requests\\": "src/requests",
+            "Kopokopo\\SDK\\Helpers\\": "src/helpers",
+            "Kopokopo\\SDK\\Data\\": "src/data",
             "Kopokopo\\SDK\\Tests\\": "tests"
         }
     }
