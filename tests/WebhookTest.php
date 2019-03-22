@@ -132,8 +132,6 @@ class WebhookTest extends TestCase
         $reqBody = file_get_contents(__DIR__.'/Mocks/hooks/customercreated.json');
         $response = $this->client->webhookHandler($reqBody, $k2Sig);
 
-        print_r($response['data']['eventType']);
-
         $this->assertArraySubset(
             ['status' => 'success'],
             $response
