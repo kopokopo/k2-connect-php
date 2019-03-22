@@ -12,6 +12,10 @@ use Exception;
 
 class PayService extends Service
 {
+    /**
+     * @param array  $options
+     * @param string $options['type']
+     */
     public function addPayRecipient($options)
     {
         try {
