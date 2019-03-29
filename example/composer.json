@@ -1,0 +1,25 @@
+{
+    "name": "kopokopo/kopokopo-example",
+    "description": "Simple implementation",
+    "type": "project",
+    "authors": [
+        {
+            "name": "NicolletNjora",
+            "email": "nicollet.njora05@gmail.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "git",
+            "url": "git://github.com/kopokopo/k2-connect-php"
+        }
+    ],
+    "require": {
+        "altorouter/altorouter": "1.1.0",
+        "kopokopo/kopokopo": "*"
+    },
+    "config": {
+        "secure-http": false
+    },
+    "minimum-stability": "dev"
+}
