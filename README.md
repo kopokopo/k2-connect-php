@@ -382,11 +382,15 @@ Note: The asynchronous results are processed like webhooks.
 
 For more information on the expected payloads and error codes, please read the [api docs](https://api-docs.kopokopo.com)
         
-## Issues
+## Author
+[Nicollet Njora](https://github.com/NicoNjora)
 
-If you find a bug, please file an issue on [our issue tracker on GitHub](https://github.com/kopokopo/k2-connect-php/issues).
 
-## Development
+
+## Contributions
+We welcome those with open arms but we kindly ask that you read our contribution guidelines before submitting pull requests.
+
+### Development
 
 Run all tests:
 
@@ -394,3 +398,11 @@ Run all tests:
 $ composer install
 $ php vendor/bin/phpunit tests --testdox
 ```
+
+## License
+k2-connect-php is MIT licensed. See [LICENSE](https://github.com/kopokopo/k2-connect-php/blob/master/LICENSE) for details.
+
+## Issues
+
+If you find a bug, please file an issue on [our issue tracker on GitHub](https://github.com/kopokopo/k2-connect-php/issues).
+

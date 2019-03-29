@@ -8,7 +8,6 @@ require 'vendor/autoload.php';
 
 class Auth
 {
-    // TODO: The hash is not returning correct value when mocking; figure out why
     public function auth($details, $signature, $clientSecret)
     {
         $expectedSignature = hash_hmac('sha256', $details, $clientSecret);
