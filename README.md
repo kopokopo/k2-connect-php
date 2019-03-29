@@ -1,5 +1,6 @@
-# DISCLAIMER: 
-This is still in development. To connect to the current kopokopo's api check out it's documentation on https://app.kopokopo.com/push_api
+# DISCLAIMER:
+
+This is still in development. To connect to the current kopokopo's api check out it's documentation on <https://app.kopokopo.com/push_api>
 
 # Kopokopo PHP SDK
 
@@ -205,17 +206,165 @@ For more information, please read [api-docs#transfer](https://api-docs.kopokopo.
 
 ### Responses and Results
 
-  - All the post requests are asynchronous apart from `TokenService`. This means that the result will be posted to your custom callback url when the request is complete. The immediate response of the post requests contain the `location` url of the request you have sent which you can use to query the status.
+- All the post requests are asynchronous apart from `TokenService`. This means that the result will be posted to your custom callback url when the request is complete. The immediate response of the post requests contain the `location` url of the request you have sent which you can use to query the status.
 
 Note: The asynchronous results are processed like webhooks.
 
 - To access the different parts of the response or webhook payload passed, use the following keys to access:
-#### Webhooks
-- Buygoods Received 
+
+  #### Webhooks
+
+- Buygoods Received
+
+  - `id`
+  - `resourceId`
+  - `topic`
+  - `createdAt`
+  - `eventType`
+  - `reference`
+  - `originationTime`
+  - `senderMsisdn`
+  - `amount`
+  - `currency`
+  - `tillNumber`
+  - `system`
+  - `status`
+  - `firstName`
+  - `middleName`
+  - `lastName`
+  - `linkSelf`
+  - `linkResource`
+
+- B2b transaction received
+
+  - `id`
+  - `resourceId`
+  - `topic`
+  - `createdAt`
+  - `eventType`
+  - `reference`
+  - `originationTime`
+  - `sendingTill`
+  - `amount`
+  - `currency`
+  - `tillNumber`
+  - `system`
+  - `status`
+  - `linkSelf`
+  - `linkResource`
+
+- Merchant to merchant transaction received
+
+  - `id`
+  - `resourceId`
+  - `topic`
+  - `createdAt`
+  - `eventType`
+  - `reference`
+  - `originationTime`
+  - `sendingMerchant`
+  - `amount`
+  - `currency`
+  - `status`
+  - `linkSelf`
+  - `linkResource`
+
+- Buygoods transaction reversed
+
+  - `id`
+  - `resourceId`
+  - `topic`
+  - `createdAt`
+  - `eventType`
+  - `reference`
+  - `originationTime`
+  - `reversalTime`
+  - `senderMsisdn`
+  - `amount`
+  - `currency`
+  - `tillNumber`
+  - `system`
+  - `status`
+  - `firstName`
+  - `middleName`
+  - `lastName`
+  - `linkSelf`
+  - `linkResource`
+
+- Transfer completed webhook
+
+  - `id`
+  - `resourceId`
+  - `topic`
+  - `createdAt`
+  - `eventType`
+  - `reference`
+  - `originationTime`
+  - `transferTime`
+  - `transferType`
+  - `amount`
+  - `currency`
+  - `status`
+  - `linkSelf`
+  - `linkResource`
+  - `destinationType`
+  - if destination type is bank:
+
+    - `destinationMode`
+    - `destinationBank`
+    - `destinationBranch`
+    - `destinationAccountNumber`
+
+  - if destination type is mobile wallet:
+
+    - `destinationMsisdn`
+    - `destinationMmSystem`
+
+- Customer created webhook
+
+  - `id`
+  - `resourceId`
+  - `topic`
+  - `createdAt`
+  - `eventType`
+  - `firstName`
+  - `middleName`
+  - `lastName`
+  - `msisdn`
+  - `linkSelf`
+  - `linkResource`
+
+- Transfer result
+
+  - `id`
+  - `topic`
+  - `status`
+  - `completedAt`
+  - `amount`
+  - `currency`
+  - `linkSelf`
+
+- Pay result
+
+  - `topic`
+  - `status`
+  - `reference`
+  - `originationTime`
+  - `destination`
+  - `amount`
+  - `currency`
+  - `metadata`
+  - `linkSelf`
+
+- Stk Push Result
+
+  - Successful result
+
     - `id`
     - `resourceId`
     - `topic`
     - `createdAt`
+    - `status`
     - `eventType`
     - `reference`
     - `originationTime`
@@ -224,171 +373,39 @@ Note: The asynchronous results are processed like webhooks.
     - `currency`
     - `tillNumber`
     - `system`
-    - `status`
     - `firstName`
     - `middleName`
     - `lastName`
-    - `linkSelf`
-    - `linkResource`
-
-- B2b transaction received
-	- `id`
-    - `resourceId`
-    - `topic`
-    - `createdAt`
-    - `eventType`
-    - `reference`
-    - `originationTime`
-	- `sendingTill`
-	- `amount`
-    - `currency`
-    - `tillNumber`
-    - `system`
-    - `status`
-	- `linkSelf`
-    - `linkResource`
-	
-- Merchant to merchant transaction received
-	- `id`
-    - `resourceId`
-    - `topic`
-    - `createdAt`
-    - `eventType`
-    - `reference`
-    - `originationTime`
-	- `sendingMerchant`
-	- `amount`
-    - `currency`
-	- `status`
-	- `linkSelf`
-    - `linkResource`
-	
-- Buygoods transaction reversed
-	- `id`
-    - `resourceId`
-    - `topic`
-    - `createdAt`
-    - `eventType`
-    - `reference`
-    - `originationTime`
-	- `reversalTime`
-	- `senderMsisdn`
-    - `amount`
-    - `currency`
-    - `tillNumber`
-    - `system`
-    - `status`
-    - `firstName`
-    - `middleName`
-    - `lastName`
-    - `linkSelf`
-    - `linkResource`
-
-- Transfer completed webhook
-	- `id`
-    - `resourceId`
-    - `topic`
-    - `createdAt`
-    - `eventType`
-    - `reference`
-    - `originationTime`
-	- `transferTime`
-	- `transferType`
-	- `amount`
-    - `currency`
-	- `status`
-    - `linkSelf`
-    - `linkResource`
-	- `destinationType`
-    - if destination type is bank:
-        - `destinationMode`
-        - `destinationBank`
-        - `destinationBranch`
-        - `destinationAccountNumber`
-    - if destination type is mobile wallet:
-        - `destinationMsisdn`
-        - `destinationMmSystem`
-	
-- Customer created webhook
-	- `id`
-    - `resourceId`
-    - `topic`
-    - `createdAt`
-    - `eventType`
-	- `firstName`
-    - `middleName`
-    - `lastName`
-	- `msisdn`
-	- `linkSelf`
-    - `linkResource`
-	
-- Transfer result
-    - `id`
-	- `topic`
-	- `status`
-	- `completedAt`
-	- `amount`
-    - `currency`
-    - `linkSelf`
-	
-- Pay result
-	- `topic`
-	- `status`
-	- `reference`
-	- `originationTime`
-	- `destination`
-    - `amount`
-    - `currency`
+    - `errors`
     - `metadata`
     - `linkSelf`
-	
-- Stk Push Result
-	- Successful result
-		- `id`
-        - `resourceId`
-        - `topic`
-        - `createdAt`
-        - `status`
-        - `eventType`
-        - `reference`
-        - `originationTime`
-        - `senderMsisdn`
-        - `amount`
-        - `currency`
-        - `tillNumber`
-        - `system`
-        - `firstName`
-        - `middleName`
-        - `lastName`
-        - `errors`
-        - `metadata`
-        - `linkSelf`
-        - `linkResource`
-        - `linkPaymentRequest`
-		
-	- Unsuccessful result
-		- `id`
-        - `resourceId`
-        - `topic`
-        - `createdAt`
-        - `status`
-        - `eventType`
-		- `resource`
-		- `errorsCode`
-		- `errorsDescription`
-		- `metadata`
-		- `linkSelf`
-        - `linkResource`
+    - `linkResource`
+    - `linkPaymentRequest`
+
+  - Unsuccessful result
+
+    - `id`
+    - `resourceId`
+    - `topic`
+    - `createdAt`
+    - `status`
+    - `eventType`
+    - `resource`
+    - `errorsCode`
+    - `errorsDescription`
+    - `metadata`
+    - `linkSelf`
+    - `linkResource`
 
 For more information on the expected payloads and error codes, please read the [api docs](https://api-docs.kopokopo.com)
-        
+
 ## Author
+
 [Nicollet Njora](https://github.com/NicoNjora)
 
-
-
 ## Contributions
-We welcome those with open arms but we kindly ask that you read our contribution guidelines before submitting pull requests.
+
+We welcome those with open arms just make a pull request and we will review.
 
 ### Development
 
@@ -399,10 +416,12 @@ $ composer install
 $ php vendor/bin/phpunit tests --testdox
 ```
 
-## License
-k2-connect-php is MIT licensed. See [LICENSE](https://github.com/kopokopo/k2-connect-php/blob/master/LICENSE) for details.
-
-## Issues
+### Issues
 
 If you find a bug, please file an issue on [our issue tracker on GitHub](https://github.com/kopokopo/k2-connect-php/issues).
 
+## License
+
+k2-connect-php is MIT licensed. See [LICENSE](https://github.com/kopokopo/k2-connect-php/blob/master/LICENSE) for details.
+
+## Change log
