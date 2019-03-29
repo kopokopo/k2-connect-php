@@ -2,11 +2,11 @@
 
 namespace Kopokopo\SDK;
 
-use hash_hmac;
-
 require 'vendor/autoload.php';
 
 use Kopokopo\SDK\Requests\WebhookSubscribeRequest;
+use Kopokopo\SDK\Helpers\Auth;
+use Kopokopo\SDK\Data\DataHandler;
 use InvalidArgumentException;
 
 class Webhooks extends Service
@@ -17,27 +17,16 @@ class Webhooks extends Service
             return $this->error('Pass the payload and signature ');
         }
 
-        $statusCode = $this->auth($details, $signature);
+        $auth = new Auth();
 
-        // TODO: return the whole body or what? figure out.
+        $statusCode = $auth->auth($details, $signature, $this->clientSecret);
+
         if ($statusCode == 200) {
-            return $this->webhookSuccess(json_decode($details, true));
+            $dataHandler = new DataHandler(json_decode($details, true));
+
+            return $this->webhookSuccess($dataHandler->dataHandlerSort($details));
         } else {
             return $this->error('Unauthorized');
-        }
-    }
-
-    // TODO: The hash is not returning correct value when mocking; figure out why
-    public function auth($details, $signature)
-    {
-        $expectedSignature = hash_hmac('sha256', $details, $this->clientSecret);
-
-        print_r($expectedSignature);
-
-        if (hash_equals($signature, $expectedSignature)) {
-            return 200;
-        } else {
-            return 401;
         }
     }
 
@@ -52,31 +41,5 @@ class Webhooks extends Service
         } catch (InvalidArgumentException $e) {
             return $this->error($e->getMessage());
         }
-    }
-
-    // //TODO: Finish up on this; In the case I will have to digest webhook data.
-    // public function resourceDetails($details)
-    // {
-    //     if (!isset($this->data[$key])) {
-    //         throw new \InvalidArgumentException("You have to provide the $key");
-    //     }
-
-    //     return $this->data[$key];
-    // }
-
-    public function flatten(array $array)
-    {
-        $branch = [];
-
-        foreach ($array as $item) {
-            $children = [];
-            if (isset($item['children']) && is_array($item['children'])) {
-                $children = flatten($item['children']);
-                unset($item['children']);
-            }
-            $branch = array_merge($branch, [$item], $children);
-        }
-
-        return $branch;
     }
 }
