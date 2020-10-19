@@ -28,8 +28,9 @@ use Kopokopo\SDK\K2;
 
 $clientId = 'YOUR_CLIENT_ID'; // do not hard code this value
 $clientSecret = 'YOUR_CLIENT_SECRET'; // do not hard code this value
+$baseUrl = 'https://kopokopo.com'; // or https://sandbox.kopokopo.com
 
-$K2 = new K2($clientId, $clientSecret);
+$K2 = new K2($clientId, $clientSecret, $baseUrl);
 ```
 
 ### After initialization, you can get instances of offered services as follows:
@@ -51,9 +52,11 @@ This will return an `access_token` and `expires_in` values
 ```php
 use Kopokopo\SDK\K2;
 
-$clientId = 'YOUR_CLIENT_ID'; // use 'sandbox' for development in the test environment
-$clientSecret = 'YOUR_CLIENT_SECRET'; // use your sandbox app API key for development in the test environment
-$K2 = new K2($clientId, $clientSecret);
+$clientId = 'YOUR_CLIENT_ID'; // do not hard code this value
+$clientSecret = 'YOUR_CLIENT_SECRET'; // do not hard code this value
+$baseUrl = 'https://kopokopo.com'; // or https://sandbox.kopokopo.com
+
+$K2 = new K2($clientId, $clientSecret, $baseUrl);
 
 // Get one of the services
 $tokens = $K2->TokenService();
