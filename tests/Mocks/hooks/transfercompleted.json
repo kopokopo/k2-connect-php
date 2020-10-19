@@ -23,7 +23,7 @@
         }
     },
     "_links": {
-        "self": "https://api-sandbox.kopokopo.com/events/cac95329-9fa5-42f1-a4fc-c08af7b868fb",
-        "resource": "https://api-sandbox.kopokopo.com/transfer_batches/cdb5f11f-62df-e611-80ee-0aa34a9b2388"
+        "self": "https://sandbox.kopokopo.com/events/cac95329-9fa5-42f1-a4fc-c08af7b868fb",
+        "resource": "https://sandbox.kopokopo.com/transfer_batches/cdb5f11f-62df-e611-80ee-0aa34a9b2388"
     }
 }

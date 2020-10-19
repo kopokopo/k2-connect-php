@@ -13,7 +13,7 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Exception\RequestException;
 use Kopokopo\SDK\StkService;
 
-class StkTest extends TestCase
+class StkServiceTest extends TestCase
 {
     public function setup()
     {
@@ -75,10 +75,10 @@ class StkTest extends TestCase
             ['status' => 'success'],
             $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
-                'tillNumber' => '13432',
+                'shortCode' => '13432',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '+254712345678',
+                'phoneNumber' => '+254712345678',
                 'amount' => 3455,
                 'currency' => 'KES',
                 'email' => 'example@example.com',
@@ -94,9 +94,9 @@ class StkTest extends TestCase
             ['data' => 'You have to provide the firstName'],
             $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
-                'tillNumber' => '13432',
+                'shortCode' => '13432',
                 'lastName' => 'Doe',
-                'phone' => '+254712345678',
+                'phoneNumber' => '+254712345678',
                 'amount' => 3455,
                 'currency' => 'KES',
                 'email' => 'example@example.com',
@@ -112,9 +112,9 @@ class StkTest extends TestCase
             ['data' => 'You have to provide the lastName'],
             $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
-                'tillNumber' => '13432',
+                'shortCode' => '13432',
                 'firstName' => 'Jane',
-                'phone' => '+254712345678',
+                'phoneNumber' => '+254712345678',
                 'amount' => 3455,
                 'currency' => 'KES',
                 'email' => 'example@example.com',
@@ -127,10 +127,10 @@ class StkTest extends TestCase
     public function testPaymentRequestWithNoPhoneFails()
     {
         $this->assertArraySubset(
-            ['data' => 'You have to provide the phone'],
+            ['data' => 'You have to provide the phoneNumber'],
             $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
-                'tillNumber' => '13432',
+                'shortCode' => '13432',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
                 'amount' => 3455,
@@ -145,13 +145,13 @@ class StkTest extends TestCase
     public function testPaymentRequestWithInvalidPhoneFormatFails()
     {
         $this->assertArraySubset(
-            ['data' => 'Invalid phone format'],
+            ['data' => 'Invalid phone number format'],
             $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
-                'tillNumber' => '13432',
+                'shortCode' => '13432',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '0712345678',
+                'phoneNumber' => '0712345678',
                 'amount' => 3455,
                 'currency' => 'KES',
                 'email' => 'example@example.com',
@@ -167,10 +167,10 @@ class StkTest extends TestCase
             ['status' => 'success'],
             $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
-                'tillNumber' => '13432',
+                'shortCode' => '13432',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '+254712345678',
+                'phoneNumber' => '+254712345678',
                 'amount' => 3455,
                 'currency' => 'KES',
                 'callbackUrl' => 'http://localhost:8000/test',
@@ -182,12 +182,12 @@ class StkTest extends TestCase
     public function testPaymentRequestWithNoTillFails()
     {
         $this->assertArraySubset(
-            ['data' => 'You have to provide the tillNumber'],
+            ['data' => 'You have to provide the shortCode'],
             $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '+254712345678',
+                'phoneNumber' => '+254712345678',
                 'amount' => 3455,
                 'currency' => 'KES',
                 'email' => 'example@example.com',
@@ -203,10 +203,10 @@ class StkTest extends TestCase
             ['data' => 'You have to provide the callbackUrl'],
             $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
-                'tillNumber' => '13432',
+                'shortCode' => '13432',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '+254712345678',
+                'phoneNumber' => '+254712345678',
                 'amount' => 3455,
                 'currency' => 'KES',
                 'email' => 'example@example.com',
@@ -221,10 +221,10 @@ class StkTest extends TestCase
             ['status' => 'success'],
             $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
-                'tillNumber' => '13432',
+                'shortCode' => '13432',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '+254712345678',
+                'phoneNumber' => '+254712345678',
                 'amount' => 3455,
                 'currency' => 'KES',
                 'callbackUrl' => 'http://localhost:8000/test',
@@ -239,10 +239,10 @@ class StkTest extends TestCase
             ['data' => 'You have to provide the currency'],
             $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
-                'tillNumber' => '13432',
+                'shortCode' => '13432',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '+254712345678',
+                'phoneNumber' => '+254712345678',
                 'amount' => 3455,
                 'email' => 'example@example.com',
                 'callbackUrl' => 'http://localhost:8000/test',
@@ -257,10 +257,10 @@ class StkTest extends TestCase
             ['status' => 'success'],
             $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
-                'tillNumber' => '13432',
+                'shortCode' => '13432',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '+254712345678',
+                'phoneNumber' => '+254712345678',
                 'amount' => 3455,
                 'currency' => 'KES',
                 'email' => 'example@example.com',
@@ -281,10 +281,10 @@ class StkTest extends TestCase
             ['data' => 'You have to provide the accessToken'],
             $this->paymentRequestClient->paymentRequest([
                 'paymentChannel' => 'M-PESA',
-                'tillNumber' => '13432',
+                'shortCode' => '13432',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '+254712345678',
+                'phoneNumber' => '+254712345678',
                 'amount' => 3455,
                 'currency' => 'KES',
                 'email' => 'example@example.com',

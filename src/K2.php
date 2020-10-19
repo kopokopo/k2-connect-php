@@ -6,10 +6,6 @@ use GuzzleHttp\Client;
 
 class K2
 {
-    // Mock server
-    // For testing purposes
-    const BASE_DOMAIN = 'https://9284bede-3488-4b2b-a1e8-d6e9f8d86aff.mock.pstmn.io';
-
     protected $clientId;
     protected $clientSecret;
 
@@ -23,9 +19,10 @@ class K2
 
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
+        $this->version = 'v1';
 
         $this->client = new Client([
-            'base_uri' => $this->baseUrl,
+            'base_uri' => $this->baseUrl. '/api/' . $this->version,
         ]);
 
         $this->tokenClient = new Client([
@@ -65,9 +62,9 @@ class K2
         return $pay;
     }
 
-    public function TransferService()
+    public function SettlementTransferService()
     {
-        $transfer = new TransferService($this->client, $this->clientId, $this->clientSecret);
+        $transfer = new SettlementTransferService($this->client, $this->clientId, $this->clientSecret);
 
         return $transfer;
     }

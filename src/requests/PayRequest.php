@@ -4,9 +4,15 @@ namespace Kopokopo\SDK\Requests;
 
 class PayRequest extends BaseRequest
 {
-    public function getDestination()
+    public function getDestinationRef()
     {
-        return $this->getRequestData('destination');
+        return $this->getRequestData('destinationReference');
+    }
+
+    // TODO: Validate destination type
+    public function getDestinationType()
+    {
+        return $this->getRequestData('destinationType');
     }
 
     public function getAmount()
@@ -36,7 +42,8 @@ class PayRequest extends BaseRequest
     public function getPayBody()
     {
         return [
-            'destination' => $this->getDestination(),
+            'destination_reference' => $this->getDestinationRef(),
+            'destination_type' => $this->getDestinationType(),
             'amount' => [
                 $this->getCurrency(),
                 $this->getAmount(),

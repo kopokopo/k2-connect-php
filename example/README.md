@@ -1,5 +1,11 @@
 k2-connect-php-example
 
+Install dependencies:
+
+```bash
+$ composer install
+```
+
 Start server:
 
 ```bash

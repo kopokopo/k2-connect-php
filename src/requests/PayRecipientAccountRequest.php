@@ -9,19 +9,9 @@ class PayRecipientAccountRequest extends BaseRequest
         return $this->getRequestData('type');
     }
 
-    public function getName()
-    {
-        return $this->getRequestData('name');
-    }
-
     public function getAccountName()
     {
         return $this->getRequestData('accountName');
-    }
-
-    public function getBankref()
-    {
-        return $this->getRequestData('bankRef');
     }
 
     public function getBankBranchRef()
@@ -34,38 +24,14 @@ class PayRecipientAccountRequest extends BaseRequest
         return $this->getRequestData('accountNumber');
     }
 
-    public function getEmail()
-    {
-        if (!isset($this->data['email'])) {
-            return null;
-        }
-
-        return $this->getRequestData('email');
-    }
-
-    public function getPhone()
-    {
-        $validate = new Validate();
-
-        if (!isset($this->data['phone'])) {
-            return null;
-        } elseif ($validate->isPhoneValid($this->getRequestData('phone'))) {
-            return $this->getRequestData('phone');
-        }
-    }
-
     public function getPayRecipientBody()
     {
         return [
             'type' => $this->getType(),
             'pay_recipient' => [
-                'name' => $this->getName(),
                 'account_name' => $this->getAccountName(),
-                'bank_id' => $this->getBankref(),
-                'bank_branch_id' => $this->getBankBranchRef(),
+                'bank_branch_ref' => $this->getBankBranchRef(),
                 'account_number' => $this->getAccountNumber(),
-                'email' => $this->getEmail(),
-                'phone' => $this->getPhone(),
             ],
         ];
     }

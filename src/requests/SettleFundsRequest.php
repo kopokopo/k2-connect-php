@@ -6,21 +6,46 @@ class SettleFundsRequest extends BaseRequest
 {
     public function getAmount()
     {
+        if (!isset($this->data['amount'])) {
+            return null;
+        }
+
         return $this->getRequestData('amount');
     }
 
     public function getCurrency()
     {
+        if (!isset($this->data['currency'])) {
+            return null;
+        }
         return $this->getRequestData('currency');
     }
 
-    public function getDestination()
+    public function getDestinationRef()
     {
-        if (!isset($this->data['destination'])) {
+        if (!isset($this->data['destinationReference'])) {
             return null;
         }
 
-        return $this->getRequestData('destination');
+        return $this->getRequestData('destinationReference');
+    }
+
+    public function getDestinationType()
+    {
+        if (!isset($this->data['destinationType'])) {
+            return null;
+        }
+
+        return $this->getRequestData('destinationType');
+    }
+
+    public function getMetadata()
+    {
+        if (!isset($this->data['metadata'])) {
+            return null;
+        }
+
+        return $this->getRequestData('metadata');
     }
 
     public function getSettleFundsBody()
@@ -30,7 +55,9 @@ class SettleFundsRequest extends BaseRequest
                 $this->getCurrency(),
                 $this->getAmount(),
             ],
-            'destination' => $this->getDestination(),
+            'destination_reference' => $this->getDestinationRef(),
+            'destination_type' => $this->getDestinationType(),
+            'metadata' => $this->getMetadata(),
         ];
     }
 }

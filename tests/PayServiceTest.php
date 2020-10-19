@@ -13,7 +13,7 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Exception\RequestException;
 use Kopokopo\SDK\PayService;
 
-class PayTest extends TestCase
+class PayServiceTest extends TestCase
 {
     public function setup()
     {
@@ -99,7 +99,7 @@ class PayTest extends TestCase
                 'type' => 'mobile_wallet',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '+254712345678',
+                'phoneNumber' => '+254712345678',
                 'network' => 'safaricom',
                 'email' => 'example@example.com',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -114,7 +114,7 @@ class PayTest extends TestCase
             $this->payRecipientClient->addPayRecipient([
                 'type' => 'mobile_wallet',
                 'lastName' => 'Doe',
-                'phone' => '+254712345678',
+                'phoneNumber' => '+254712345678',
                 'network' => 'safaricom',
                 'email' => 'example@example.com',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -129,7 +129,7 @@ class PayTest extends TestCase
             $this->payRecipientClient->addPayRecipient([
                 'type' => 'mobile_wallet',
                 'firstName' => 'Jane',
-                'phone' => '+254712345678',
+                'phoneNumber' => '+254712345678',
                 'network' => 'safaricom',
                 'email' => 'example@example.com',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -140,7 +140,7 @@ class PayTest extends TestCase
     public function testAddPayRecipientMobileWithNoPhoneFails()
     {
         $this->assertArraySubset(
-            ['data' => 'You have to provide the phone'],
+            ['data' => 'You have to provide the phoneNumber'],
             $this->payRecipientClient->addPayRecipient([
                 'type' => 'mobile_wallet',
                 'firstName' => 'Jane',
@@ -155,12 +155,12 @@ class PayTest extends TestCase
     public function testAddPayRecipientMobileWithInvalidPhoneFormatFails()
     {
         $this->assertArraySubset(
-            ['data' => 'Invalid phone format'],
+            ['data' => 'Invalid phone number format'],
             $this->payRecipientClient->addPayRecipient([
                 'type' => 'mobile_wallet',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '0712345678',
+                'phoneNumber' => '0712345678',
                 'network' => 'safaricom',
                 'email' => 'example@example.com',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -176,7 +176,7 @@ class PayTest extends TestCase
                 'type' => 'mobile_wallet',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '+254712345678',
+                'phoneNumber' => '+254712345678',
                 'email' => 'example@example.com',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
@@ -191,7 +191,7 @@ class PayTest extends TestCase
                 'type' => 'mobile_wallet',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '+254712345678',
+                'phoneNumber' => '+254712345678',
                 'network' => 'safaricom',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
@@ -206,7 +206,7 @@ class PayTest extends TestCase
                 'type' => 'mobile_wallet',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '+254712345678',
+                'phoneNumber' => '+254712345678',
                 'network' => 'safaricom',
             ])
         );
@@ -222,13 +222,9 @@ class PayTest extends TestCase
             ['status' => 'success'],
             $this->payRecipientClient->addPayRecipient([
                 'type' => 'bank_account',
-                'name' => 'Jane',
                 'accountName' => 'Doe',
-                'bankRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'accountNumber' => '1234567890',
-                'phone' => '+254712345678',
-                'email' => 'example@example.com',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
@@ -240,29 +236,8 @@ class PayTest extends TestCase
             ['data' => 'You have to provide the accountName'],
             $this->payRecipientClient->addPayRecipient([
                 'type' => 'bank_account',
-                'name' => 'Jane',
-                'bankRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'accountNumber' => '1234567890',
-                'phone' => '+254712345678',
-                'email' => 'example@example.com',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
-    }
-
-    public function testAddPayRecipientAccountWithNoBankRefFails()
-    {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the bankRef'],
-            $this->payRecipientClient->addPayRecipient([
-                'type' => 'bank_account',
-                'name' => 'Jane',
-                'accountName' => 'Doe',
-                'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
-                'accountNumber' => '1234567890',
-                'phone' => '+254712345678',
-                'email' => 'example@example.com',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
@@ -274,12 +249,8 @@ class PayTest extends TestCase
             ['data' => 'You have to provide the bankBranchRef'],
             $this->payRecipientClient->addPayRecipient([
                 'type' => 'bank_account',
-                'name' => 'Jane',
                 'accountName' => 'Doe',
-                'bankRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'accountNumber' => '1234567890',
-                'phone' => '+254712345678',
-                'email' => 'example@example.com',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
@@ -291,64 +262,8 @@ class PayTest extends TestCase
             ['data' => 'You have to provide the accountNumber'],
             $this->payRecipientClient->addPayRecipient([
                 'type' => 'bank_account',
-                'name' => 'Jane',
                 'accountName' => 'Doe',
-                'bankRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
-                'phone' => '+254712345678',
-                'email' => 'example@example.com',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
-    }
-
-    public function testAddPayRecipientAccountWithNoPhoneFails()
-    {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->payRecipientClient->addPayRecipient([
-                'type' => 'bank_account',
-                'name' => 'Jane',
-                'accountName' => 'Doe',
-                'bankRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
-                'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
-                'accountNumber' => '1234567890',
-                'email' => 'example@example.com',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
-    }
-
-    public function testAddPayRecipientAccountWithInvalidPhoneFormatFails()
-    {
-        $this->assertArraySubset(
-            ['data' => 'Invalid phone format'],
-            $this->payRecipientClient->addPayRecipient([
-                'type' => 'bank_account',
-                'name' => 'Jane',
-                'accountName' => 'Doe',
-                'bankRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
-                'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
-                'accountNumber' => '1234567890',
-                'phone' => '0712345678',
-                'email' => 'example@example.com',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
-    }
-
-    public function testAddPayRecipientAccountWithNoEmailSucceeds()
-    {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->payRecipientClient->addPayRecipient([
-                'type' => 'bank_account',
-                'name' => 'Jane',
-                'accountName' => 'Doe',
-                'bankRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
-                'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
-                'accountNumber' => '1234567890',
-                'phone' => '+254712345678',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
@@ -362,11 +277,117 @@ class PayTest extends TestCase
                 'type' => 'bank_account',
                 'name' => 'Jane',
                 'accountName' => 'Doe',
-                'bankRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'accountNumber' => '1234567890',
-                'phone' => '+254712345678',
+                'phoneNumber' => '+254712345678',
                 'email' => 'example@example.com',
+            ])
+        );
+    }
+
+
+    /*
+    *   Add Pay Recipient (External Till) tests
+    */
+
+    public function testAddPayRecipientTillSucceeds()
+    {
+        $this->assertArraySubset(
+            ['status' => 'success'],
+            $this->payRecipientClient->addPayRecipient([
+                'type' => 'till',
+                'tillName' => 'Doe',
+                'tillNumber' => '123456',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+            ])
+        );
+    }
+
+    public function testAddPayRecipientTillWithNoTillNameFails()
+    {
+        $this->assertArraySubset(
+            ['data' => 'You have to provide the tillName'],
+            $this->payRecipientClient->addPayRecipient([
+                'type' => 'till',
+                'tillNumber' => '123456',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+            ])
+        );
+    }
+
+    public function testAddPayRecipientTillWithNoTillNumberFails()
+    {
+        $this->assertArraySubset(
+            ['data' => 'You have to provide the tillNumber'],
+            $this->payRecipientClient->addPayRecipient([
+                'type' => 'till',
+                'tillName' => 'Doe',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+            ])
+        );
+    }
+
+    public function testAddPayRecipientTillWithNoAccessTokenFails()
+    {
+        $this->assertArraySubset(
+            ['data' => 'You have to provide the accessToken'],
+            $this->payRecipientClient->addPayRecipient([
+                'type' => 'till',
+                'tillName' => 'Doe',
+                'tillNumber' => '123456',
+            ])
+        );
+    }
+
+    /*
+    *   Add Pay Recipient (Kopo kopo Merchant) tests
+    */
+
+    public function testAddPayRecipientMerchantSucceeds()
+    {
+        $this->assertArraySubset(
+            ['status' => 'success'],
+            $this->payRecipientClient->addPayRecipient([
+                'type' => 'kopo_kopo_merchant',
+                'aliasName' => 'Doe',
+                'tillNumber' => '123456',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+            ])
+        );
+    }
+
+    public function testAddPayRecipientMerchantWithNoAliasNameFails()
+    {
+        $this->assertArraySubset(
+            ['data' => 'You have to provide the aliasName'],
+            $this->payRecipientClient->addPayRecipient([
+                'type' => 'kopo_kopo_merchant',
+                'tillNumber' => '123456',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+            ])
+        );
+    }
+
+    public function testAddPayRecipientMerchantWithNoTillNumberFails()
+    {
+        $this->assertArraySubset(
+            ['data' => 'You have to provide the tillNumber'],
+            $this->payRecipientClient->addPayRecipient([
+                'type' => 'kopo_kopo_merchant',
+                'aliasName' => 'Doe',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+            ])
+        );
+    }
+
+    public function testAddPayRecipientMerchantWithNoAccessTokenFails()
+    {
+        $this->assertArraySubset(
+            ['data' => 'You have to provide the accessToken'],
+            $this->payRecipientClient->addPayRecipient([
+                'type' => 'kopo_kopo_merchant',
+                'aliasName' => 'Doe',
+                'tillNumber' => '123456',
             ])
         );
     }
@@ -380,12 +401,10 @@ class PayTest extends TestCase
         $this->assertArraySubset(
             ['data' => 'You have to provide the type'],
             $this->payRecipientClient->addPayRecipient([
-                'name' => 'Jane',
                 'accountName' => 'Doe',
-                'bankRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'accountNumber' => '1234567890',
-                'phone' => '+254712345678',
+                'phoneNumber' => '+254712345678',
                 'email' => 'example@example.com',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
@@ -401,7 +420,8 @@ class PayTest extends TestCase
         $this->assertArraySubset(
             ['status' => 'success'],
             $this->sendPayClient->sendPay([
-                'destination' => 'my_destination_alias',
+                'destinationReference' => 'my_destination_alias',
+                'destinationType' => 'mobile_wallet',
                 'amount' => 3444,
                 'currency' => 'KES',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -410,11 +430,12 @@ class PayTest extends TestCase
         );
     }
 
-    public function testSendPayWithNoDestinationFails()
+    public function testSendPayWithNoDestinationReferenceFails()
     {
         $this->assertArraySubset(
-            ['data' => 'You have to provide the destination'],
+            ['data' => 'You have to provide the destinationReference'],
             $this->sendPayClient->sendPay([
+                'destinationType' => 'mobile_wallet',
                 'amount' => 3444,
                 'currency' => 'KES',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -426,8 +447,10 @@ class PayTest extends TestCase
     public function testSendPayWithNoAmountFails()
     {
         $this->assertArraySubset(
-            ['data' => 'You have to provide the destination'],
+            ['data' => 'You have to provide the amount'],
             $this->sendPayClient->sendPay([
+                'destinationReference' => 'my_destination_alias',
+                'destinationType' => 'mobile_wallet',
                 'currency' => 'KES',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
                 'callbackUrl' => 'http://localhost:8000/webhook',
@@ -440,7 +463,8 @@ class PayTest extends TestCase
         $this->assertArraySubset(
             ['data' => 'You have to provide the currency'],
             $this->sendPayClient->sendPay([
-                'destination' => 'my_destination_alias',
+                'destinationReference' => 'my_destination_alias',
+                'destinationType' => 'mobile_wallet',
                 'amount' => 3444,
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
                 'callbackUrl' => 'http://localhost:8000/webhook',
@@ -453,7 +477,8 @@ class PayTest extends TestCase
         $this->assertArraySubset(
             ['data' => 'You have to provide the callbackUrl'],
             $this->sendPayClient->sendPay([
-                'destination' => 'my_destination_alias',
+                'destinationReference' => 'my_destination_alias',
+                'destinationType' => 'mobile_wallet',
                 'amount' => 3444,
                 'currency' => 'KES',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -466,7 +491,8 @@ class PayTest extends TestCase
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
             $this->sendPayClient->sendPay([
-                'destination' => 'my_destination_alias',
+                'destinationReference' => 'my_destination_alias',
+                'destinationType' => 'mobile_wallet',
                 'amount' => 3444,
                 'currency' => 'KES',
                 'callbackUrl' => 'http://localhost:8000/webhook',

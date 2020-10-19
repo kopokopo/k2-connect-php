@@ -61,6 +61,8 @@ class WebhookTest extends TestCase
                 'url' => 'http://localhost:8000/webhook',
                 'webhookSecret' => 'my_webhook_secret',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
+                'scope' => 'company',
+                'scopeReference' => '1'
             ])
         );
     }
@@ -73,6 +75,36 @@ class WebhookTest extends TestCase
                 'url' => 'http://localhost:8000/webhook',
                 'webhookSecret' => 'my_webhook_secret',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
+                'scope' => 'company',
+                'scopeReference' => '1'
+            ])
+        );
+    }
+
+    public function testWebhookSubscribeWithNoScopeFails()
+    {
+        $this->assertArraySubset(
+            ['data' => 'You have to provide the scope'],
+            $this->subscribeClient->subscribe([
+                'eventType' => 'buy_goods_received',
+                'url' => 'http://localhost:8000/webhook',
+                'webhookSecret' => 'my_webhook_secret',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+                'scopeReference' => '1',
+            ])
+        );
+    }
+
+    public function testWebhookSubscribeWithNoScopeReferenceFails()
+    {
+        $this->assertArraySubset(
+            ['data' => 'You have to provide the scopeReference'],
+            $this->subscribeClient->subscribe([
+                'eventType' => 'buy_goods_received',
+                'url' => 'http://localhost:8000/webhook',
+                'webhookSecret' => 'my_webhook_secret',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+                'scope' => 'till',
             ])
         );
     }
@@ -85,6 +117,8 @@ class WebhookTest extends TestCase
                 'eventType' => 'buy_goods_received',
                 'webhookSecret' => 'my_webhook_secret',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
+                'scope' => 'company',
+                'scopeReference' => '1'
             ])
         );
     }
@@ -97,6 +131,8 @@ class WebhookTest extends TestCase
                 'eventType' => 'buy_goods_received',
                 'url' => 'http://localhost:8000/webhook',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
+                'scope' => 'company',
+                'scopeReference' => '1'
             ])
         );
     }
@@ -109,6 +145,8 @@ class WebhookTest extends TestCase
                 'eventType' => 'buy_goods_received',
                 'url' => 'http://localhost:8000/webhook',
                 'webhookSecret' => 'my_webhook_secret',
+                'scope' => 'company',
+                'scopeReference' => '1'
             ])
         );
     }

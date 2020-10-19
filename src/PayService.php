@@ -6,6 +6,8 @@ require 'vendor/autoload.php';
 
 use Kopokopo\SDK\Requests\PayRecipientMobileRequest;
 use Kopokopo\SDK\Requests\PayRecipientAccountRequest;
+use Kopokopo\SDK\Requests\PayRecipientTillRequest;
+use Kopokopo\SDK\Requests\PayRecipientMerchantRequest;
 use Kopokopo\SDK\Requests\PayRequest;
 use Kopokopo\SDK\Requests\StatusRequest;
 use Exception;
@@ -19,8 +21,14 @@ class PayService extends Service
                 throw new \InvalidArgumentException('You have to provide the type');
             } elseif ($options['type'] === 'bank_account') {
                 $payRecipientrequest = new PayRecipientAccountRequest($options);
-            } else {
+            } elseif ($options['type'] === 'till') {
+                $payRecipientrequest = new PayRecipientTillRequest($options);
+            } elseif ($options['type'] === 'kopo_kopo_merchant') {
+                $payRecipientrequest = new PayRecipientMerchantRequest($options);
+            } elseif ($options['type'] === 'mobile_wallet') {
                 $payRecipientrequest = new PayRecipientMobileRequest($options);
+            } else{
+                throw new \InvalidArgumentException('Invalid recipient type');
             }
 
             $response = $this->client->post('pay_recipients', ['body' => json_encode($payRecipientrequest->getPayRecipientBody()), 'headers' => $payRecipientrequest->getHeaders()]);

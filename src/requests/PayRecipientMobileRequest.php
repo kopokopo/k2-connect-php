@@ -19,12 +19,12 @@ class PayRecipientMobileRequest extends BaseRequest
         return $this->getRequestData('lastName');
     }
 
-    public function getPhone()
+    public function getPhoneNumber()
     {
         $validate = new Validate();
 
-        if ($validate->isPhoneValid($this->getRequestData('phone'))) {
-            return $this->getRequestData('phone');
+        if ($validate->isPhoneValid($this->getRequestData('phoneNumber'))) {
+            return $this->getRequestData('phoneNumber');
         }
     }
 
@@ -47,10 +47,10 @@ class PayRecipientMobileRequest extends BaseRequest
         return [
             'type' => $this->getType(),
             'pay_recipient' => [
-                'firstName' => $this->getFirstName(),
-                'lastName' => $this->getLastName(),
+                'first_name' => $this->getFirstName(),
+                'last_name' => $this->getLastName(),
                 'email' => $this->getEmail(),
-                'phone' => $this->getPhone(),
+                'phone_number' => $this->getPhoneNumber(),
                 'network' => $this->getNetwork(),
             ],
         ];

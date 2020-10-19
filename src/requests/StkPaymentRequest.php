@@ -6,12 +6,13 @@ class StkPaymentRequest extends BaseRequest
 {
     public function getChannel()
     {
-        return $this->getRequestData('paymentChannel');
+        // Hard code this for now
+        return 'M-Pesa STK Push';
     }
 
-    public function getTill()
+    public function getShortCode()
     {
-        return $this->getRequestData('tillNumber');
+        return $this->getRequestData('shortCode');
     }
 
     public function getFirstName()
@@ -24,12 +25,12 @@ class StkPaymentRequest extends BaseRequest
         return $this->getRequestData('lastName');
     }
 
-    public function getPhone()
+    public function getPhoneNumber()
     {
         $validate = new Validate();
 
-        if ($validate->isPhoneValid($this->getRequestData('phone'))) {
-            return $this->getRequestData('phone');
+        if ($validate->isPhoneValid($this->getRequestData('phoneNumber'))) {
+            return $this->getRequestData('phoneNumber');
         }
     }
 
@@ -70,20 +71,20 @@ class StkPaymentRequest extends BaseRequest
     {
         return [
             'payment_channel' => $this->getChannel(),
-            'till_identifier' => $this->getTill(),
+            'short_code' => $this->getShortCode(),
             'subscriber' => [
-                'first_name' => $this->getfirstName(),
-                'last_name' => $this->getlastName(),
-                'phone' => $this->getPhone(),
+                'first_name' => $this->getFirstName(),
+                'last_name' => $this->getLastName(),
+                'phone' => $this->getPhoneNumber(),
                 'email' => $this->getEmail(),
             ],
             'amount' => [
-                $this->getCurrency(),
-                $this->getAmount(),
+                'currency' => $this->getCurrency(),
+                'value' => $this->getAmount(),
             ],
             'metadata' => $this->getMetadata(),
             '_links' => [
-                'call_back_url' => $this->getUrl(),
+                'callback_url' => $this->getUrl(),
             ],
         ];
     }

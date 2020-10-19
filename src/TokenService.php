@@ -14,7 +14,7 @@ class TokenService extends Service
             'grant_type' => $grantType,
         ];
 
-        $response = $this->client->post('oauth', ['form_params' => $requestData]);
+        $response = $this->client->post('oauth/token', ['form_params' => $requestData]);
 
         return $this->success($response);
     }

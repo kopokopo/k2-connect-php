@@ -2,16 +2,16 @@
 
 namespace Kopokopo\SDK\Requests;
 
-class SettlementAccountRequest extends BaseRequest
+class MerchantBankAccountRequest extends BaseRequest
 {
     public function getAccountName()
     {
         return $this->getRequestData('accountName');
     }
 
-    public function getBankRef()
+    public function getSettlementMethod()
     {
-        return $this->getRequestData('bankRef');
+        return $this->getRequestData('settlementMethod');
     }
 
     public function getBankBranchRef()
@@ -28,7 +28,7 @@ class SettlementAccountRequest extends BaseRequest
     {
         return [
             'account_name' => $this->getAccountName(),
-            'bank_ref' => $this->getBankRef(),
+            'settlement_method' => $this->getSettlementMethod(),
             'bank_branch_ref' => $this->getBankBranchRef(),
             'account_number' => $this->getAccountNumber(),
         ];

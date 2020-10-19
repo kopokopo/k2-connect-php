@@ -13,7 +13,7 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Exception\RequestException;
 use Kopokopo\SDK\TokenService;
 
-class TokenTest extends TestCase
+class TokenServiceTest extends TestCase
 {
     public function setup()
     {

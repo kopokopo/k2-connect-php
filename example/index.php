@@ -4,9 +4,9 @@ require 'vendor/autoload.php';
 
 use Kopokopo\SDK\K2;
 
-$K2_CLIENT_ID = 'your_client_id';
-$K2_CLIENT_SECRET = '10af7ad062a21d9c841877f87b7dec3dbe51aeb3';
-$BASE_URL = 'https://9284bede-3488-4b2b-a1e8-d6e9f8d86aff.mock.pstmn.io';
+$K2_CLIENT_ID = 'onDPKB6ZY_KT4hrUnsWJEuCXW3VvGHnI_XZv5dmsxPQ';
+$K2_CLIENT_SECRET = 'A1Wqj1_9KKAn1oAa3G9eCkqXwzM0GT9BgEMsjiXq0Zc';
+$BASE_URL = 'http://localhost:3000';
 
 $K2 = new K2($K2_CLIENT_ID, $K2_CLIENT_SECRET, $BASE_URL);
 
