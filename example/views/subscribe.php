@@ -7,9 +7,11 @@
             <label class="col-sm-2 col-form-label" (for="event_type")> Event Type </label>
             <div class="col-sm-7">
                 <select name = "event_type">
-                    <option value="buy_goods_received"> Buy Goods Received </option>
-                    <option value="buy_goods_reversed"> Buy Goods Reversed </option>
-                    <option value="settlement_completed"> Settlement Completed </option>
+                    <option value="buygoods_transaction_received"> Buygoods Transaction Received </option>
+                    <option value="b2b_transaction_received"> B2b Transaction Received </option>
+                    <option value="m2m_transaction_received"> M2m Transaction Received </option>
+                    <option value="buygoods_transaction_reversed"> Buy Goods Reversed </option>
+                    <option value="settlement_transfer_completed"> Settlement Completed </option>
                     <option value="customer_created"> Customer Created </option>
                 </select>
             </div>

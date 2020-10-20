@@ -9,7 +9,7 @@ class TokenService extends Service
         $grantType = 'client_credentials';
 
         $requestData = [
-            'client_id' => $this->clientSecret,
+            'client_id' => $this->clientId,
             'client_secret' => $this->clientSecret,
             'grant_type' => $grantType,
         ];
