@@ -96,7 +96,7 @@ $webhooks = $K2->Webhooks();
 
 //To subscribe to a webhook
 $response = $webhooks->subscribe([
-    'eventType' => 'buy_goods_received',
+    'eventType' => 'buygoods_transaction_received',
     'url' => 'http://localhost:8000/webhook',
     'webhookSecret' => 'my_webhook_secret',
     'accessToken' => 'my_access_token'
@@ -109,12 +109,12 @@ print_r($response);
 
 ```php
 $stk = $K2->StkService();
-$result = $stk->paymentRequest([
-                'paymentChannel' => 'M-PESA',
+$result = $stk->initiateIncomingPayment([
+                'paymentChannel' => 'M-PESA STK Push',
                 'tillNumber' => '13432',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phone' => '0712345678',
+                'phoneNumber' => '0712345678',
                 'amount' => 3455,
                 'email' => 'example@example.com',
                 'callbackUrl' => 'http://localhost:8000/test',
@@ -133,25 +133,26 @@ The only supported ISO currency code at the moment is: `KES`
 
 - `getToken()` to get an access token.
 
-  - The response will contain: `token type`, `expires_in` and `access_token`
+  - The response will contain: `token_type`, `expires_in`, `created_at` and `access_token`
 
 NB: The access token is required to send subsequent requests
 
 ### `StkService`
 
-- `paymentRequest([ stkOptions ])`: `stkOptions`: An array of arrays containing the following keys:
+- `initiateIncomingPayment([ stkOptions ])`: `stkOptions`: An array of arrays containing the following keys:
 
   - `firstName`: Customer's first name `REQUIRED`
   - `lastName`: Customer's last name `REQUIRED`
-  - `phone`: Phone number to pull money from. `REQUIRED`
-  - `email`: Amount to charge.
+  - `phoneNumber`: Phone number to pull money from. `REQUIRED`
+  - `email`: Customer's email address
   - `currency`: 3-digit ISO format currency code. `REQUIRED`
   - `amount`: Amount to charge. `REQUIRED`
   - `callbackUrl`: Amount to charge. `REQUIRED`
+  - `paymentChannel`: Payment channel. Default is: `"M-PESA STK Push"`. `REQUIRED`
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
   - `metadata`: It is a hash containing a maximum of 5 key value pairs
 
-- `paymentRequestStatus([location ])`:
+- `incomingPaymentRequestStatus([location ])`:
 
   - `location`: The request location you get when you send a request
 
@@ -161,17 +162,29 @@ For more information, please read <https://api-docs.kopokopo.com/#receive-paymen
 
 - `addPayRecipient([ payRecipientOptions ])`: `payRecipientOptions`: An array of arrays containing the following keys:
 
-  - `type`: Customer's first name `REQUIRED`
-  - `firstName`: Pay recipient's first name `REQUIRED`
-  - `lastName`: Pay recipient's last name `REQUIRED`
-  - `phone`: Pay recipient's phone number `REQUIRED`
-  - `email`: Pay recipient's email number
-  - `network`: Pay recipient's network `REQUIRED`
+  - `type`: Recipient type `REQUIRED`
+    - Mobile Wallet Recipient(`mobile_wallet`)
+      - `firstName`: Pay recipient's first name `REQUIRED`
+      - `lastName`: Pay recipient's last name `REQUIRED`
+      - `phoneNumber`: Pay recipient's phone number `REQUIRED`
+      - `email`: Pay recipient's email number
+      - `network`: Pay recipient's network `REQUIRED`
+    - Bank Account Recipient(`bank_account`)
+      - `accountName`: Pay recipient's account name `REQUIRED`
+      - `accountNumber`: Pay recipient's account number `REQUIRED`
+      - `bankBranchRef`: Bank branch reference from the kopokopo dashboard `REQUIRED`
+    - External Till Recipient(`till`)
+      - `tillNumber`: Pay recipient's till number `REQUIRED`
+      - `tillName`: Pay recipient's till name `REQUIRED`
+    - Kopo Kopo Merchant(`kopo_kopo_merchant`)
+      - `tillNumber`: Pay recipient's till number `REQUIRED`
+      - `aliasName`: Pay recipient's alias name `REQUIRED`
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
 
 - `sendPay([ payOptions ])`: `payOptions`: An array of arrays containing the following keys:
 
-  - `destination`: The destination `REQUIRED`
+  - `destinationType`: The recipient type. `REQUIRED`
+  - `destinationReference`: The recipient reference. `REQUIRED`
   - `currency`: 3-digit ISO format currency code. `REQUIRED`
   - `amount`: Amount to charge. `REQUIRED`
   - `callbackUrl`: Amount to charge. `REQUIRED`
@@ -186,19 +199,26 @@ For more information, please read <https://api-docs.kopokopo.com/#send-money-pay
 
 ### `TransferService`
 
-- `createSettlementAccount([ accountOpts ])`: `accountOpts`: An array of arrays containing the following keys:
+- `createMerchantBankAccount([ accountOpts ])`: `accountOpts`: An array of arrays containing the following keys:
 
   - `accountName`: Settlement Account Name `REQUIRED`
-  - `bankRef`: Settlement Bank Reference `REQUIRED`
   - `bankBranchRef`: Settlement Bank Branch Reference `REQUIRED`
   - `accountNumber`: Settlement account number `REQUIRED`
+  - `settlementMethod`: Settlement method `REQUIRED`
+  - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
+
+- `createMerchantWallet([ accountOpts ])`: `accountOpts`: An array of arrays containing the following keys:
+
+  - `phoneNumber`: Phone number to settle to `REQUIRED`
+  - `network`: Mobile money network to settle to `REQUIRED`
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
 
 - `settleFunds([ settleOpts ])`: `settleOpts`: An array of arrays containing the following keys:
 
-  - `destination`: The destination `REQUIRED FOR A TARGETED TRANSFER`
-  - `currency`: 3-digit ISO format currency code. `REQUIRED`
-  - `amount`: Amount to charge. `REQUIRED`
+  - `destinationType`: The destination type `REQUIRED FOR A TARGETED TRANSFER`
+  - `destinationReference`: The destination reference `REQUIRED FOR A TARGETED TRANSFER`
+  - `currency`: 3-digit ISO format currency code. `REQUIRED FOR A TARGETED TRANSFER`
+  - `amount`: Amount to settle. `REQUIRED FOR A TARGETED TRANSFER` PS: If not included the whole balance will be settled.
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
 
 - `settlementStatus([ location ])`:
