@@ -57,7 +57,7 @@ class WebhookTest extends TestCase
         $this->assertArraySubset(
             ['status' => 'success'],
             $this->subscribeClient->subscribe([
-                'eventType' => 'buy_goods_received',
+                'eventType' => 'buygoods_transaction_received',
                 'url' => 'http://localhost:8000/webhook',
                 'webhookSecret' => 'my_webhook_secret',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -86,7 +86,7 @@ class WebhookTest extends TestCase
         $this->assertArraySubset(
             ['data' => 'You have to provide the scope'],
             $this->subscribeClient->subscribe([
-                'eventType' => 'buy_goods_received',
+                'eventType' => 'buygoods_transaction_received',
                 'url' => 'http://localhost:8000/webhook',
                 'webhookSecret' => 'my_webhook_secret',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -100,7 +100,7 @@ class WebhookTest extends TestCase
         $this->assertArraySubset(
             ['data' => 'You have to provide the scopeReference'],
             $this->subscribeClient->subscribe([
-                'eventType' => 'buy_goods_received',
+                'eventType' => 'buygoods_transaction_received',
                 'url' => 'http://localhost:8000/webhook',
                 'webhookSecret' => 'my_webhook_secret',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -114,7 +114,7 @@ class WebhookTest extends TestCase
         $this->assertArraySubset(
             ['data' => 'You have to provide the url'],
             $this->subscribeClient->subscribe([
-                'eventType' => 'buy_goods_received',
+                'eventType' => 'buygoods_transaction_received',
                 'webhookSecret' => 'my_webhook_secret',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
                 'scope' => 'company',
@@ -128,7 +128,7 @@ class WebhookTest extends TestCase
         $this->assertArraySubset(
             ['data' => 'You have to provide the webhookSecret'],
             $this->subscribeClient->subscribe([
-                'eventType' => 'buy_goods_received',
+                'eventType' => 'buygoods_transaction_received',
                 'url' => 'http://localhost:8000/webhook',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
                 'scope' => 'company',
@@ -142,7 +142,7 @@ class WebhookTest extends TestCase
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
             $this->subscribeClient->subscribe([
-                'eventType' => 'buy_goods_received',
+                'eventType' => 'buygoods_transaction_received',
                 'url' => 'http://localhost:8000/webhook',
                 'webhookSecret' => 'my_webhook_secret',
                 'scope' => 'company',

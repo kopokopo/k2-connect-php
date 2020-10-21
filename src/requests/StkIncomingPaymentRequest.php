@@ -2,12 +2,11 @@
 
 namespace Kopokopo\SDK\Requests;
 
-class StkPaymentRequest extends BaseRequest
+class StkIncomingPaymentRequest extends BaseRequest
 {
     public function getChannel()
     {
-        // Hard code this for now
-        return 'M-Pesa STK Push';
+        return $this->getRequestData('paymentChannel');
     }
 
     public function getShortCode()

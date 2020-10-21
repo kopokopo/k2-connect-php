@@ -4,17 +4,17 @@ namespace Kopokopo\SDK;
 
 require 'vendor/autoload.php';
 
-use Kopokopo\SDK\Requests\StkPaymentRequest;
+use Kopokopo\SDK\Requests\StkIncomingPaymentRequest;
 use Kopokopo\SDK\Requests\StatusRequest;
 use Exception;
 
 class StkService extends Service
 {
-    public function paymentRequest($options)
+    public function initiateIncomingPayment($options)
     {
-        $stkPaymentrequest = new StkPaymentRequest($options);
+        $stkPaymentRequest = new StkIncomingPaymentRequest($options);
         try {
-            $response = $this->client->post('incoming_payments', ['body' => json_encode($stkPaymentrequest->getPaymentRequestBody()), 'headers' => $stkPaymentrequest->getHeaders()]);
+            $response = $this->client->post('incoming_payments', ['body' => json_encode($stkPaymentRequest->getPaymentRequestBody()), 'headers' => $stkPaymentRequest->getHeaders()]);
 
             return $this->success($response);
         } catch (Exception $e) {
@@ -22,7 +22,7 @@ class StkService extends Service
         }
     }
 
-    public function paymentRequestStatus($options)
+    public function incomingPaymentRequestStatus($options)
     {
         $stkStatus = new StatusRequest($options);
         try {

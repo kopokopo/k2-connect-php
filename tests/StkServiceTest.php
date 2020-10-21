@@ -21,35 +21,35 @@ class StkServiceTest extends TestCase
         $this->clientSecret = '10af7ad062a21d9c841877f87b7dec3dbe51aeb3';
 
         /*
-        *    paymentRequest() setup
+        *    initiateIncomingPayment() setup
         */
 
-        // paymentRequest() response headers
-        $paymentRequestHeaders = file_get_contents(__DIR__.'/Mocks/paymentRequestHeaders.json');
+        // initiateIncomingPayment() response headers
+        $incomingPaymentRequestHeaders = file_get_contents(__DIR__.'/Mocks/incomingPaymentHeaders.json');
 
-        // Create an instance of MockHandler for returning responses for paymentRequest()
-        $paymentRequestMock = new MockHandler([
-            new Response(200, json_decode($paymentRequestHeaders, true)),
+        // Create an instance of MockHandler for returning responses for initiateIncomingPayment()
+        $incomingPaymentRequestMock = new MockHandler([
+            new Response(200, json_decode($incomingPaymentRequestHeaders, true)),
             new RequestException('Error Communicating with Server', new Request('GET', 'test')),
         ]);
 
         // Assign the instance of MockHandler to a HandlerStack
-        $paymentRequestHandler = HandlerStack::create($paymentRequestMock);
+        $incomingPaymentRequestHandler = HandlerStack::create($incomingPaymentRequestMock);
 
-        // Create a new instance of client using the paymentRequest() handler
-        $paymentRequestClient = new Client(['handler' => $paymentRequestHandler]);
+        // Create a new instance of client using the initiateIncomingPayment() handler
+        $incomingPaymentRequestClient = new Client(['handler' => $incomingPaymentRequestHandler]);
 
-        // Use $paymentRequestClient to create an instance of the StkService() class
-        $this->paymentRequestClient = new StkService($paymentRequestClient, $this->clientId, $this->clientSecret);
+        // Use $incomingPaymentRequestClient to create an instance of the StkService() class
+        $this->incomingPaymentRequestClient = new StkService($incomingPaymentRequestClient, $this->clientId, $this->clientSecret);
 
         /*
-        *    paymentRequestStatus() setup
+        *    incomingPaymentRequestStatus() setup
         */
 
         // json response to be returned
         $statusBody = file_get_contents(__DIR__.'/Mocks/stk-status.json');
 
-        // Create an instance of MockHandler for returning responses for paymentRequestStatus()
+        // Create an instance of MockHandler for returning responses for incomingPaymentRequestStatus()
         $statusMock = new MockHandler([
             new Response(200, [], $statusBody),
             new RequestException('Error Communicating with Server', new Request('GET', 'test')),
@@ -58,7 +58,7 @@ class StkServiceTest extends TestCase
         // Assign the instance of MockHandler to a HandlerStack
         $statusHandler = HandlerStack::create($statusMock);
 
-        // Create a new instance of client using the paymentRequestStatus() handler
+        // Create a new instance of client using the incomingPaymentRequestStatus() handler
         $statusClient = new Client(['handler' => $statusHandler]);
 
         // Use the $statusClient to create an instance of the StkService() class
@@ -69,11 +69,11 @@ class StkServiceTest extends TestCase
     *   Payment Request tests
     */
 
-    public function testPaymentRequestSucceeds()
+    public function testIncomingPaymentRequestSucceeds()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
-            $this->paymentRequestClient->paymentRequest([
+            $this->incomingPaymentRequestClient->initiateIncomingPayment([
                 'paymentChannel' => 'M-PESA',
                 'shortCode' => '13432',
                 'firstName' => 'Jane',
@@ -88,11 +88,11 @@ class StkServiceTest extends TestCase
         );
     }
 
-    public function testPaymentRequestWithNoFirstNameFails()
+    public function testIncomingPaymentRequestWithNoFirstNameFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the firstName'],
-            $this->paymentRequestClient->paymentRequest([
+            $this->incomingPaymentRequestClient->initiateIncomingPayment([
                 'paymentChannel' => 'M-PESA',
                 'shortCode' => '13432',
                 'lastName' => 'Doe',
@@ -106,11 +106,11 @@ class StkServiceTest extends TestCase
         );
     }
 
-    public function testPaymentRequestWithNoLastNameFails()
+    public function testIncomingPaymentRequestWithNoLastNameFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the lastName'],
-            $this->paymentRequestClient->paymentRequest([
+            $this->incomingPaymentRequestClient->initiateIncomingPayment([
                 'paymentChannel' => 'M-PESA',
                 'shortCode' => '13432',
                 'firstName' => 'Jane',
@@ -124,11 +124,11 @@ class StkServiceTest extends TestCase
         );
     }
 
-    public function testPaymentRequestWithNoPhoneFails()
+    public function testIncomingPaymentRequestWithNoPhoneFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the phoneNumber'],
-            $this->paymentRequestClient->paymentRequest([
+            $this->incomingPaymentRequestClient->initiateIncomingPayment([
                 'paymentChannel' => 'M-PESA',
                 'shortCode' => '13432',
                 'firstName' => 'Jane',
@@ -142,11 +142,11 @@ class StkServiceTest extends TestCase
         );
     }
 
-    public function testPaymentRequestWithInvalidPhoneFormatFails()
+    public function testIncomingPaymentRequestWithInvalidPhoneFormatFails()
     {
         $this->assertArraySubset(
             ['data' => 'Invalid phone number format'],
-            $this->paymentRequestClient->paymentRequest([
+            $this->incomingPaymentRequestClient->initiateIncomingPayment([
                 'paymentChannel' => 'M-PESA',
                 'shortCode' => '13432',
                 'firstName' => 'Jane',
@@ -161,11 +161,11 @@ class StkServiceTest extends TestCase
         );
     }
 
-    public function testPaymentRequestWithNoEmailSucceeds()
+    public function testIncomingPaymentRequestWithNoEmailSucceeds()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
-            $this->paymentRequestClient->paymentRequest([
+            $this->incomingPaymentRequestClient->initiateIncomingPayment([
                 'paymentChannel' => 'M-PESA',
                 'shortCode' => '13432',
                 'firstName' => 'Jane',
@@ -179,11 +179,11 @@ class StkServiceTest extends TestCase
         );
     }
 
-    public function testPaymentRequestWithNoTillFails()
+    public function testIncomingPaymentRequestWithNoTillFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the shortCode'],
-            $this->paymentRequestClient->paymentRequest([
+            $this->incomingPaymentRequestClient->initiateIncomingPayment([
                 'paymentChannel' => 'M-PESA',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
@@ -197,11 +197,11 @@ class StkServiceTest extends TestCase
         );
     }
 
-    public function testPaymentRequestWithNoCallbackUrlFails()
+    public function testIncomingPaymentRequestWithNoCallbackUrlFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the callbackUrl'],
-            $this->paymentRequestClient->paymentRequest([
+            $this->incomingPaymentRequestClient->initiateIncomingPayment([
                 'paymentChannel' => 'M-PESA',
                 'shortCode' => '13432',
                 'firstName' => 'Jane',
@@ -215,11 +215,11 @@ class StkServiceTest extends TestCase
         );
     }
 
-    public function testPaymentRequestWithoutEmailSucceeds()
+    public function testIncomingPaymentRequestWithoutEmailSucceeds()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
-            $this->paymentRequestClient->paymentRequest([
+            $this->incomingPaymentRequestClient->initiateIncomingPayment([
                 'paymentChannel' => 'M-PESA',
                 'shortCode' => '13432',
                 'firstName' => 'Jane',
@@ -233,11 +233,11 @@ class StkServiceTest extends TestCase
         );
     }
 
-    public function testPaymentRequestWithNoCurrencyFails()
+    public function testIncomingPaymentRequestWithNoCurrencyFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the currency'],
-            $this->paymentRequestClient->paymentRequest([
+            $this->incomingPaymentRequestClient->initiateIncomingPayment([
                 'paymentChannel' => 'M-PESA',
                 'shortCode' => '13432',
                 'firstName' => 'Jane',
@@ -251,11 +251,11 @@ class StkServiceTest extends TestCase
         );
     }
 
-    public function testPaymentRequestWithMetadataSucceeds()
+    public function testIncomingPaymentRequestWithMetadataSucceeds()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
-            $this->paymentRequestClient->paymentRequest([
+            $this->incomingPaymentRequestClient->initiateIncomingPayment([
                 'paymentChannel' => 'M-PESA',
                 'shortCode' => '13432',
                 'firstName' => 'Jane',
@@ -275,11 +275,11 @@ class StkServiceTest extends TestCase
         );
     }
 
-    public function testPaymentRequestWithNoAccessTokenFails()
+    public function testIncomingPaymentRequestWithNoAccessTokenFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
-            $this->paymentRequestClient->paymentRequest([
+            $this->incomingPaymentRequestClient->initiateIncomingPayment([
                 'paymentChannel' => 'M-PESA',
                 'shortCode' => '13432',
                 'firstName' => 'Jane',
@@ -297,32 +297,32 @@ class StkServiceTest extends TestCase
     *   Payment Request status tests
     */
 
-    public function testPaymentRequestStatusSucceeds()
+    public function testIncomingPaymentRequestStatusSucceeds()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
-            $this->statusClient->paymentRequestStatus([
+            $this->statusClient->incomingPaymentRequestStatus([
                 'location' => 'my_request_id',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
     }
 
-    public function testPaymentRequestStatusWithNoLocationFails()
+    public function testIncomingPaymentRequestStatusWithNoLocationFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the location'],
-            $this->statusClient->paymentRequestStatus([
+            $this->statusClient->incomingPaymentRequestStatus([
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
     }
 
-    public function testPaymentRequestStatusWithNoAccessTokenFails()
+    public function testIncomingPaymentRequestStatusWithNoAccessTokenFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
-            $this->statusClient->paymentRequestStatus([
+            $this->statusClient->incomingPaymentRequestStatus([
                 'location' => 'my_request_id',
             ])
         );
