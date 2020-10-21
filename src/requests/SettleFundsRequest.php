@@ -52,8 +52,8 @@ class SettleFundsRequest extends BaseRequest
     {
         return [
             'amount' => [
-                $this->getCurrency(),
-                $this->getAmount(),
+                'currency' => $this->getCurrency(),
+                'value' => $this->getAmount(),
             ],
             'destination_reference' => $this->getDestinationRef(),
             'destination_type' => $this->getDestinationType(),

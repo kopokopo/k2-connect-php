@@ -22,7 +22,7 @@ class K2
         $this->version = 'v1';
 
         $this->client = new Client([
-            'base_uri' => $this->baseUrl. '/api/' . $this->version,
+            'base_uri' => $this->baseUrl. '/api/v1',
         ]);
 
         $this->tokenClient = new Client([

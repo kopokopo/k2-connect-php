@@ -45,8 +45,8 @@ class PayRequest extends BaseRequest
             'destination_reference' => $this->getDestinationRef(),
             'destination_type' => $this->getDestinationType(),
             'amount' => [
-                $this->getCurrency(),
-                $this->getAmount(),
+                'currency' => $this->getCurrency(),
+                'value' => $this->getAmount(),
             ],
             'metadata' => $this->getMetadata(),
             '_links' => [
