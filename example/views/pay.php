@@ -2,13 +2,22 @@
     include 'layout.php';
 ?>
 <div class="container">
-    <form id="bulkSmsForm"(action="/pay", method="post")>
-    <div class="form-group row">
-            <label class="col-sm-2 col-form-label" (for="destination")> Destination </label>
+    <form (action="/pay", method="post")>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" (for="destinationType")> Destination Type </label>
             <div class="col-sm-7">
-                <input class="form-control" name="destination"  type='text' placeholder='Enter destination' required/>
+                <select name = "destinationType" required>
+                    <option value="bank_account"> Bank Account </option>
+                    <option value="mobile_wallet">Mobile Wallet</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" (for="destinationReference")> Destination Reference</label>
+            <div class="col-sm-7">
+                <input class="form-control" name="destinationReference"  type='text' placeholder='Enter destination reference' required/>
                 <div class="small form-text text-muted">
-                    Enter the destination
+                    Enter the destination reference
                 </div>
             </div>
         </div>

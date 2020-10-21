@@ -56,16 +56,22 @@ $router->map('POST', '/webhook/subscribe', function () {
     $tokens = $K2->TokenService();
     $response = $tokens->getToken();
 
-    $access_token = $response['access_token'];
+    // echo json_encode($response);
+    // echo json_encode($response['data']);
+    // echo json_encode($response['data']->access_token);
 
-    echo $access_token;
+    $access_token = $response['data']->access_token;
+
+    // echo $access_token;
 
     $webhooks = $K2->Webhooks();
 
     $options = array(
-        'eventType' => $_POST['event_type'],
+        'eventType' => $_POST['eventType'],
         'url' => $_POST['url'],
         'webhookSecret' => 'my_webhook_secret',
+        'scope' => 'company',
+        'scopeReference' => '4',
         'accessToken' => $access_token,
     );
     $response = $webhooks->subscribe($options);
@@ -78,18 +84,18 @@ $router->map('POST', '/stk', function () {
     $stk = $K2->StkService();
 
     $options = [
-        'paymentChannel' => 'M-PESA',
+        'paymentChannel' => 'M-PESA STK Push',
         'tillNumber' => '13432',
-        'firstName' => $_POST['first_name'],
-        'lastName' => $_POST['last_name'],
-        'phone' => $_POST['phone'],
+        'firstName' => $_POST['firstName'],
+        'lastName' => $_POST['lastName'],
+        'phoneNumber' => $_POST['phoneNumber'],
         'amount' => $_POST['amount'],
         'currency' => 'KES',
         'email' => 'example@example.com',
         'callbackUrl' => 'http://localhost:8000/test',
         'accessToken' => 'myRand0mAcc3ssT0k3n',
     ];
-    $response = $stk->paymentRequest($options);
+    $response = $stk->initiateIncomingPayment($options);
 
     echo json_encode($response);
 });
@@ -101,7 +107,8 @@ $router->map('POST', '/transfer', function () {
     $options = [
         'amount' => $_POST['amount'],
         'currency' => 'KES',
-        'destination' => $_POST['destination'],
+        'destinationReference' => $_POST['destinationReference'],
+        'destinationType' => $_POST['destinationType'],
         'accessToken' => 'myRand0mAcc3ssT0k3n',
     ];
     $response = $transfer->settleFunds($options);
@@ -114,7 +121,8 @@ $router->map('POST', '/pay', function () {
     $pay = $K2->PayService();
 
     $options = [
-        'destination' => $_POST['destination'],
+        'destinationType' => $_POST['destinationType'],
+        'destinationReference' => $_POST['destinationReference'],
         'amount' => $_POST['amount'],
         'currency' => 'KES',
         'accessToken' => 'myRand0mAcc3ssT0k3n',

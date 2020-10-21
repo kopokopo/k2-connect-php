@@ -2,36 +2,36 @@
     include 'layout.php';
 ?>
 <div class="container">
-    <form id="bulkSmsForm"(action="/stk", method="post")>
+    <form (action="/stk", method="post")>
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label" (for="first_name")> First Name </label>
+            <label class="col-sm-2 col-form-label" (for="firstName")> First Name </label>
             <div class="col-sm-7">
-                <input class="form-control" name="first_name"  type='text' placeholder='Enter first name' required/>
+                <input class="form-control" name="firstName"  type='text' placeholder='Enter first name' required/>
                 <div class="small form-text text-muted">
                     Enter first name
                 </div>
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label" (for="last_name")> Last Name </label>
+            <label class="col-sm-2 col-form-label" (for="lastName")> Last Name </label>
             <div class="col-sm-7">
-                <input class="form-control" name="last_name"  type='text' placeholder='Enter last name' required/>
+                <input class="form-control" name="lastName"  type='text' placeholder='Enter last name' required/>
                 <div class="small form-text text-muted">
                     Enter last name
                 </div>
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label" (for="url")> Phone number </label>
+            <label class="col-sm-2 col-form-label" (for="phone_number")> Phone number </label>
             <div class="col-sm-7">
-                <input class="form-control" name="phone"  type='text' placeholder='Enter phone number' required/>
+                <input class="form-control" name="phoneNumber"  type='text' placeholder='Enter phone number' required/>
                 <div class="small form-text text-muted">
                     Enter the phone number
                 </div>
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label" (for="url")> Amount </label>
+            <label class="col-sm-2 col-form-label" (for="amount")> Amount </label>
             <div class="col-sm-7">
                 <input class="form-control" name="amount"  type='text' placeholder='Enter amount' required/>
                 <div class="small form-text text-muted">

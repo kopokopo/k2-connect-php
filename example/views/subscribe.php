@@ -4,9 +4,9 @@
 <div class="container">
     <form id="bulkSmsForm"(action="/webhook/subscribe", method="post")>
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label" (for="event_type")> Event Type </label>
+            <label class="col-sm-2 col-form-label" (for="eventType")> Event Type </label>
             <div class="col-sm-7">
-                <select name = "event_type">
+                <select name = "eventType">
                     <option value="buygoods_transaction_received"> Buygoods Transaction Received </option>
                     <option value="b2b_transaction_received"> B2b Transaction Received </option>
                     <option value="m2m_transaction_received"> M2m Transaction Received </option>

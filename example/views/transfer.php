@@ -2,20 +2,29 @@
     include 'layout.php';
 ?>
 <div class="container">
-    <form id="bulkSmsForm"(action="/transfer", method="post")>
-    <div class="form-group row">
-            <label class="col-sm-2 col-form-label" (for="destination")> Destination </label>
+    <form (action="/transfer", method="post")>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" (for="destinationType")> Destination Type </label>
             <div class="col-sm-7">
-                <input class="form-control" name="destination"  type='text' placeholder='Enter destination'/>
+                <select name = "destinationType">
+                    <option value="merchant_bank_account"> Merchant Bank Account </option>
+                    <option value="merchant_wallet">Merchant Wallet</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" (for="destinationReference")> Destination Reference</label>
+            <div class="col-sm-7">
+                <input class="form-control" name="destinationReference"  type='text' placeholder='Enter destination reference'/>
                 <div class="small form-text text-muted">
-                    Enter the destination
+                    Enter the destination reference
                 </div>
             </div>
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" (for="amount")> Amount </label>
             <div class="col-sm-7">
-                <input class="form-control" name="amount"  type='text' placeholder='Enter amount' required/>
+                <input class="form-control" name="amount"  type='text' placeholder='Enter amount'/>
                 <div class="small form-text text-muted">
                     Enter the amount
                 </div>
@@ -29,4 +38,3 @@
         </div>
     </form>
 </div> 
-
