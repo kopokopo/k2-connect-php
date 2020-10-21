@@ -19,10 +19,10 @@ class K2
 
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
-        $this->version = 'v1';
+        $this->version = 'v1/';
 
         $this->client = new Client([
-            'base_uri' => $this->baseUrl. '/api/v1',
+            'base_uri' => $this->baseUrl . "/api/" . $this->version,
         ]);
 
         $this->tokenClient = new Client([
