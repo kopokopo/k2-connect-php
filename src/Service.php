@@ -27,6 +27,14 @@ abstract class Service
     {
         return [
             'status' => 'success',
+            'location' => $data->getHeaders()['Location'],
+        ];
+    }
+
+    protected static function tokenSuccess($data)
+    {
+        return [
+            'status' => 'success',
             'data' => json_decode($data->getBody()->getContents()),
         ];
     }

@@ -16,6 +16,6 @@ class TokenService extends Service
 
         $response = $this->client->post('oauth/token', ['form_params' => $requestData]);
 
-        return $this->success($response);
+        return $this->tokenSuccess($response);
     }
 }
