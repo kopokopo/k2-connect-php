@@ -24,6 +24,11 @@ class PayRecipientAccountRequest extends BaseRequest
         return $this->getRequestData('accountNumber');
     }
 
+    public function getSettlementMethod()
+    {
+        return $this->getRequestData('settlementMethod');
+    }
+
     public function getPayRecipientBody()
     {
         return [
@@ -32,6 +37,7 @@ class PayRecipientAccountRequest extends BaseRequest
                 'account_name' => $this->getAccountName(),
                 'bank_branch_ref' => $this->getBankBranchRef(),
                 'account_number' => $this->getAccountNumber(),
+                'settlement_method' => $this->getSettlementMethod(),
             ],
         ];
     }

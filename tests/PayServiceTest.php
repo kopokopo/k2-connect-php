@@ -225,6 +225,7 @@ class PayServiceTest extends TestCase
                 'accountName' => 'Doe',
                 'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'accountNumber' => '1234567890',
+                'settlementMethod' => 'EFT',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
@@ -238,6 +239,7 @@ class PayServiceTest extends TestCase
                 'type' => 'bank_account',
                 'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'accountNumber' => '1234567890',
+                'settlementMethod' => 'EFT',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
@@ -251,6 +253,7 @@ class PayServiceTest extends TestCase
                 'type' => 'bank_account',
                 'accountName' => 'Doe',
                 'accountNumber' => '1234567890',
+                'settlementMethod' => 'EFT',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
@@ -264,6 +267,21 @@ class PayServiceTest extends TestCase
                 'type' => 'bank_account',
                 'accountName' => 'Doe',
                 'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
+                'settlementMethod' => 'EFT',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+            ])
+        );
+    }
+
+    public function testAddPayRecipientAccountWithNoSettlementMethodFails()
+    {
+        $this->assertArraySubset(
+            ['data' => 'You have to provide the settlementMethod'],
+            $this->payRecipientClient->addPayRecipient([
+                'type' => 'bank_account',
+                'accountName' => 'Doe',
+                'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
+                'accountNumber' => '1234567890',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
@@ -275,12 +293,10 @@ class PayServiceTest extends TestCase
             ['data' => 'You have to provide the accessToken'],
             $this->payRecipientClient->addPayRecipient([
                 'type' => 'bank_account',
-                'name' => 'Jane',
                 'accountName' => 'Doe',
                 'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
                 'accountNumber' => '1234567890',
-                'phoneNumber' => '+254712345678',
-                'email' => 'example@example.com',
+                'settlementMethod' => 'EFT',
             ])
         );
     }
