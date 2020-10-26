@@ -34,6 +34,10 @@ $router->map('GET', '/stk/status', function () {
     require __DIR__.'/views/stkstatus.php';
 });
 
+$router->map('GET', '/settlementaccounts', function () {
+    require __DIR__.'/views/settlementaccounts.php';
+});
+
 $router->map('GET', '/transfer', function () {
     require __DIR__.'/views/transfer.php';
 });
@@ -44,6 +48,10 @@ $router->map('GET', '/transfer/status', function () {
 
 $router->map('GET', '/pay', function () {
     require __DIR__.'/views/pay.php';
+});
+
+$router->map('GET', '/pay/recipients', function () {
+    require __DIR__.'/views/payrecipients.php';
 });
 
 $router->map('GET', '/pay/status', function () {
@@ -83,17 +91,22 @@ $router->map('POST', '/stk', function () {
     global $K2;
     $stk = $K2->StkService();
 
+    $tokens = $K2->TokenService();
+    $response = $tokens->getToken();
+
+    $access_token = $response['data']->access_token;
+
     $options = [
         'paymentChannel' => 'M-PESA STK Push',
-        'tillNumber' => '13432',
+        'shortCode' => '514459',
         'firstName' => $_POST['firstName'],
         'lastName' => $_POST['lastName'],
         'phoneNumber' => $_POST['phoneNumber'],
         'amount' => $_POST['amount'],
         'currency' => 'KES',
         'email' => 'example@example.com',
-        'callbackUrl' => 'http://localhost:8000/test',
-        'accessToken' => 'myRand0mAcc3ssT0k3n',
+        'callbackUrl' => 'https://webhook.site/675d4ef4-0629-481f-83cd-d101f55e4bc8',
+        'accessToken' => $access_token,
     ];
     $response = $stk->initiateIncomingPayment($options);
 
@@ -104,12 +117,17 @@ $router->map('POST', '/transfer', function () {
     global $K2;
     $transfer = $K2->TransferService();
 
+    $tokens = $K2->TokenService();
+    $response = $tokens->getToken();
+
+    $access_token = $response['data']->access_token;
+
     $options = [
         'amount' => $_POST['amount'],
         'currency' => 'KES',
         'destinationReference' => $_POST['destinationReference'],
         'destinationType' => $_POST['destinationType'],
-        'accessToken' => 'myRand0mAcc3ssT0k3n',
+        'accessToken' => $access_token,
     ];
     $response = $transfer->settleFunds($options);
 
@@ -120,12 +138,17 @@ $router->map('POST', '/pay', function () {
     global $K2;
     $pay = $K2->PayService();
 
+    $tokens = $K2->TokenService();
+    $response = $tokens->getToken();
+
+    $access_token = $response['data']->access_token;
+
     $options = [
         'destinationType' => $_POST['destinationType'],
         'destinationReference' => $_POST['destinationReference'],
         'amount' => $_POST['amount'],
         'currency' => 'KES',
-        'accessToken' => 'myRand0mAcc3ssT0k3n',
+        'accessToken' => $access_token,
         'callbackUrl' => 'http://localhost:8000/webhook',
     ];
     $response = $pay->sendPay($options);

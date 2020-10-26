@@ -141,6 +141,7 @@ NB: The access token is required to send subsequent requests
 
 - `initiateIncomingPayment([ stkOptions ])`: `stkOptions`: An array of arrays containing the following keys:
 
+  - `shortCode`: Your online payments short code from Kopo Kopo's Dashboard `REQUIRED`
   - `firstName`: Customer's first name `REQUIRED`
   - `lastName`: Customer's last name `REQUIRED`
   - `phoneNumber`: Phone number to pull money from. `REQUIRED`
@@ -173,6 +174,7 @@ For more information, please read <https://api-docs.kopokopo.com/#receive-paymen
       - `accountName`: Pay recipient's account name `REQUIRED`
       - `accountNumber`: Pay recipient's account number `REQUIRED`
       - `bankBranchRef`: Bank branch reference from the kopokopo dashboard `REQUIRED`
+      - `settlementMethod`: Settlement method `REQUIRED`      
     - External Till Recipient(`till`)
       - `tillNumber`: Pay recipient's till number `REQUIRED`
       - `tillName`: Pay recipient's till name `REQUIRED`

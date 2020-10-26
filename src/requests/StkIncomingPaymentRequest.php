@@ -74,7 +74,7 @@ class StkIncomingPaymentRequest extends BaseRequest
             'subscriber' => [
                 'first_name' => $this->getFirstName(),
                 'last_name' => $this->getLastName(),
-                'phone' => $this->getPhoneNumber(),
+                'phone_number' => $this->getPhoneNumber(),
                 'email' => $this->getEmail(),
             ],
             'amount' => [

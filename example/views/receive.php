@@ -42,7 +42,7 @@
         <br/>
         <div class="form-group.row">
             <div class="col-sm-7">
-                <button class="btn btn-success"(type='submit')> Stk Payment Request
+                <button class="btn btn-success"(type='submit')> Initiate Stk Incoming Payment Request
             </div>
         </div>
     </form>
