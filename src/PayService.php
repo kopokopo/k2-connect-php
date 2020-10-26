@@ -33,7 +33,7 @@ class PayService extends Service
 
             $response = $this->client->post('pay_recipients', ['body' => json_encode($payRecipientrequest->getPayRecipientBody()), 'headers' => $payRecipientrequest->getHeaders()]);
 
-            return $this->success($response);
+            return $this->postSuccess($response);
         } catch (Exception $e) {
             return $this->error($e->getMessage());
         }
@@ -45,7 +45,7 @@ class PayService extends Service
         try {
             $response = $this->client->post('payments', ['body' => json_encode($payRequest->getPayBody()), 'headers' => $payRequest->getHeaders()]);
 
-            return $this->success($response);
+            return $this->postSuccess($response);
         } catch (Exception $e) {
             return $this->error($e->getMessage());
         }

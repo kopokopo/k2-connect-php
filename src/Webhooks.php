@@ -24,7 +24,7 @@ class Webhooks extends Service
         if ($statusCode == 200) {
             $dataHandler = new DataHandler(json_decode($details, true));
 
-            return $this->webhookSuccess($dataHandler->dataHandlerSort($details));
+            return $this->success($dataHandler->dataHandlerSort($details));
         } else {
             return $this->error('Unauthorized');
         }

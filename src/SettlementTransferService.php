@@ -30,7 +30,7 @@ class SettlementTransferService extends Service
         try {
             $response = $this->client->post('merchant_wallets', ['body' => json_encode($merchantWalletRequest->getSettlementAccountBody()), 'headers' => $merchantWalletRequest->getHeaders()]);
 
-            return $this->success($response);
+            return $this->postSuccess($response);
         } catch (Exception $e) {
             return $this->error($e->getMessage());
         }
@@ -42,7 +42,7 @@ class SettlementTransferService extends Service
         try {
             $response = $this->client->post('settlement_transfers', ['body' => json_encode($settleFundsRequest->getSettleFundsBody()), 'headers' => $settleFundsRequest->getHeaders()]);
 
-            return $this->success($response);
+            return $this->postSuccess($response);
         } catch (Exception $e) {
             return $this->error($e->getMessage());
         }

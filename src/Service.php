@@ -23,7 +23,7 @@ abstract class Service
         ];
     }
 
-    protected static function success($data)
+    protected static function postSuccess($data)
     {
         return [
             'status' => 'success',
@@ -39,7 +39,7 @@ abstract class Service
         ];
     }
 
-    protected static function webhookSuccess($data)
+    protected static function success($data)
     {
         return [
             'status' => 'success',
