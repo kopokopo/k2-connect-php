@@ -139,7 +139,7 @@ NB: The access token is required to send subsequent requests
 
 ### `StkService`
 
-- `initiateIncomingPayment([ stkOptions ])`: `stkOptions`: An array of arrays containing the following keys:
+- `$StkService->initiateIncomingPayment([ stkOptions ])`: `stkOptions`: An array of arrays containing the following keys:
 
   - `shortCode`: Your online payments short code from Kopo Kopo's Dashboard `REQUIRED`
   - `firstName`: Customer's first name `REQUIRED`
@@ -153,7 +153,7 @@ NB: The access token is required to send subsequent requests
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
   - `metadata`: It is a hash containing a maximum of 5 key value pairs
 
-- `incomingPaymentRequestStatus([location ])`:
+- `$StkService->incomingPaymentRequestStatus([location ])`:
 
   - `location`: The request location you get when you send a request
 
@@ -161,7 +161,7 @@ For more information, please read <https://api-docs.kopokopo.com/#receive-paymen
 
 ### `PayService`
 
-- `addPayRecipient([ payRecipientOptions ])`: `payRecipientOptions`: An array of arrays containing the following keys:
+- `PayService->addPayRecipient([ payRecipientOptions ])`: `payRecipientOptions`: An array of arrays containing the following keys:
 
   - `type`: Recipient type `REQUIRED`
     - Mobile Wallet Recipient(`mobile_wallet`)
@@ -183,7 +183,7 @@ For more information, please read <https://api-docs.kopokopo.com/#receive-paymen
       - `aliasName`: Pay recipient's alias name `REQUIRED`
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
 
-- `sendPay([ payOptions ])`: `payOptions`: An array of arrays containing the following keys:
+- `PayService->sendPay([ payOptions ])`: `payOptions`: An array of arrays containing the following keys:
 
   - `destinationType`: The recipient type. `REQUIRED`
   - `destinationReference`: The recipient reference. `REQUIRED`
@@ -193,7 +193,7 @@ For more information, please read <https://api-docs.kopokopo.com/#receive-paymen
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
   - `metadata`: It is a hash containing a maximum of 5 key value pairs
 
-- `payStatus([ location ])`:
+- `PayService->payStatus([ location ])`:
 
   - `location`: The request location you get when you send a request
 
@@ -201,7 +201,7 @@ For more information, please read <https://api-docs.kopokopo.com/#send-money-pay
 
 ### `TransferService`
 
-- `createMerchantBankAccount([ accountOpts ])`: `accountOpts`: An array of arrays containing the following keys:
+- `TransferService->createMerchantBankAccount([ accountOpts ])`: `accountOpts`: An array of arrays containing the following keys:
 
   - `accountName`: Settlement Account Name `REQUIRED`
   - `bankBranchRef`: Settlement Bank Branch Reference `REQUIRED`
@@ -209,13 +209,13 @@ For more information, please read <https://api-docs.kopokopo.com/#send-money-pay
   - `settlementMethod`: Settlement method `REQUIRED`
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
 
-- `createMerchantWallet([ accountOpts ])`: `accountOpts`: An array of arrays containing the following keys:
+- `TransferService->createMerchantWallet([ accountOpts ])`: `accountOpts`: An array of arrays containing the following keys:
 
   - `phoneNumber`: Phone number to settle to `REQUIRED`
   - `network`: Mobile money network to settle to `REQUIRED`
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
 
-- `settleFunds([ settleOpts ])`: `settleOpts`: An array of arrays containing the following keys:
+- `TransferService->settleFunds([ settleOpts ])`: `settleOpts`: An array of arrays containing the following keys:
 
   - `destinationType`: The destination type `REQUIRED FOR A TARGETED TRANSFER`
   - `destinationReference`: The destination reference `REQUIRED FOR A TARGETED TRANSFER`
@@ -223,7 +223,7 @@ For more information, please read <https://api-docs.kopokopo.com/#send-money-pay
   - `amount`: Amount to settle. `REQUIRED FOR A TARGETED TRANSFER` PS: If not included the whole balance will be settled.
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
 
-- `settlementStatus([ location ])`:
+- `TransferService->settlementStatus([ location ])`:
 
   - `location`: The request location you get when you send a request
 
