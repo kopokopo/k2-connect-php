@@ -111,7 +111,7 @@ print_r($response);
 $stk = $K2->StkService();
 $result = $stk->initiateIncomingPayment([
                 'paymentChannel' => 'M-PESA STK Push',
-                'tillNumber' => '13432',
+                'shortCode' => '13432',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
                 'phoneNumber' => '0712345678',
@@ -242,13 +242,13 @@ Note: The asynchronous results are processed like webhooks.
 - Buygoods Received
 
   - `id`
-  - `resourceId`
   - `topic`
   - `createdAt`
   - `eventType`
+  - `resourceId`
   - `reference`
   - `originationTime`
-  - `senderMsisdn`
+  - `senderPhoneNumber`
   - `amount`
   - `currency`
   - `tillNumber`
@@ -263,10 +263,10 @@ Note: The asynchronous results are processed like webhooks.
 - B2b transaction received
 
   - `id`
-  - `resourceId`
   - `topic`
   - `createdAt`
   - `eventType`
+  - `resourceId`
   - `reference`
   - `originationTime`
   - `sendingTill`
@@ -281,11 +281,10 @@ Note: The asynchronous results are processed like webhooks.
 - Merchant to merchant transaction received
 
   - `id`
-  - `resourceId`
   - `topic`
   - `createdAt`
   - `eventType`
-  - `reference`
+  - `resourceId`
   - `originationTime`
   - `sendingMerchant`
   - `amount`
@@ -297,14 +296,13 @@ Note: The asynchronous results are processed like webhooks.
 - Buygoods transaction reversed
 
   - `id`
-  - `resourceId`
   - `topic`
   - `createdAt`
   - `eventType`
+  - `resourceId`
   - `reference`
   - `originationTime`
-  - `reversalTime`
-  - `senderMsisdn`
+  - `senderPhoneNumber`
   - `amount`
   - `currency`
   - `tillNumber`
@@ -348,16 +346,17 @@ Note: The asynchronous results are processed like webhooks.
 - Customer created webhook
 
   - `id`
-  - `resourceId`
   - `topic`
   - `createdAt`
   - `eventType`
   - `firstName`
   - `middleName`
   - `lastName`
-  - `msisdn`
+  - `phoneNumber`
   - `linkSelf`
   - `linkResource`
+
+#### Results
 
 - Transfer result
 
@@ -386,14 +385,13 @@ Note: The asynchronous results are processed like webhooks.
   - Successful result
 
     - `id`
-    - `resourceId`
-    - `topic`
-    - `createdAt`
+    - `initiationTime`
     - `status`
     - `eventType`
+    - `resourceId`
     - `reference`
     - `originationTime`
-    - `senderMsisdn`
+    - `senderPhoneNumber`
     - `amount`
     - `currency`
     - `tillNumber`
@@ -403,16 +401,14 @@ Note: The asynchronous results are processed like webhooks.
     - `lastName`
     - `errors`
     - `metadata`
-    - `linkSelf`
     - `linkResource`
-    - `linkPaymentRequest`
+    - `linkSelf`    
+    - `linkCallbackUrl`
 
   - Unsuccessful result
 
     - `id`
-    - `resourceId`
-    - `topic`
-    - `createdAt`
+    - `initiationTime`
     - `status`
     - `eventType`
     - `resource`
@@ -420,7 +416,89 @@ Note: The asynchronous results are processed like webhooks.
     - `errorsDescription`
     - `metadata`
     - `linkSelf`
-    - `linkResource`
+    - `linkCallbackUrl`
+
+#### Status Payloads
+
+- Webhook Subscription Status
+  - `id`
+  - `type`
+  - `eventType`
+  - `webhookUri`
+  - `secret`
+  - `status`
+  - `scope`
+  - `scopeReference`
+
+- Merchant Bank Account Status
+  - `id`
+  - `type`
+  - `accountNumber`
+  - `accountName`
+  - `bankBranchRef`
+  - `settlementMethod`
+  - `status`
+  - `accountReference`
+
+- Merchant Mobile Wallet Status
+  - `id`
+  - `type`
+  - `firstName`
+  - `lastName`
+  - `phoneNumber`
+  - `network`
+  - `status`
+  - `accountReference`
+
+- Pay Recipient Status
+  - `id`
+  - `type`
+  - `recipientType`
+  - `status`
+  - `recipientReference`
+
+  - If `recipientType == "Bank Account"`
+
+    - `accountNumber`
+    - `accountName`
+    - `bankBranchRef`
+    - `settlementMethod`
+  
+  - If `recipientType == "Mobile Wallet"`
+
+    - `firstName`
+    - `lastName`
+    - `phoneNumber`
+    - `network`
+    - `email`
+  
+  - If `recipientType == "Till"`
+
+    - `tillNumber`
+    - `tillName`
+
+  - If `recipientType == "Kopo Kopo Merchant"`
+
+    - `tillNumber`
+    - `aliasName`
+
+- Stk Push Status
+
+  - Successful request
+    This payload is simialr to the successful result
+  - Failed request
+    This payload is similar to failed result
+  - Pending request
+    - `id`
+    - `initiationTime`
+    - `status`
+    - `eventType`
+    - `resource`
+    - `errors`
+    - `metadata`
+    - `linkSelf`
+    - `linkCallbackUrl`
+
 
 For more information on the expected payloads and error codes, please read the [api docs](https://api-docs.kopokopo.com)
 
