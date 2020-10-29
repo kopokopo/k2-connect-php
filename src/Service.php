@@ -27,7 +27,7 @@ abstract class Service
     {
         return [
             'status' => 'success',
-            'location' => $data->getHeaders()['Location'],
+            'location' => $data->getHeaders()['location'],
         ];
     }
 
