@@ -7,7 +7,6 @@ class CustomerCreatedData
     public function setData($result)
     {
         $data['id'] = $result['id'];
-        $data['resourceId'] = $result['resourceId'];
         $data['topic'] = $result['topic'];
         $data['createdAt'] = $result['created_at'];
 
@@ -17,7 +16,7 @@ class CustomerCreatedData
         $data['middleName'] = $result['event']['resource']['middle_name'];
         $data['lastName'] = $result['event']['resource']['last_name'];
 
-        $data['msisdn'] = $result['event']['resource']['msisdn'];
+        $data['phoneNumber'] = $result['event']['resource']['phone_number'];
 
         $data['linkSelf'] = $result['_links']['self'];
         $data['linkResource'] = $result['_links']['resource'];

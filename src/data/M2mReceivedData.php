@@ -7,13 +7,12 @@ class M2mReceivedData
     public function setData($result)
     {
         $data['id'] = $result['id'];
-        $data['resourceId'] = $result['resourceId'];
         $data['topic'] = $result['topic'];
         $data['createdAt'] = $result['created_at'];
 
         $data['eventType'] = $result['event']['type'];
 
-        $data['reference'] = $result['event']['resource']['reference'];
+        $data['resourceID'] = $result['event']['resource']['id'];
         $data['originationTime'] = $result['event']['resource']['origination_time'];
         $data['sendingMerchant'] = $result['event']['resource']['sending_merchant'];
         $data['amount'] = $result['event']['resource']['amount'];
