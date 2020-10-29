@@ -1,21 +1,20 @@
 {
-    "id": "cac95329-9fa5-42f1-a4fc-c08af7b868fb",
-    "resourceId": "cdb5f11f-62df-e611-80ee-0aa34a9b2388",
-    "topic": "transaction_received",
-    "created_at": "2017-01-20T22:45:12.790Z",
+    "topic": "m2m_transaction_received",
+    "id": "5fbbcfc3-5b06-485e-929c-066741f4b14d",
+    "created_at": "2020-10-29T08:37:31+03:00",
     "event": {
         "type": "Merchant to Merchant Transaction",
         "resource": {
-            "reference": "KKPPLLMMNN",
-            "origination_time": "2017-01-20T22:45:12.790Z",
-            "sending_merchant": "Kings Landing Enterprises",
-            "amount": 3000,
+            "id": "893ebbcfc3-e8993-485e-929c-066741f47847",
+            "amount": "456",
+            "status": "Received",
             "currency": "KES",
-            "status": "Received"
+            "origination_time": "2020-10-29T08:37:31+03:00",
+            "sending_merchant": "Jane Flowers"
         }
     },
     "_links": {
-        "self": "https://sandbox.kopokopo.com/events/cac95329-9fa5-42f1-a4fc-c08af7b868fb",
-        "resource": "https://sandbox.kopokopo.com/m2m_transaction/cdb5f11f-62df-e611-80ee-0aa34a9b2388"
+      "self": "https://sandbox.kopokopo.com/webhook_events/5fbbcfc3-5b06-485e-929c-066741f4b14d",
+      "resource": "https://sandbox.kopokopo.com/payment_batches/893ebbcfc3-e8993-485e-929c-066741f47847"
     }
-}
+  }

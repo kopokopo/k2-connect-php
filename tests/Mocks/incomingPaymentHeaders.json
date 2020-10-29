@@ -1,4 +1,4 @@
 {
-    "Location": "https://sandbox.kopokopo.com/incoming_payments/247b1bd8-f5a0-4b71-a898-f62f67b8ae1c",
+    "location": "https://sandbox.kopokopo.com/incoming_payments/247b1bd8-f5a0-4b71-a898-f62f67b8ae1c",
     "Content-Type" : "application/json"
 }

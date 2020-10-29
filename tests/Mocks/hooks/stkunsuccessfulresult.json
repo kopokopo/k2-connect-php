@@ -19,7 +19,7 @@
             },
             "_links": {
                 "callback_url": "https://webhook.site/675d4ef4-0629-481f-83cd-d101f55e4bc8",
-                "self": "http://localhost:3000/api/v1/incoming_payments/b01ac495-0969-4a7d-b35a-57ccbf541f1d"
+                "self": "http://app.kopokopo.com/api/v1/incoming_payments/b01ac495-0969-4a7d-b35a-57ccbf541f1d"
             }
         }
     }

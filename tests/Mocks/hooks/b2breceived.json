@@ -1,23 +1,23 @@
 {
-    "id": "cac95329-9fa5-42f1-a4fc-c08af7b868fb",
-    "resourceId": "cdb5f11f-62df-e611-80ee-0aa34a9b2388",
-    "topic": "transaction_received",
-    "created_at": "2017-01-20T22:45:12.790Z",
+    "topic": "b2b_transaction_received",
+    "id": "bcfb7175-bc7f-46e8-9727-eb46e6f88ef1",
+    "created_at": "2020-10-29T08:18:45+03:00",
     "event": {
         "type": "B2b Transaction",
         "resource": {
-            "reference": "KKPPLLMMNN",
-            "origination_time": "2017-01-20T22:45:12.790Z",
-            "sending_till": "119050",
-            "amount": 3000,
+            "id": "fbygwu7175-bc7f-46e8-9727-f88edyy",
+            "amount": "313",
+            "status": "Complete",
+            "system": "Lipa Na Mpesa",
             "currency": "KES",
-            "till_number": "111222",
-            "system": "Lipa Na M-PESA",
-            "status": "Received"
+            "reference": "OJQ8USH5XK",
+            "till_number": "461863",
+            "sending_till": "890642",
+            "origination_time": "2020-10-29T08:18:45+03:00"
         }
     },
     "_links": {
-        "self": "https://sandbox.kopokopo.com/events/cac95329-9fa5-42f1-a4fc-c08af7b868fb",
-        "resource": "https://sandbox.kopokopo.com/b2b_transaction/cdb5f11f-62df-e611-80ee-0aa34a9b2388"
+        "self": "https://sandbox.kopokopo.com/webhook_events/bcfb7175-bc7f-46e8-9727-eb46e6f88ef1",
+        "resource": "https://sandbox.kopokopo.com/financial_transaction/fbygwu7175-bc7f-46e8-9727-f88edyy"
     }
-}
+  }
