@@ -19,7 +19,7 @@ class AuthTest extends TestCase
 
     public function testAuth()
     {
-        $k2Sig = 'b3ffb46cb9960b7a8972be1107685e5512c9675e224d8f923eee163c085ad7d0';
+        $k2Sig = '751295a6998ec61c37a55ca3ae6f5ab5f674615dbee96dd0ee0763cfb04d7f5e';
 
         $reqBody = file_get_contents(__DIR__.'/Mocks/hooks/customercreated.json');
 

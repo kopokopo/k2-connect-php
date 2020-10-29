@@ -165,10 +165,10 @@ class WebhookTest extends TestCase
 
     public function testCustomerCreatedWebhookHandler()
     {
-        $k2Sig = 'b3ffb46cb9960b7a8972be1107685e5512c9675e224d8f923eee163c085ad7d0';
+        $k2Sig = 'da8d7406d7fec2736c34968a1636e5345a9482048b9a6a71d6f4a0d23467f7cf';
 
         $reqBody = file_get_contents(__DIR__.'/Mocks/hooks/customercreated.json');
-        $response = $this->client->webhookHandler($reqBody, $k2Sig);
+        $response = $this->client->webhookHandler($reqBody, $k2Sig, 'my_webhook_secret');
 
         $this->assertArraySubset(
             ['status' => 'success'],
