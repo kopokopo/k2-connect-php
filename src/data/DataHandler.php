@@ -36,5 +36,7 @@ class DataHandler
                 return CustomerCreatedData::setData($this->data);
                 break;
         }
+
+        return ResultDataHandler::sort($this->data['data']);
     }
 }

@@ -3,7 +3,7 @@
     "id": "98adf21e-5721-476a-8643-609b4a6513a2",
     "created_at": "2020-10-29T08:06:49+03:00",
     "event": {
-        "type": "Buygoods Transaction Reversed",
+        "type": "Buygoods Transaction",
         "resource": {
             "id": "86345adf21e-5721-476a-8643-609b4a863",
             "amount": "233",

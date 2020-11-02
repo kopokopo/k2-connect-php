@@ -2,7 +2,7 @@
 
 namespace Kopokopo\SDK\Data;
 
-class BuygoodsReceivedData
+class TransferCompletedData
 {
     public function setData($result)
     {

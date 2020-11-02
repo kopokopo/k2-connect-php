@@ -23,9 +23,9 @@ class BuygoodsReversedData
         $data['tillNumber'] = $result['event']['resource']['till_number'];
         $data['system'] = $result['event']['resource']['system'];
         $data['status'] = $result['event']['resource']['status'];
-        $data['firstName'] = $result['event']['resource']['sender_first_name'];
-        $data['middleName'] = $result['event']['resource']['sender_middle_name'];
-        $data['lastName'] = $result['event']['resource']['sender_last_name'];
+        $data['senderFirstName'] = $result['event']['resource']['sender_first_name'];
+        $data['senderMiddleName'] = $result['event']['resource']['sender_middle_name'];
+        $data['senderLastName'] = $result['event']['resource']['sender_last_name'];
 
         $data['linkSelf'] = $result['_links']['self'];
         $data['linkResource'] = $result['_links']['resource'];

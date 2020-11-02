@@ -6,8 +6,6 @@ class MerchantWalletData
 {
     public function setData($result)
     {
-        $result = $result['data'];
-
         $data['id'] = $result['id'];
         $data['type'] = $result['type'];
 

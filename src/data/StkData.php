@@ -6,8 +6,6 @@ class StkData
 {
     public function setData($result)
     {
-        $result = $result['data'];
-
         $data['id'] = $result['id'];
         $data['type'] = $result['type'];
 
@@ -36,10 +34,10 @@ class StkData
                 $data['currency'] = $result['attributes']['event']['resource']['currency'];
                 $data['tillNumber'] = $result['attributes']['event']['resource']['till_number'];
                 $data['system'] = $result['attributes']['event']['resource']['system'];
-                $data['status'] = $result['attributes']['event']['resource']['status'];
-                $data['firstName'] = $result['attributes']['event']['resource']['sender_first_name'];
-                $data['middleName'] = $result['attributes']['event']['resource']['sender_middle_name'];
-                $data['lastName'] = $result['attributes']['event']['resource']['sender_last_name'];
+                $data['resourceStatus'] = $result['attributes']['event']['resource']['status'];
+                $data['senderFirstName'] = $result['attributes']['event']['resource']['sender_first_name'];
+                $data['senderMiddleName'] = $result['attributes']['event']['resource']['sender_middle_name'];
+                $data['senderLastName'] = $result['attributes']['event']['resource']['sender_last_name'];
 
                 $data['errors'] = $result['attributes']['event']['errors'];
 
@@ -51,7 +49,7 @@ class StkData
         $data['metadata'] = $result['attributes']['metadata'];
 
         $data['linkSelf'] = $result['attributes']['_links']['self'];
-        $data['linkCallbackUrl'] = $result['attributes']['_links']['callback_url'];
+        $data['callbackUrl'] = $result['attributes']['_links']['callback_url'];
 
         return $data;
     }
