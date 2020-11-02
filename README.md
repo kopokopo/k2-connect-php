@@ -317,31 +317,31 @@ Note: The asynchronous results are processed like webhooks.
 - Transfer completed webhook
 
   - `id`
-  - `resourceId`
   - `topic`
   - `createdAt`
-  - `eventType`
-  - `reference`
-  - `originationTime`
-  - `transferTime`
-  - `transferType`
+  - `eventType`  
+  - `resourceId`
+  - `createdAt`
   - `amount`
   - `currency`
   - `status`
   - `linkSelf`
   - `linkResource`
+  - `destinationReference`
   - `destinationType`
   - if destination type is bank:
 
-    - `destinationMode`
-    - `destinationBank`
-    - `destinationBranch`
-    - `destinationAccountNumber`
+    - `settlementMethod`
+    - `bankBranchRef`
+    - `accountName`
+    - `accountNumber`
 
   - if destination type is mobile wallet:
 
-    - `destinationMsisdn`
-    - `destinationMmSystem`
+    - `firstName`
+    - `lastName`
+    - `phoneNumber`
+    - `network`
 
 - Customer created webhook
 
