@@ -254,9 +254,9 @@ Note: The asynchronous results are processed like webhooks.
   - `tillNumber`
   - `system`
   - `status`
-  - `firstName`
-  - `middleName`
-  - `lastName`
+  - `senderFirstName`
+  - `senderMiddleName`
+  - `senderLastName`
   - `linkSelf`
   - `linkResource`
 
@@ -308,9 +308,9 @@ Note: The asynchronous results are processed like webhooks.
   - `tillNumber`
   - `system`
   - `status`
-  - `firstName`
-  - `middleName`
-  - `lastName`
+  - `senderFirstName`
+  - `senderMiddleName`
+  - `senderLastName`
   - `linkSelf`
   - `linkResource`
 
@@ -358,15 +358,19 @@ Note: The asynchronous results are processed like webhooks.
 
 #### Results
 
-- Transfer result
+- Settlement Transfer result
 
   - `id`
-  - `topic`
+  - `type`
+  - `createdAt`
   - `status`
-  - `completedAt`
+  - `destinationType`
+  - `destinationReference`
   - `amount`
   - `currency`
+  - `metadata`
   - `linkSelf`
+  - `callbackUrl`
 
 - Pay result
 
@@ -385,6 +389,7 @@ Note: The asynchronous results are processed like webhooks.
   - Successful result
 
     - `id`
+    - `type`
     - `initiationTime`
     - `status`
     - `eventType`
@@ -396,18 +401,20 @@ Note: The asynchronous results are processed like webhooks.
     - `currency`
     - `tillNumber`
     - `system`
-    - `firstName`
-    - `middleName`
-    - `lastName`
+    - `senderFirstName`
+    - `senderMiddleName`
+    - `senderLastName`
+    - `resourceStatus`
     - `errors`
     - `metadata`
     - `linkResource`
     - `linkSelf`    
-    - `linkCallbackUrl`
+    - `callbackUrl`
 
   - Unsuccessful result
 
     - `id`
+    - `type`
     - `initiationTime`
     - `status`
     - `eventType`
@@ -416,7 +423,7 @@ Note: The asynchronous results are processed like webhooks.
     - `errorsDescription`
     - `metadata`
     - `linkSelf`
-    - `linkCallbackUrl`
+    - `callbackUrl`
 
 #### Status Payloads
 
@@ -449,6 +456,9 @@ Note: The asynchronous results are processed like webhooks.
   - `network`
   - `status`
   - `accountReference`
+
+- Settlement Transfer Status
+  - This payload is similar to `SettlementTransferResult` payload
 
 - Pay Recipient Status
   - `id`
@@ -485,11 +495,12 @@ Note: The asynchronous results are processed like webhooks.
 - Stk Push Status
 
   - Successful request
-    This payload is simialr to the successful result
+    - This payload is simialr to the successful result
   - Failed request
-    This payload is similar to failed result
+    - This payload is similar to failed result
   - Pending request
     - `id`
+    - `type`
     - `initiationTime`
     - `status`
     - `eventType`
@@ -497,7 +508,7 @@ Note: The asynchronous results are processed like webhooks.
     - `errors`
     - `metadata`
     - `linkSelf`
-    - `linkCallbackUrl`
+    - `callbackUrl`
 
 
 For more information on the expected payloads and error codes, please read the [api docs](https://api-docs.kopokopo.com)
