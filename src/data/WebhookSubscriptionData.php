@@ -12,7 +12,6 @@ class WebhookSubscriptionData
         $data['eventType'] = $result['attributes']['event_type'];
         $data['webhookUri'] = $result['attributes']['webhook_uri'];
 
-        $data['secret'] = $result['attributes']['secret'];
         $data['status'] = $result['attributes']['status'];
         $data['scope'] = $result['attributes']['scope'];
         $data['scopeReference'] = $result['attributes']['scope_reference'];

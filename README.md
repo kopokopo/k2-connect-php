@@ -98,7 +98,6 @@ $webhooks = $K2->Webhooks();
 $response = $webhooks->subscribe([
     'eventType' => 'buygoods_transaction_received',
     'url' => 'http://localhost:8000/webhook',
-    'webhookSecret' => 'my_webhook_secret',
     'accessToken' => 'my_access_token'
 ]);
 
@@ -321,7 +320,7 @@ Note: The asynchronous results are processed like webhooks.
   - `createdAt`
   - `eventType`  
   - `resourceId`
-  - `createdAt`
+  - `originationTime`
   - `amount`
   - `currency`
   - `status`
@@ -432,7 +431,6 @@ Note: The asynchronous results are processed like webhooks.
   - `type`
   - `eventType`
   - `webhookUri`
-  - `secret`
   - `status`
   - `scope`
   - `scopeReference`
