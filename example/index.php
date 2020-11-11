@@ -77,7 +77,6 @@ $router->map('POST', '/webhook/subscribe', function () {
     $options = array(
         'eventType' => $_POST['eventType'],
         'url' => $_POST['url'],
-        'webhookSecret' => 'my_webhook_secret',
         'scope' => 'company',
         'scopeReference' => '4',
         'accessToken' => $access_token,

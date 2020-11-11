@@ -14,7 +14,7 @@ class TransferCompletedData
         $data['eventType'] = $result['event']['type'];
 
         $data['resourceId'] = $result['event']['resource']['id'];
-        $data['createdAt'] = $result['event']['resource']['createdAt'];
+        $data['originationTime'] = $result['event']['resource']['origination_time'];
         $data['amount'] = $result['event']['resource']['amount'];
         $data['currency'] = $result['event']['resource']['currency'];
         $data['status'] = $result['event']['resource']['status'];
@@ -26,7 +26,7 @@ class TransferCompletedData
         switch ($result['event']['resource']['destination']['type']) {
             case 'Bank Account':
                 $data['settlementMethod'] = $result['event']['resource']['destination']['settlement_method'];
-                $data['bankBranchref'] = $result['event']['resource']['destination']['bank_branch_ref'];
+                $data['bankBranchRef'] = $result['event']['resource']['destination']['bank_branch_ref'];
                 $data['accountName'] = $result['event']['resource']['destination']['account_name'];
                 $data['accountNumber'] = $result['event']['resource']['destination']['account_number'];
 
