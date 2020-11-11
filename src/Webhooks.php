@@ -11,7 +11,7 @@ use InvalidArgumentException;
 
 class Webhooks extends Service
 {
-    public function webhookHandler($details, $signature, $secret)
+    public function webhookHandler($details, $signature)
     {
         if (empty($details) || empty($signature)) {
             return $this->error('Pass the payload and signature ');
@@ -19,7 +19,7 @@ class Webhooks extends Service
 
         $auth = new Auth();
 
-        $statusCode = $auth->auth($details, $signature, $secret);
+        $statusCode = $auth->auth($details, $signature, $this->apiKey);
 
         if ($statusCode == 200) {
             $dataHandler = new DataHandler(json_decode($details, true));

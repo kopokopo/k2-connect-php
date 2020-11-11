@@ -8,11 +8,12 @@ abstract class Service
     protected $clientId;
     protected $clientSecret;
 
-    public function __construct($client, $clientId, $clientSecret)
+    public function __construct($client, $options)
     {
         $this->client = $client;
-        $this->clientId = $clientId;
-        $this->clientSecret = $clientSecret;
+        $this->clientId = $options['clientId'];
+        $this->clientSecret = $options['clientSecret'];
+        $this->apiKey = $options['apiKey'];
     }
 
     protected static function error($data)

@@ -26,11 +26,15 @@ The package should be configured with your client id and client secret which you
 //Including the kopokopo sdk
 use Kopokopo\SDK\K2;
 
-$clientId = 'YOUR_CLIENT_ID'; // do not hard code this value
-$clientSecret = 'YOUR_CLIENT_SECRET'; // do not hard code this value
-$baseUrl = 'https://kopokopo.com'; // or https://sandbox.kopokopo.com
+// do not hard code these values
+$options = [
+    'clientId' => 'YOUR_CLIENT_ID', 
+    'clientSecret' => 'YOUR_CLIENT_SECRET',
+    'apiKey' => 'YOUR_API_KEY',
+    'baseUrl' => 'https://sandbox.kopokopo.com'
+];
 
-$K2 = new K2($clientId, $clientSecret, $baseUrl);
+$K2 = new K2($options);
 ```
 
 ### After initialization, you can get instances of offered services as follows:
@@ -52,11 +56,15 @@ This will return an `access_token` and `expires_in` values
 ```php
 use Kopokopo\SDK\K2;
 
-$clientId = 'YOUR_CLIENT_ID'; // do not hard code this value
-$clientSecret = 'YOUR_CLIENT_SECRET'; // do not hard code this value
-$baseUrl = 'https://kopokopo.com'; // or https://sandbox.kopokopo.com
+// Do not hard code these values
+$options = [
+  'clientId' => 'YOUR_CLIENT_ID', 
+  'clientSecret' => 'YOUR_CLIENT_SECRET',
+  'apiKey' => 'YOUR_API_KEY',
+  'baseUrl' => 'https://sandbox.kopokopo.com'
+];
 
-$K2 = new K2($clientId, $clientSecret, $baseUrl);
+$K2 = new K2($options);
 
 // Get one of the services
 $tokens = $K2->TokenService();

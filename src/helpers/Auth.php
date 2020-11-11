@@ -8,9 +8,9 @@ require 'vendor/autoload.php';
 
 class Auth
 {
-    public function auth($details, $signature, $secret)
+    public function auth($details, $signature, $apiKey)
     {
-        $expectedSignature = hash_hmac('sha256', $details, $secret);
+        $expectedSignature = hash_hmac('sha256', $details, $apiKey);
 
         if (hash_equals($signature, $expectedSignature)) {
             return 200;

@@ -17,8 +17,12 @@ class TokenServiceTest extends TestCase
 {
     public function setup()
     {
-        $this->clientId = 'your_client_id';
-        $this->clientSecret = '10af7ad062a21d9c841877f87b7dec3dbe51aeb3';
+        $options = [
+            'clientId' => 'your_client_id',
+            'clientSecret' => 'your_client_secret',
+            'apiKey' => 'your_api_key',
+            'baseUrl' => 'https://9284bede-d6e9f8d86aff.mock.pstmn.io'
+        ];
 
         /*
         *    getToken() setup
@@ -40,7 +44,7 @@ class TokenServiceTest extends TestCase
         $tokenRequestClient = new Client(['handler' => $tokenRequestHandler]);
 
         // Use $tokenRequestClient to create an instance of the TokenService() class
-        $this->tokenRequestClient = new TokenService($tokenRequestClient, $this->clientId, $this->clientSecret);
+        $this->tokenRequestClient = new TokenService($tokenRequestClient, $options);
     }
 
     public function testGetTokenSucceeds()

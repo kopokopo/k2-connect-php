@@ -17,8 +17,12 @@ class PayServiceTest extends TestCase
 {
     public function setup()
     {
-        $this->clientId = 'your_client_id';
-        $this->clientSecret = '10af7ad062a21d9c841877f87b7dec3dbe51aeb3';
+        $options = [
+            'clientId' => 'your_client_id',
+            'clientSecret' => 'your_client_secret',
+            'apiKey' => 'your_api_key',
+            'baseUrl' => 'https://9284bede-d6e9f8d86aff.mock.pstmn.io'
+        ];
 
         /*
         *    addPayRecipient() setup
@@ -40,7 +44,7 @@ class PayServiceTest extends TestCase
         $payRecipientClient = new Client(['handler' => $payRecipientHandler]);
 
         // Use $payRecipientClient to create an instance of the PayService() class
-        $this->payRecipientClient = new PayService($payRecipientClient, $this->clientId, $this->clientSecret);
+        $this->payRecipientClient = new PayService($payRecipientClient, $options);
 
         /*
         *    sendPay() setup
@@ -62,7 +66,7 @@ class PayServiceTest extends TestCase
         $sendPayClient = new Client(['handler' => $sendPayHandler]);
 
         // Use $sendPayClient to create an instance of the PayService() class
-        $this->sendPayClient = new PayService($sendPayClient, $this->clientId, $this->clientSecret);
+        $this->sendPayClient = new PayService($sendPayClient, $options);
 
         /*
         *    payStatus() setup
@@ -84,7 +88,7 @@ class PayServiceTest extends TestCase
         $statusClient = new Client(['handler' => $statusHandler]);
 
         // Use $statusClient to create an instance of the PayService() class
-        $this->statusClient = new PayService($statusClient, $this->clientId, $this->clientSecret);
+        $this->statusClient = new PayService($statusClient, $options);
     }
 
     /*
@@ -525,7 +529,7 @@ class PayServiceTest extends TestCase
         $this->assertArraySubset(
             ['status' => 'success'],
             $this->statusClient->payStatus([
-                'location' => 'my_request_id',
+                'location' => 'http://localhost:3000/payments/c7f300c0-f1ef-4151-9bbe-005005aa3747',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
@@ -546,7 +550,7 @@ class PayServiceTest extends TestCase
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
             $this->statusClient->payStatus([
-                'location' => 'my_request_id',
+                'location' => 'http://localhost:3000/payments/c7f300c0-f1ef-4151-9bbe-005005aa3747',
             ])
         );
     }

@@ -4,11 +4,14 @@ require 'vendor/autoload.php';
 
 use Kopokopo\SDK\K2;
 
-$K2_CLIENT_ID = 'onDPKB6ZY_KT4hrUnsWJEuCXW3VvGHnI_XZv5dmsxPQ';
-$K2_CLIENT_SECRET = 'A1Wqj1_9KKAn1oAa3G9eCkqXwzM0GT9BgEMsjiXq0Zc';
-$BASE_URL = 'http://localhost:3000';
+$options = [
+    'clientId' => 'onDPKB6ZY_KT4hrUnsWJEuCXW3VvGHnI_XZv5dmsxPQ',
+    'clientSecret' => 'A1Wqj1_9KKAn1oAa3G9eCkqXwzM0GT9BgEMsjiXq0Zc',
+    'apiKey' => 'A1Wqj1_9KKAn1oAa3G9eCkqXwzM0GT9BgEMsjiXq0Zc',
+    'baseUrl' => 'http://localhost:3000'
+];
 
-$K2 = new K2($K2_CLIENT_ID, $K2_CLIENT_SECRET, $BASE_URL);
+$K2 = new K2($options);
 
 $router = new AltoRouter();
 

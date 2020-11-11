@@ -11,11 +11,14 @@ class K2Test extends TestCase
 {
     public function setup()
     {
-        $this->clientId = 'your_client_id';
-        $this->clientSecret = 'your_client_secret';
-        $this->baseUrl = 'https://9284bede-d6e9f8d86aff.mock.pstmn.io';
+        $options = [
+            'clientId' => 'your_client_id',
+            'clientSecret' => 'your_client_secret',
+            'apiKey' => 'your_api_key',
+            'baseUrl' => 'https://9284bede-d6e9f8d86aff.mock.pstmn.io'
+        ];
 
-        $this->client = new K2($this->clientId, $this->clientSecret, $this->baseUrl);
+        $this->client = new K2($options);
     }
 
     public function testTokenServiceClassInitialised()

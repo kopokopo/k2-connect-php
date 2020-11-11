@@ -18,11 +18,14 @@ class WebhookTest extends TestCase
 {
     public function setup()
     {
-        $this->clientId = 'your_client_id';
-        $this->clientSecret = '10af7ad062a21d9c841877f87b7dec3dbe51aeb3';
-        $this->baseUrl = 'https://9284bede-3488-4b2b-a1e8-d6e9f8d86aff.mock.pstmn.io';
+        $options = [
+            'clientId' => 'your_client_id',
+            'clientSecret' => 'your_client_secret',
+            'apiKey' => 'your_api_key',
+            'baseUrl' => 'https://9284bede-d6e9f8d86aff.mock.pstmn.io'
+        ];
 
-        $k2 = new K2($this->clientId, $this->clientSecret, $this->baseUrl);
+        $k2 = new K2($options);
         $this->client = $k2->Webhooks();
 
         /*
@@ -45,7 +48,7 @@ class WebhookTest extends TestCase
         $subscribeClient = new Client(['handler' => $subscribeHandler]);
 
         // Use $subscribeClient to create an instance of the Webhooks() class
-        $this->subscribeClient = new Webhooks($subscribeClient, $this->clientId, $this->clientSecret);
+        $this->subscribeClient = new Webhooks($subscribeClient, $options);
     }
 
     /*
@@ -145,7 +148,7 @@ class WebhookTest extends TestCase
 
     public function testCustomerCreatedWebhookHandler()
     {
-        $k2Sig = 'da8d7406d7fec2736c34968a1636e5345a9482048b9a6a71d6f4a0d23467f7cf';
+        $k2Sig = 'bceb46746ffde7b5681446567a9eb1e8447c19bddaf61a1c82b2090710955e74';
 
         $reqBody = file_get_contents(__DIR__.'/Mocks/hooks/customercreated.json');
         $response = $this->client->webhookHandler($reqBody, $k2Sig, 'my_webhook_secret');

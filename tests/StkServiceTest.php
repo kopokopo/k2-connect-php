@@ -17,8 +17,12 @@ class StkServiceTest extends TestCase
 {
     public function setup()
     {
-        $this->clientId = 'your_client_id';
-        $this->clientSecret = '10af7ad062a21d9c841877f87b7dec3dbe51aeb3';
+        $options = [
+            'clientId' => 'your_client_id',
+            'clientSecret' => 'your_client_secret',
+            'apiKey' => 'your_api_key',
+            'baseUrl' => 'https://9284bede-d6e9f8d86aff.mock.pstmn.io'
+        ];
 
         /*
         *    initiateIncomingPayment() setup
@@ -40,7 +44,7 @@ class StkServiceTest extends TestCase
         $incomingPaymentRequestClient = new Client(['handler' => $incomingPaymentRequestHandler]);
 
         // Use $incomingPaymentRequestClient to create an instance of the StkService() class
-        $this->incomingPaymentRequestClient = new StkService($incomingPaymentRequestClient, $this->clientId, $this->clientSecret);
+        $this->incomingPaymentRequestClient = new StkService($incomingPaymentRequestClient, $options);
 
         /*
         *    incomingPaymentRequestStatus() setup
@@ -62,7 +66,7 @@ class StkServiceTest extends TestCase
         $statusClient = new Client(['handler' => $statusHandler]);
 
         // Use the $statusClient to create an instance of the StkService() class
-        $this->statusClient = new StkService($statusClient, $this->clientId, $this->clientSecret);
+        $this->statusClient = new StkService($statusClient, $options);
     }
 
     /*

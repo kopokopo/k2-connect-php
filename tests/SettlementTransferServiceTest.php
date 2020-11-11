@@ -17,8 +17,12 @@ class SettlementTransferServiceTest extends TestCase
 {
     public function setup()
     {
-        $this->clientId = 'your_client_id';
-        $this->clientSecret = '10af7ad062a21d9c841877f87b7dec3dbe51aeb3';
+        $options = [
+            'clientId' => 'your_client_id',
+            'clientSecret' => 'your_client_secret',
+            'apiKey' => 'your_api_key',
+            'baseUrl' => 'https://9284bede-d6e9f8d86aff.mock.pstmn.io'
+        ];
 
         /*
         *    createMerchantBankAccount() setup
@@ -40,7 +44,7 @@ class SettlementTransferServiceTest extends TestCase
         $merchantBankAccountClient = new Client(['handler' => $merchantBankAccountHandler]);
 
         // Use $merchantBankAccountClient to create an instance of the SettlementTransferService() class
-        $this->merchantBankAccountClient = new SettlementTransferService($merchantBankAccountClient, $this->clientId, $this->clientSecret);
+        $this->merchantBankAccountClient = new SettlementTransferService($merchantBankAccountClient, $options);
 
         /*
         *    createMerchantWallet() setup
@@ -62,7 +66,7 @@ class SettlementTransferServiceTest extends TestCase
         $merchantWalletClient = new Client(['handler' => $merchantWalletHandler]);
 
         // Use $merchantWalletClient to create an instance of the SetttlementTransferService() class
-        $this->merchantWalletClient = new SettlementTransferService($merchantWalletClient, $this->clientId, $this->clientSecret);
+        $this->merchantWalletClient = new SettlementTransferService($merchantWalletClient, $options);
 
         /*
         *    settleFunds() setup
@@ -84,7 +88,7 @@ class SettlementTransferServiceTest extends TestCase
         $settleFundsClient = new Client(['handler' => $settleFundsHandler]);
 
         // Use $settleFundsClient to create an instance of the SettlementTransferService() class
-        $this->settleFundsClient = new SettlementTransferService($settleFundsClient, $this->clientId, $this->clientSecret);
+        $this->settleFundsClient = new SettlementTransferService($settleFundsClient, $options);
 
         /*
         *    settlementStatus() setup
@@ -106,7 +110,7 @@ class SettlementTransferServiceTest extends TestCase
         $statusClient = new Client(['handler' => $statusHandler]);
 
         // Use$statusClient to create an instance of the SettlementTransferService() class
-        $this->statusClient = new SettlementTransferService($statusClient, $this->clientId, $this->clientSecret);
+        $this->statusClient = new SettlementTransferService($statusClient, $options);
     }
 
     /*
