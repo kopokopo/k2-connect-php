@@ -48,7 +48,7 @@ class SettlementTransferService extends Service
         }
     }
 
-    public function settlementStatus($options)
+    public function getStatus($options)
     {
         $settlementStatus = new StatusRequest($options);
         try {

@@ -12,6 +12,9 @@ use Kopokopo\SDK\Requests\PayRequest;
 use Kopokopo\SDK\Requests\StatusRequest;
 use Exception;
 
+use GuzzleHttp\Client;
+
+
 class PayService extends Service
 {
     public function addPayRecipient($options)
@@ -51,7 +54,7 @@ class PayService extends Service
         }
     }
 
-    public function payStatus($options)
+    public function getStatus($options)
     {
         $payStatus = new StatusRequest($options);
         try {

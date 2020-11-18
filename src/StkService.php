@@ -22,7 +22,7 @@ class StkService extends Service
         }
     }
 
-    public function incomingPaymentRequestStatus($options)
+    public function getStatus($options)
     {
         $stkStatus = new StatusRequest($options);
         try {

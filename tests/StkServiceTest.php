@@ -47,13 +47,13 @@ class StkServiceTest extends TestCase
         $this->incomingPaymentRequestClient = new StkService($incomingPaymentRequestClient, $options);
 
         /*
-        *    incomingPaymentRequestStatus() setup
+        *    getStatus() setup
         */
 
         // json response to be returned
         $statusBody = file_get_contents(__DIR__.'/Mocks/stk-status.json');
 
-        // Create an instance of MockHandler for returning responses for incomingPaymentRequestStatus()
+        // Create an instance of MockHandler for returning responses for getStatus()
         $statusMock = new MockHandler([
             new Response(200, [], $statusBody),
             new RequestException('Error Communicating with Server', new Request('GET', 'test')),
@@ -62,7 +62,7 @@ class StkServiceTest extends TestCase
         // Assign the instance of MockHandler to a HandlerStack
         $statusHandler = HandlerStack::create($statusMock);
 
-        // Create a new instance of client using the incomingPaymentRequestStatus() handler
+        // Create a new instance of client using the getStatus() handler
         $statusClient = new Client(['handler' => $statusHandler]);
 
         // Use the $statusClient to create an instance of the StkService() class
@@ -301,33 +301,33 @@ class StkServiceTest extends TestCase
     *   Payment Request status tests
     */
 
-    public function testIncomingPaymentRequestStatusSucceeds()
+    public function testGetStatusSucceeds()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
-            $this->statusClient->incomingPaymentRequestStatus([
-                'location' => 'my_request_id',
+            $this->statusClient->getStatus([
+                'location' => 'http://localhost:3000/incoming_payments/c7f300c0-f1ef-4151-9bbe-005005aa3747',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
     }
 
-    public function testIncomingPaymentRequestStatusWithNoLocationFails()
+    public function testGetStatusWithNoLocationFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the location'],
-            $this->statusClient->incomingPaymentRequestStatus([
+            $this->statusClient->getStatus([
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
     }
 
-    public function testIncomingPaymentRequestStatusWithNoAccessTokenFails()
+    public function testGetStatusWithNoAccessTokenFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
-            $this->statusClient->incomingPaymentRequestStatus([
-                'location' => 'my_request_id',
+            $this->statusClient->getStatus([
+                'location' => 'http://localhost:3000/incoming_payments/c7f300c0-f1ef-4151-9bbe-005005aa3747',
             ])
         );
     }

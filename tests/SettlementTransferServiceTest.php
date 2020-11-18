@@ -91,13 +91,13 @@ class SettlementTransferServiceTest extends TestCase
         $this->settleFundsClient = new SettlementTransferService($settleFundsClient, $options);
 
         /*
-        *    settlementStatus() setup
+        *    getStatus() setup
         */
 
         // json response to be returned
         $statusBody = file_get_contents(__DIR__.'/Mocks/transfer-status.json');
 
-        // Create an instance of MockHandler for returning responses for settlementStatus()
+        // Create an instance of MockHandler for returning responses for getStatus()
         $statusMock = new MockHandler([
             new Response(200, [], $statusBody),
             new RequestException('Error Communicating with Server', new Request('GET', 'test')),
@@ -106,7 +106,7 @@ class SettlementTransferServiceTest extends TestCase
         // Assign the instance of MockHandler to a HandlerStack
         $statusHandler = HandlerStack::create($statusMock);
 
-        // Create a new instance of client using the settlementStatus() handler
+        // Create a new instance of client using the getStatus() handler
         $statusClient = new Client(['handler' => $statusHandler]);
 
         // Use$statusClient to create an instance of the SettlementTransferService() class
@@ -282,32 +282,32 @@ class SettlementTransferServiceTest extends TestCase
     *   Settlement Status tests
     */
 
-    public function testSettlementStatusSucceeds()
+    public function testGetStatusSucceeds()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
-            $this->statusClient->settlementStatus([
+            $this->statusClient->getStatus([
                 'location' => 'my_request_id',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
     }
 
-    public function testSettlementStatusWithNoLocationFails()
+    public function testGetStatusWithNoLocationFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the location'],
-            $this->statusClient->settlementStatus([
+            $this->statusClient->getStatus([
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
     }
 
-    public function testSettlementStatusWithNoAccessTokenFails()
+    public function testGetStatusWithNoAccessTokenFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
-            $this->statusClient->settlementStatus([
+            $this->statusClient->getStatus([
                 'location' => 'my_request_id',
             ])
         );

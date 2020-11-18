@@ -69,13 +69,13 @@ class PayServiceTest extends TestCase
         $this->sendPayClient = new PayService($sendPayClient, $options);
 
         /*
-        *    payStatus() setup
+        *    getStatus() setup
         */
 
         // json response to be returned
         $statusBody = file_get_contents(__DIR__.'/Mocks/pay-status.json');
 
-        // Create an instance of MockHandler for returning responses for payStatus()
+        // Create an instance of MockHandler for returning responses for getStatus()
         $statusMock = new MockHandler([
             new Response(200, [], $statusBody),
             new RequestException('Error Communicating with Server', new Request('GET', 'test')),
@@ -84,7 +84,7 @@ class PayServiceTest extends TestCase
         // Assign the instance of MockHandler to a HandlerStack
         $statusHandler = HandlerStack::create($statusMock);
 
-        // Create a new instance of client using the payStatus() handler
+        // Create a new instance of client using the getStatus() handler
         $statusClient = new Client(['handler' => $statusHandler]);
 
         // Use $statusClient to create an instance of the PayService() class
@@ -524,32 +524,32 @@ class PayServiceTest extends TestCase
     *  Pay status tests
     */
 
-    public function testPayStatus()
+    public function testGetStatus()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
-            $this->statusClient->payStatus([
+            $this->statusClient->getStatus([
                 'location' => 'http://localhost:3000/payments/c7f300c0-f1ef-4151-9bbe-005005aa3747',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
     }
 
-    public function testPayStatusWithNoLocationFails()
+    public function testGetStatusWithNoLocationFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the location'],
-            $this->statusClient->payStatus([
+            $this->statusClient->getStatus([
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
     }
 
-    public function testPayStatusWithNoAccessTokenFails()
+    public function testGetStatusWithNoAccessTokenFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
-            $this->statusClient->payStatus([
+            $this->statusClient->getStatus([
                 'location' => 'http://localhost:3000/payments/c7f300c0-f1ef-4151-9bbe-005005aa3747',
             ])
         );

@@ -2,6 +2,10 @@
 
 namespace Kopokopo\SDK;
 
+use Kopokopo\SDK\Requests\StatusRequest;
+use GuzzleHttp\Client;
+use Exception;
+
 abstract class Service
 {
     protected $client;
@@ -46,5 +50,22 @@ abstract class Service
             'status' => 'success',
             'data' => $data,
         ];
+    }
+
+    public function getStatus($options)
+    {
+        try {
+            $payStatus = new StatusRequest($options);
+
+            $client = new Client();
+
+            $requ = $client->get($payStatus->getLocation(), ['headers' => $payStatus->getHeaders()]);
+
+            $response = $requ->send();
+
+            return $this->success($response);
+        } catch (Exception $e) {
+            return $this->error($e->getMessage());
+        }
     }
 }
