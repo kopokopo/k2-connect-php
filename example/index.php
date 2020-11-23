@@ -100,7 +100,7 @@ $router->map('POST', '/stk', function () {
 
     $options = [
         'paymentChannel' => 'M-PESA STK Push',
-        'shortCode' => '514459',
+        'tillNumber' => '514459',
         'firstName' => $_POST['firstName'],
         'lastName' => $_POST['lastName'],
         'phoneNumber' => $_POST['phoneNumber'],

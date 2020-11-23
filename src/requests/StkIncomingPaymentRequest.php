@@ -9,9 +9,9 @@ class StkIncomingPaymentRequest extends BaseRequest
         return $this->getRequestData('paymentChannel');
     }
 
-    public function getShortCode()
+    public function getTillNumber()
     {
-        return $this->getRequestData('shortCode');
+        return $this->getRequestData('tillNumber');
     }
 
     public function getFirstName()
@@ -70,7 +70,7 @@ class StkIncomingPaymentRequest extends BaseRequest
     {
         return [
             'payment_channel' => $this->getChannel(),
-            'short_code' => $this->getShortCode(),
+            'till_number' => $this->getTillNumber(),
             'subscriber' => [
                 'first_name' => $this->getFirstName(),
                 'last_name' => $this->getLastName(),
