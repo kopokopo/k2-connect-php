@@ -118,7 +118,7 @@ print_r($response);
 $stk = $K2->StkService();
 $result = $stk->initiateIncomingPayment([
                 'paymentChannel' => 'M-PESA STK Push',
-                'shortCode' => '13432',
+                'tillNumber' => '13432',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
                 'phoneNumber' => '0712345678',
@@ -148,7 +148,7 @@ NB: The access token is required to send subsequent requests
 
 - `$StkService->initiateIncomingPayment([ stkOptions ])`: `stkOptions`: An array of arrays containing the following keys:
 
-  - `shortCode`: Your online payments short code from Kopo Kopo's Dashboard `REQUIRED`
+  - `tillNumber`: Your online payments short code from Kopo Kopo's Dashboard `REQUIRED`
   - `firstName`: Customer's first name `REQUIRED`
   - `lastName`: Customer's last name `REQUIRED`
   - `phoneNumber`: Phone number to pull money from. `REQUIRED`
@@ -160,7 +160,7 @@ NB: The access token is required to send subsequent requests
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
   - `metadata`: It is a hash containing a maximum of 5 key value pairs
 
-- `$StkService->incomingPaymentRequestStatus([location ])`:
+- `$StkService->getStatus([location ])`:
 
   - `location`: The request location you get when you send a request
 
@@ -200,7 +200,7 @@ For more information, please read <https://api-docs.kopokopo.com/#receive-paymen
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
   - `metadata`: It is a hash containing a maximum of 5 key value pairs
 
-- `PayService->payStatus([ location ])`:
+- `PayService->getStatus([ location ])`:
 
   - `location`: The request location you get when you send a request
 
@@ -230,7 +230,7 @@ For more information, please read <https://api-docs.kopokopo.com/#send-money-pay
   - `amount`: Amount to settle. `REQUIRED FOR A TARGETED TRANSFER` PS: If not included the whole balance will be settled.
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
 
-- `TransferService->settlementStatus([ location ])`:
+- `TransferService->getStatus([ location ])`:
 
   - `location`: The request location you get when you send a request
 
