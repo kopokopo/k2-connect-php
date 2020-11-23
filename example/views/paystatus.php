@@ -17,7 +17,7 @@ $K2 = new K2($K2_CLIENT_ID, $K2_CLIENT_SECRET);
 
 $pay = $K2->PayService();
 
-$response = $pay->payStatus([
+$response = $pay->getStatus([
     'location' => 'my_request_id',
     'accessToken' => 'myRand0mAcc3ssT0k3n', ]);
 

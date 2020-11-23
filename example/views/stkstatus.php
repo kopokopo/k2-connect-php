@@ -16,7 +16,7 @@ $K2 = new K2($K2_CLIENT_ID, $K2_CLIENT_SECRET);
 
 $stk = $K2->StkService();
 
-$response = $stk->incomingPaymentRequestStatus([
+$response = $stk->getStatus([
     'location' => 'my_request_id',
     'accessToken' => 'myRand0mAcc3ssT0k3n', ]);
 
