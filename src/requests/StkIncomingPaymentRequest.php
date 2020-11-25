@@ -16,11 +16,18 @@ class StkIncomingPaymentRequest extends BaseRequest
 
     public function getFirstName()
     {
+        if (!isset($this->data['firstName'])) {
+            return null;
+        }
         return $this->getRequestData('firstName');
     }
 
     public function getLastName()
     {
+        if (!isset($this->data['lastName'])) {
+            return null;
+        }
+
         return $this->getRequestData('lastName');
     }
 

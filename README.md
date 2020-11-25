@@ -149,8 +149,8 @@ NB: The access token is required to send subsequent requests
 - `$StkService->initiateIncomingPayment([ stkOptions ])`: `stkOptions`: An array of arrays containing the following keys:
 
   - `tillNumber`: Your online payments short code from Kopo Kopo's Dashboard `REQUIRED`
-  - `firstName`: Customer's first name `REQUIRED`
-  - `lastName`: Customer's last name `REQUIRED`
+  - `firstName`: Customer's first name
+  - `lastName`: Customer's last name
   - `phoneNumber`: Phone number to pull money from. `REQUIRED`
   - `email`: Customer's email address
   - `currency`: 3-digit ISO format currency code. `REQUIRED`

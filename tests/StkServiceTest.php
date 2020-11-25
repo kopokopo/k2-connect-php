@@ -92,42 +92,6 @@ class StkServiceTest extends TestCase
         );
     }
 
-    public function testIncomingPaymentRequestWithNoFirstNameFails()
-    {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the firstName'],
-            $this->incomingPaymentRequestClient->initiateIncomingPayment([
-                'paymentChannel' => 'M-PESA',
-                'tillNumber' => '13432',
-                'lastName' => 'Doe',
-                'phoneNumber' => '+254712345678',
-                'amount' => 3455,
-                'currency' => 'KES',
-                'email' => 'example@example.com',
-                'callbackUrl' => 'http://localhost:8000/test',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
-    }
-
-    public function testIncomingPaymentRequestWithNoLastNameFails()
-    {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the lastName'],
-            $this->incomingPaymentRequestClient->initiateIncomingPayment([
-                'paymentChannel' => 'M-PESA',
-                'tillNumber' => '13432',
-                'firstName' => 'Jane',
-                'phoneNumber' => '+254712345678',
-                'amount' => 3455,
-                'currency' => 'KES',
-                'email' => 'example@example.com',
-                'callbackUrl' => 'http://localhost:8000/test',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
-    }
-
     public function testIncomingPaymentRequestWithNoPhoneFails()
     {
         $this->assertArraySubset(
