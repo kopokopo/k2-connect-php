@@ -11,7 +11,6 @@
                 "currency": "KES",
                 "value": "100"
             },
-            "metadata": null,
             "_links": {
                 "callback_url": "https://your-call-bak.yourapplication.com/payment_result",
                 "self": "https://app.kopokopo.com/api/v1/settlement_transfers/48674c51-2546-4844-adc8-d1a267fcbc58"
