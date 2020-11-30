@@ -375,7 +375,6 @@ Note: The asynchronous results are processed like webhooks.
   - `destinationReference`
   - `amount`
   - `currency`
-  - `metadata`
   - `linkSelf`
   - `callbackUrl`
 

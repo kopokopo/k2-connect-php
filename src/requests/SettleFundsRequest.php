@@ -39,15 +39,6 @@ class SettleFundsRequest extends BaseRequest
         return $this->getRequestData('destinationType');
     }
 
-    public function getMetadata()
-    {
-        if (!isset($this->data['metadata'])) {
-            return null;
-        }
-
-        return $this->getRequestData('metadata');
-    }
-
     public function getSettleFundsBody()
     {
         return [
@@ -57,7 +48,6 @@ class SettleFundsRequest extends BaseRequest
             ],
             'destination_reference' => $this->getDestinationRef(),
             'destination_type' => $this->getDestinationType(),
-            'metadata' => $this->getMetadata(),
         ];
     }
 }
