@@ -3,10 +3,12 @@
     "description": "Kopokopo's php SDK",
     "type": "library",
     "require": {
-        "guzzlehttp/guzzle": "^7.0.1"
+        "guzzlehttp/guzzle": "^7.0.1",
+        "symfony/dotenv": "^5.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.3.3"
+        "phpunit/phpunit": "^9.3.3",
+        "orchestra/canvas": "^6.1"
     },
     "authors": [
         {
@@ -19,8 +21,23 @@
             "Kopokopo\\SDK\\": "src/",
             "Kopokopo\\SDK\\Requests\\": "src/requests",
             "Kopokopo\\SDK\\Helpers\\": "src/helpers",
-            "Kopokopo\\SDK\\Data\\": "src/data",
+            "Kopokopo\\SDK\\Data\\": "src/data"
+
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "Kopokopo\\SDK\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Kopokopo\\SDK\\Providers\\KopoKopoServiceProvider"
+            ],
+            "aliases": {
+                "Kopokopo": "Kopokopo\\SDK\\Facades\\KopokopoFacade"
+            }
         }
     }
 }

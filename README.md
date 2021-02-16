@@ -20,6 +20,17 @@ composer require kopokopo/kopokopo
 
 The package should be configured with your client id and client secret which you can get from your account on the kopokopo's app
 
+```dotenv
+Configuration At your project root, create a .env file and in it set the KOPOKOPO_CLIENT_ID , KOPOKOPO_CLIENT_SECRET, KOPOKOPO_API_KEY and KOPOKOPO_ENV as follows
+
+KOPOKOPO_CLIENT_ID=
+KOPOKOPO_CLIENT_SECRET=
+KOPOKOPO_API_KEY=
+KOPOKOPO_ENV= // sandbox or live
+```
+
+Or Instantiate  as follows
+
 ```php
 //Store your client id and client secret as environment variables
 
