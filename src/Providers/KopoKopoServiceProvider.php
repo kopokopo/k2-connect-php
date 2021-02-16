@@ -13,7 +13,7 @@ class KopoKopoServiceProvider extends ServiceProvider
     {
         $this->app->singleton('Kopokopo', function($app)
         {
-            $uri = "https://api.kopokopo.com";
+            $uri = "https://app.kopokopo.com";
 
             if (env('KOPOKOPO_ENV') == 'sandbox')
             {
