@@ -1,5 +1,5 @@
 {
-    "name": "kopokopo/kopokopo",
+    "name": "kopokopo/k2-connect-php",
     "description": "Kopokopo's php SDK",
     "type": "library",
     "require": {
