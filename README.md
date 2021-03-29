@@ -13,7 +13,7 @@ You can install the PHP SDK via composer.
 The recommended way to install the SDK is with Composer.
 
 ```
-composer require kopokopo/kopokopo
+composer require kopokopo/k2-connect-php
 ```
 
 ## Initialisation
@@ -345,6 +345,7 @@ Note: The asynchronous results are processed like webhooks.
 
   - if destination type is mobile wallet:
 
+    - `transactionReference`
     - `firstName`
     - `lastName`
     - `phoneNumber`
@@ -373,22 +374,26 @@ Note: The asynchronous results are processed like webhooks.
   - `status`
   - `destinationType`
   - `destinationReference`
+  - `transactionReference`
   - `amount`
   - `currency`
   - `linkSelf`
   - `callbackUrl`
 
-- Pay result
+- Payment result
 
-  - `topic`
+  - `id`
+  - `type`
   - `status`
-  - `reference`
   - `originationTime`
-  - `destination`
+  - `destinationType`
+  - `destinationReference`
+  - `transactionReference`
   - `amount`
   - `currency`
   - `metadata`
   - `linkSelf`
+  - `callbackUrl`
 
 - Stk Push Result
 
@@ -464,6 +469,9 @@ Note: The asynchronous results are processed like webhooks.
 
 - Settlement Transfer Status
   - This payload is similar to `SettlementTransferResult` payload
+
+- Payment Status
+  - This payload is similar to `PaymentResult` payload
 
 - Pay Recipient Status
   - `id`
