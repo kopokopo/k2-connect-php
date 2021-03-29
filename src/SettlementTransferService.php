@@ -18,7 +18,7 @@ class SettlementTransferService extends Service
         try {
             $response = $this->client->post('merchant_bank_accounts', ['body' => json_encode($merchantBankAccountRequest->getSettlementAccountBody()), 'headers' => $merchantBankAccountRequest->getHeaders()]);
 
-            return $this->success($response);
+            return $this->postSuccess($response);
         } catch (Exception $e) {
             return $this->error($e->getMessage());
         }
@@ -43,18 +43,6 @@ class SettlementTransferService extends Service
             $response = $this->client->post('settlement_transfers', ['body' => json_encode($settleFundsRequest->getSettleFundsBody()), 'headers' => $settleFundsRequest->getHeaders()]);
 
             return $this->postSuccess($response);
-        } catch (Exception $e) {
-            return $this->error($e->getMessage());
-        }
-    }
-
-    public function getStatus($options)
-    {
-        $settlementStatus = new StatusRequest($options);
-        try {
-            $response = $this->client->get('transfer_status', ['query' => $settlementStatus->getLocation(), 'headers' => $settlementStatus->getHeaders()]);
-
-            return $this->success($response);
         } catch (Exception $e) {
             return $this->error($e->getMessage());
         }

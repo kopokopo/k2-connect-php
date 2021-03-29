@@ -37,7 +37,7 @@ class Webhooks extends Service
         try {
             $response = $this->client->post('webhook_subscriptions', ['body' => json_encode($subscribeRequest->getWebhookSubscribeBody()), 'headers' => $subscribeRequest->getHeaders()]);
 
-            return $this->success($response);
+            return $this->postSuccess($response);
         } catch (InvalidArgumentException $e) {
             return $this->error($e->getMessage());
         }

@@ -21,16 +21,4 @@ class StkService extends Service
             return $this->error($e->getMessage());
         }
     }
-
-    public function getStatus($options)
-    {
-        $stkStatus = new StatusRequest($options);
-        try {
-            $response = $this->client->get('incoming_payments', ['query' => $stkStatus->getLocation(), 'headers' => $stkStatus->getHeaders()]);
-
-            return $this->success($response);
-        } catch (Exception $e) {
-            return $this->error($e->getMessage());
-        }
-    }
 }

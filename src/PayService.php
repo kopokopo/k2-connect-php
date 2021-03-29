@@ -53,16 +53,4 @@ class PayService extends Service
             return $this->error($e->getMessage());
         }
     }
-
-    public function getStatus($options)
-    {
-        $payStatus = new StatusRequest($options);
-        try {
-            $response = $this->client->get('pay_status', ['query' => $payStatus->getLocation(), 'headers' => $payStatus->getHeaders()]);
-
-            return $this->success($response);
-        } catch (Exception $e) {
-            return $this->error($e->getMessage());
-        }
-    }
 }

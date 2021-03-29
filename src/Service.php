@@ -55,13 +55,9 @@ abstract class Service
     public function getStatus($options)
     {
         try {
-            $payStatus = new StatusRequest($options);
+            $status = new StatusRequest($options);
 
-            $client = new Client();
-
-            $requ = $client->get($payStatus->getLocation(), ['headers' => $payStatus->getHeaders()]);
-
-            $response = $requ->send();
+            $response = $this->client->get($status->getLocation(), ['headers' => $status->getHeaders()]);
 
             return $this->success($response);
         } catch (Exception $e) {
