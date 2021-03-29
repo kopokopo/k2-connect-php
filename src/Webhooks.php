@@ -32,13 +32,16 @@ class Webhooks extends Service
 
     public function subscribe($options)
     {
-        $subscribeRequest = new WebhookSubscribeRequest($options);
-
         try {
+            $subscribeRequest = new WebhookSubscribeRequest($options);
             $response = $this->client->post('webhook_subscriptions', ['body' => json_encode($subscribeRequest->getWebhookSubscribeBody()), 'headers' => $subscribeRequest->getHeaders()]);
 
             return $this->postSuccess($response);
         } catch (InvalidArgumentException $e) {
+            return $this->error($e->getMessage());
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            return $this->error($e->getResponse()->getBody()->getContents());
+        } catch(\Exception $e){
             return $this->error($e->getMessage());
         }
     }

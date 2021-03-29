@@ -14,8 +14,14 @@ class TokenService extends Service
             'grant_type' => $grantType,
         ];
 
-        $response = $this->client->post('oauth/token', ['form_params' => $requestData]);
+        try {
+            $response = $this->client->post('oauth/token', ['form_params' => $requestData]);
 
-        return $this->tokenSuccess($response);
+            return $this->tokenSuccess($response);
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            return $this->error($e->getResponse()->getBody()->getContents());
+        } catch(\Exception $e){
+            return $this->error($e->getMessage());
+        }
     }
 }

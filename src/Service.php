@@ -32,7 +32,7 @@ abstract class Service
     {
         return [
             'status' => 'success',
-            'location' => $data->getHeaders()['location'],
+            'location' => $data->getHeaders()['Location'],
         ];
     }
 

@@ -43,7 +43,9 @@ class SettlementTransferService extends Service
             $response = $this->client->post('settlement_transfers', ['body' => json_encode($settleFundsRequest->getSettleFundsBody()), 'headers' => $settleFundsRequest->getHeaders()]);
 
             return $this->postSuccess($response);
-        } catch (Exception $e) {
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            return $this->error($e->getResponse()->getBody()->getContents());
+        } catch(\Exception $e){
             return $this->error($e->getMessage());
         }
     }

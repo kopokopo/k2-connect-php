@@ -17,7 +17,9 @@ class StkService extends Service
             $response = $this->client->post('incoming_payments', ['body' => json_encode($stkPaymentRequest->getPaymentRequestBody()), 'headers' => $stkPaymentRequest->getHeaders()]);
 
             return $this->postSuccess($response);
-        } catch (Exception $e) {
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            return $this->error($e->getResponse()->getBody()->getContents());
+        } catch(\Exception $e){
             return $this->error($e->getMessage());
         }
     }
