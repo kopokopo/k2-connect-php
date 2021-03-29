@@ -63,8 +63,8 @@ class WebhookTest extends TestCase
                 'eventType' => 'buygoods_transaction_received',
                 'url' => 'http://localhost:8000/webhook',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
-                'scope' => 'company',
-                'scopeReference' => '1'
+                'scope' => 'Company',
+                'scopeReference' => null
             ])
         );
     }

@@ -10,6 +10,7 @@
             "amount": "786",
             "currency": "KES",
             "status": "Transferred",
+            "transaction_reference": "OJGT5H53D7",
             "destination": {
                 "type": "Mobile Wallet",
                 "resource": {
