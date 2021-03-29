@@ -3,12 +3,14 @@
 require 'vendor/autoload.php';
 
 use Kopokopo\SDK\K2;
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->safeLoad();
 
 $options = [
-    'clientId' => 'onDPKB6ZY_KT4hrUnsWJEuCXW3VvGHnI_XZv5dmsxPQ',
-    'clientSecret' => 'A1Wqj1_9KKAn1oAa3G9eCkqXwzM0GT9BgEMsjiXq0Zc',
-    'apiKey' => 'A1Wqj1_9KKAn1oAa3G9eCkqXwzM0GT9BgEMsjiXq0Zc',
-    'baseUrl' => 'http://localhost:3000'
+    'clientId' => $_ENV['K2_CLIENT_ID'],
+    'clientSecret' => $_ENV['K2_CLIENT_SECRET'],
+    'apiKey' => $_ENV['K2_API_KEY'],
+    'baseUrl' => $_ENV['K2_BASE_URL']
 ];
 
 $K2 = new K2($options);
@@ -80,8 +82,8 @@ $router->map('POST', '/webhook/subscribe', function () {
     $options = array(
         'eventType' => $_POST['eventType'],
         'url' => $_POST['url'],
-        'scope' => 'company',
-        'scopeReference' => '4',
+        'scope' => $_POST['scope'],
+        'scopeReference' => $_POST['scope_ref'],
         'accessToken' => $access_token,
     );
     $response = $webhooks->subscribe($options);

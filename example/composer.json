@@ -16,7 +16,8 @@
     ],
     "require": {
         "altorouter/altorouter": "1.1.0",
-        "kopokopo/kopokopo": "*"
+        "kopokopo/k2-connect-php": "dev-master",
+        "vlucas/phpdotenv": "^5.3@dev"
     },
     "config": {
         "secure-http": false
