@@ -1,30 +1,43 @@
 {
     "topic": "settlement_transfer_completed",
-    "id": "a25cc04b-e503-44e8-a002-05ff2fc3297b",
-    "created_at": "2020-11-02T09:47:03+03:00",
+    "id": "052b7b2a-745b-4ca1-866b-b92d4a1418c3",
+    "created_at": "2021-01-27T11:00:08+03:00",
     "event": {
         "type": "Settlement Transfer",
         "resource": {
-            "id": "48674c51-2546-4844-adc8-d1a267fcbc58",
-            "origination_time": "2020-10-22T12:57:38.272+03:00",
-            "amount": "786",
-            "currency": "KES",
+            "id": "270b7b2a-745b-6735752-b92d4a141847-5d33",
+            "amount": "49452.0",
             "status": "Transferred",
-            "transaction_reference": "OJGT5H53D7",
+            "currency": "KES",
             "destination": {
-                "type": "Mobile Wallet",
+                "type": "Bank Account",
                 "resource": {
-                    "reference": "8a3755d-4417-4531-b456-9ae7e7c74c27",
-                    "first_name": "Jane",
-                    "last_name": "Doe",
-                    "network": "M-PESA",
-                    "phone_number": "+254999999999"
+                    "reference": "34a273d1-fedc-4610-8ab6-a1ba4828f317",
+                    "account_name": "Test Account",
+                    "account_number": "1234",
+                    "bank_branch_ref": "ea2e79f7-35a1-486e-9e18-fe06589a9d7d",
+                    "settlement_method": "EFT"
                 }
-            }
+            },
+            "disbursements": [
+                {
+                    "amount": "24452.0",
+                    "status": "Transferred",
+                    "origination_time": "2021-01-27T10:57:58.623+03:00",
+                    "transaction_reference": null
+                },
+                {
+                    "amount": "25000.0",
+                    "status": "Transferred",
+                    "origination_time": "2021-01-27T10:57:58.627+03:00",
+                    "transaction_reference": null
+                }
+            ],
+            "origination_time": "2021-01-27T10:57:58.444+03:00"
         }
     },
     "_links": {
-        "self": "https://sandbox.kopokopo.com/webhook_events/a25cc04b-e503-44e8-a002-05ff2fc3297b",
-        "resource": "https://sandbox.kopokopo.com/transfer_batch/48674c51-2546-4844-adc8-d1a267fcbc58"
+        "self": "https://sandbox.kopokopo.com/webhook_events/052b7b2a-745b-4ca1-866b-b92d4a1418c3",
+        "resource": "https://sandbox.kopokopo.com/transfer_batch/270b7b2a-745b-6735752-b92d4a141847-5d33"
     }
 }

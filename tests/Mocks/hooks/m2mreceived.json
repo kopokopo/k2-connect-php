@@ -14,7 +14,7 @@
         }
     },
     "_links": {
-      "self": "https://sandbox.kopokopo.com/webhook_events/5fbbcfc3-5b06-485e-929c-066741f4b14d",
-      "resource": "https://sandbox.kopokopo.com/payment_batches/893ebbcfc3-e8993-485e-929c-066741f47847"
+        "self": "https://sandbox.kopokopo.com/webhook_events/5fbbcfc3-5b06-485e-929c-066741f4b14d",
+        "resource": "https://sandbox.kopokopo.com/payment_batches/893ebbcfc3-e8993-485e-929c-066741f47847"
     }
-  }
+}

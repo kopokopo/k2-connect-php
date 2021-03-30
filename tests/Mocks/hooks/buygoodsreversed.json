@@ -11,12 +11,12 @@
             "system": "Lipa Na Mpesa",
             "currency": "KES",
             "reference": "OJM6Q1W84K",
-            "till_number": "25476",
+            "till_number": "125476",
             "origination_time": "2020-10-29T08:06:49+03:00",
             "sender_last_name": "Doe",
             "sender_first_name": "Jane",
             "sender_middle_name": "",
-            "sender_phone_number": "0799999999"
+            "sender_phone_number": "+254999999999"
         }
     },
     "_links": {

@@ -1,20 +1,20 @@
 {
     "data": {
-        "id": "49b2bf39-0bff-4f37-8b19-43ca21ab3bf2",
+        "id": "a652f86f-f2aa-4d70-baa2-ccfe4b78f4fc",
         "type": "incoming_payment",
         "attributes": {
-            "initiation_time": "2020-10-21T09:30:34.331+03:00",
+            "initiation_time": "2020-10-19T09:24:48.622+03:00",
             "status": "Success",
             "event": {
                 "type": "Incoming Payment Request",
                 "resource": {
-                    "id": "f39-0bff-44ef4-0629-481f-83cd-d101f",
-                    "reference": "OJL7OW3J59",
-                    "origination_time": "2020-10-21T09:30:40+03:00",
-                    "sender_phone_number": "+254799999999",
-                    "amount": "1.0",
+                    "id": "52f86f-f2aa-4d70-baa2-ccfe4b78f4fc",
+                    "reference": "OJJ1MPU40Z",
+                    "origination_time": "2020-10-19T09:24:54+03:00",
+                    "sender_phone_number": "+254999999999",
+                    "amount": "100.0",
                     "currency": "KES",
-                    "till_number": "514459",
+                    "till_number": "K514459",
                     "system": "Lipa Na M-PESA",
                     "status": "Received",
                     "sender_first_name": "Joe",
@@ -30,7 +30,7 @@
             },
             "_links": {
                 "callback_url": "https://webhook.site/675d4ef4-0629-481f-83cd-d101f55e4bc8",
-                "self": "http://api.kopokopo.com/api/v1/incoming_payments/49b2bf39-0bff-4f37-8b19-43ca21ab3bf2"
+                "self": "http://sandbox.kopokopo.com/api/v1/incoming_payments/a652f86f-f2aa-4d70-baa2-ccfe4b78f4fc"
             }
         }
     }
