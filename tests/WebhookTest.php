@@ -148,7 +148,7 @@ class WebhookTest extends TestCase
 
     public function testCustomerCreatedWebhookHandler()
     {
-        $k2Sig = 'bceb46746ffde7b5681446567a9eb1e8447c19bddaf61a1c82b2090710955e74';
+        $k2Sig = '4dc26548d9a8a5ad7b1b31d56146bdaec28038bbfa4e20bf57fed39e975c9aaa';
 
         $reqBody = file_get_contents(__DIR__.'/Mocks/hooks/customercreated.json');
         $response = $this->client->webhookHandler($reqBody, $k2Sig, 'my_webhook_secret');
