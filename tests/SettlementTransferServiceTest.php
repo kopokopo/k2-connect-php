@@ -200,7 +200,7 @@ class SettlementTransferServiceTest extends TestCase
     }
 
       /*
-    *   Create Merchant
+    *   Create Merchant Wallet
     */
 
     public function testCreateMerchantWalletSucceeds()
@@ -208,6 +208,34 @@ class SettlementTransferServiceTest extends TestCase
         $this->assertArraySubset(
             ['status' => 'success'],
             $this->merchantWalletClient->createMerchantWallet([
+                'firstName' => 'Jane',
+                'lastName' => 'Doe',
+                'network' => 'Safaricom',
+                'phoneNumber' => '+254792345678',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+            ])
+        );
+    }
+
+    public function testCreateMerchantWalletWithNoFirstNameFails()
+    {
+        $this->assertArraySubset(
+            ['data' => 'You have to provide the firstName'],
+            $this->merchantWalletClient->createMerchantWallet([
+                'lastName' => 'Doe',
+                'network' => 'Safaricom',
+                'phoneNumber' => '+254792345678',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+            ])
+        );
+    }
+
+    public function testCreateMerchantWalletWithNoLastNameFails()
+    {
+        $this->assertArraySubset(
+            ['data' => 'You have to provide the lastName'],
+            $this->merchantWalletClient->createMerchantWallet([
+                'firstName' => 'Jane',
                 'network' => 'Safaricom',
                 'phoneNumber' => '+254792345678',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -220,6 +248,8 @@ class SettlementTransferServiceTest extends TestCase
         $this->assertArraySubset(
             ['data' => 'You have to provide the network'],
             $this->merchantWalletClient->createMerchantWallet([
+                'firstName' => 'Jane',
+                'lastName' => 'Doe',
                 'phoneNumber' => '+254792345678',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
@@ -231,6 +261,8 @@ class SettlementTransferServiceTest extends TestCase
         $this->assertArraySubset(
             ['data' => 'You have to provide the phoneNumber'],
             $this->merchantWalletClient->createMerchantWallet([
+                'firstName' => 'Jane',
+                'lastName' => 'Doe',
                 'network' => 'Safaricom',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
