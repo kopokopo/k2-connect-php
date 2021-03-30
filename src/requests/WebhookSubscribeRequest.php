@@ -21,7 +21,7 @@ class WebhookSubscribeRequest extends BaseRequest
 
     public function getScopeRef()
     {
-        if (!isset($this->data['scopeReference']) && $this->getScope() == 'company' ) {
+        if (!isset($this->data['scopeReference']) && strtolower($this->getScope()) == 'company' ) {
             return null;
         }
 
