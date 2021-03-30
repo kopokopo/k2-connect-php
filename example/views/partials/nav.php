@@ -24,7 +24,7 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="/stk">STK Push</a>
                     <a class="dropdown-item" href="/stk/result">Process Payment Request Result</a>
-                    <a class="dropdown-item" href="/stk/status">Query Payment Status</a>
+                    <a class="dropdown-item" href="/status">Query Payment Status</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -34,7 +34,7 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="/pay">Create a Payment</a>
                     <a class="dropdown-item" href="/pay/recipients">Adding PAY recipients</a>
-                    <a class="dropdown-item" href="/pay/status">Payment status</a>
+                    <a class="dropdown-item" href="/status">Payment status</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -44,7 +44,7 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="/transfer">Initiate a transfer</a>
                     <a class="dropdown-item" href="/transfer/account">Create a settlement Account</a>
-                    <a class="dropdown-item" href="/transfer/status">Query Transfer status</a>
+                    <a class="dropdown-item" href="/status">Query Transfer status</a>
                 </div>
             </li>
         </ul>

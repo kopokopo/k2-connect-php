@@ -27,6 +27,10 @@ $router->map('GET', '/', function () {
     require __DIR__.'/views/index.php';
 });
 
+$router->map('GET', '/status', function () {
+    require __DIR__.'/views/status.php';
+});
+
 $router->map('GET', '/webhook/subscribe', function () {
     require __DIR__.'/views/subscribe.php';
 });
@@ -173,6 +177,25 @@ $router->map('POST', '/webhook', function () {
     echo json_encode($response);
     // print("POST Details: " .$json_str);
     // print_r($json_str);
+});
+
+$router->map('POST', '/status', function () {
+    global $K2;
+
+    $tokens = $K2->TokenService();
+    $response = $tokens->getToken();
+
+    $access_token = $response['data']->access_token;
+
+    $webhooks = $K2->Webhooks();
+
+    $options = array(
+        'location' => $_POST['location'],
+        'accessToken' => $access_token,
+    );
+    $response = $webhooks->getStatus($options);
+
+    echo json_encode($response);
 });
 
 $router->map('GET', '/webhook/resource', function () {
