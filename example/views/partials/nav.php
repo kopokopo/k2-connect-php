@@ -43,7 +43,8 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="/transfer">Initiate a transfer</a>
-                    <a class="dropdown-item" href="/transfer/account">Create a settlement Account</a>
+                    <a class="dropdown-item" href="/merchantwallet">Create a Merchant Wallet</a>
+                    <a class="dropdown-item" href="/merchantbankaccount">Create a Merchant Bank Account</a>
                     <a class="dropdown-item" href="/status">Query Transfer status</a>
                 </div>
             </li>

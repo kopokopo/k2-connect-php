@@ -67,6 +67,14 @@ $router->map('GET', '/pay/status', function () {
     require __DIR__.'/views/paystatus.php';
 });
 
+$router->map('GET', '/merchantwallet', function () {
+    require __DIR__.'/views/merchantwallet.php';
+});
+
+$router->map('GET', '/merchantbankaccount', function () {
+    require __DIR__.'/views/merchantbankaccount.php';
+});
+
 $router->map('POST', '/webhook/subscribe', function () {
     global $K2;
 
@@ -121,9 +129,51 @@ $router->map('POST', '/stk', function () {
     echo json_encode($response);
 });
 
+$router->map('POST', '/merchantwallet', function () {
+    global $K2;
+    $transfer = $K2->SettlementTransferService();
+
+    $tokens = $K2->TokenService();
+    $response = $tokens->getToken();
+
+    $access_token = $response['data']->access_token;
+
+    $options = [
+        'firstName' => $_POST['firstName'],
+        'lastName' => $_POST['lastName'],
+        'phoneNumber' => $_POST['phoneNumber'],
+        'network' => $_POST['network'],
+        'accessToken' => $access_token,
+    ];
+    $response = $transfer->createMerchantWallet($options);
+
+    echo json_encode($response);
+});
+
+$router->map('POST', '/merchantbankaccount', function () {
+    global $K2;
+    $transfer = $K2->SettlementTransferService();
+
+    $tokens = $K2->TokenService();
+    $response = $tokens->getToken();
+
+    $access_token = $response['data']->access_token;
+
+    $options = [
+        'bankBranchRef' => $_POST['bankBranchRef'],
+        'accountName' => $_POST['accountName'],
+        'accountNumber' => $_POST['accountNumber'],
+        'settlementMethod' => $_POST['settlementMethod'],
+        'accessToken' => $access_token,
+    ];
+    $response = $transfer->createMerchantBankAccount($options);
+
+    echo json_encode($response);
+});
+
 $router->map('POST', '/transfer', function () {
     global $K2;
-    $transfer = $K2->TransferService();
+    $transfer = $K2->SettlementTransferService();
 
     $tokens = $K2->TokenService();
     $response = $tokens->getToken();
