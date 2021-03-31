@@ -12,7 +12,7 @@ class B2bReceivedData
 
         $data['eventType'] = $result['event']['type'];
 
-        $data['resourceId'] = $result['event']['resource']['idd'];
+        $data['resourceId'] = $result['event']['resource']['id'];
         $data['reference'] = $result['event']['resource']['reference'];
         $data['originationTime'] = $result['event']['resource']['origination_time'];
 

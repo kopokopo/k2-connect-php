@@ -12,8 +12,7 @@ class PaymentData
         $data['createdAt'] = $result['attributes']['created_at'];
         $data['status'] = $result['attributes']['status'];
 
-        $data['destinationType'] = $result['attributes']['destination_type'];
-        $data['destinationReference'] = $result['attributes']['destination_reference'];
+        $data['transferBatches'] = $result['attributes']['transfer_batches'];
 
         $data['amount'] = $result['attributes']['amount']['value'];
         $data['currency'] = $result['attributes']['amount']['currency'];

@@ -17,13 +17,9 @@ class StkData
         switch ($result['attributes']['status']) {
             case 'Failed':
                 $data['resource'] = $result['attributes']['event']['resource'];
-
-                $data['errors']['code'] = $result['attributes']['event']['errors']['code'];
-                $data['errors']['description'] = $result['attributes']['event']['errors']['description'];
                 break;
             case 'Pending':
                 $data['resource'] = $result['attributes']['event']['resource'];
-                $data['errors'] = $result['attributes']['event']['errors'];
                 break;
             default:
                 $data['resourceId'] = $result['attributes']['event']['resource']['id'];
@@ -39,11 +35,11 @@ class StkData
                 $data['senderMiddleName'] = $result['attributes']['event']['resource']['sender_middle_name'];
                 $data['senderLastName'] = $result['attributes']['event']['resource']['sender_last_name'];
 
-                $data['errors'] = $result['attributes']['event']['errors'];
-
                 $data['linkResource'] = $result['attributes']['_links']['resource'];
                 break;
         }
+
+        $data['errors'] = $result['attributes']['event']['errors'];
 
         // metadata
         $data['metadata'] = $result['attributes']['metadata'];

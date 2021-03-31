@@ -12,7 +12,7 @@ class M2mReceivedData
 
         $data['eventType'] = $result['event']['type'];
 
-        $data['resourceID'] = $result['event']['resource']['id'];
+        $data['resourceId'] = $result['event']['resource']['id'];
         $data['originationTime'] = $result['event']['resource']['origination_time'];
         $data['sendingMerchant'] = $result['event']['resource']['sending_merchant'];
         $data['amount'] = $result['event']['resource']['amount'];

@@ -41,6 +41,8 @@ class TransferCompletedData
                 break;
         }
 
+        $data['disbursements'] = $result['event']['resource']['disbursements'];
+        
         $data['linkSelf'] = $result['_links']['self'];
         $data['linkResource'] = $result['_links']['resource'];
 
