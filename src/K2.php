@@ -5,6 +5,11 @@ namespace Kopokopo\SDK;
 use GuzzleHttp\Client;
 use Kopokopo\SDK\Requests\K2InitialiseRequest;
 
+
+use Symfony\Component\Dotenv\Dotenv;
+
+
+include_once("../vendor/autoload.php");
 class K2
 {
     protected $options;
@@ -12,6 +17,26 @@ class K2
     protected $client;
     protected $tokenClient;
     public $baseUrl;
+
+    /**
+     * Define env method similar to laravel's
+     *
+     * @param String $env_param | Environment Param Name
+     *
+     * @return String
+     */
+    public static function env(string $env_param): string
+    {
+
+        $dotenv = new Dotenv();
+
+        $dotenv->load('../.env');
+
+        $env = getenv($env_param);
+
+        return $env;
+    }
+
 
     public function __construct($options)
     {
@@ -34,6 +59,7 @@ class K2
             ],
         ]);
     }
+
 
     public function TokenService()
     {
