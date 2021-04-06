@@ -9,7 +9,7 @@ use Kopokopo\SDK\Requests\PayRecipientAccountRequest;
 use Kopokopo\SDK\Requests\PayRecipientTillRequest;
 use Kopokopo\SDK\Requests\PayRecipientMerchantRequest;
 use Kopokopo\SDK\Requests\PayRequest;
-use Kopokopo\SDK\Requests\StatusRequest;
+use Kopokopo\SDK\Data\FailedResponseData;
 use Exception;
 
 use GuzzleHttp\Client;
@@ -37,6 +37,9 @@ class PayService extends Service
             $response = $this->client->post('pay_recipients', ['body' => json_encode($payRecipientrequest->getPayRecipientBody()), 'headers' => $payRecipientrequest->getHeaders()]);
 
             return $this->postSuccess($response);
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            $dataHandler = new FailedResponseData();
+            return $this->error($dataHandler->setErrorData(json_decode($e->getResponse()->getBody()->getContents(), true)));
         } catch (Exception $e) {
             return $this->error($e->getMessage());
         }
@@ -50,7 +53,8 @@ class PayService extends Service
 
             return $this->postSuccess($response);
         } catch (\GuzzleHttp\Exception\ClientException $e) {
-            return $this->error($e->getResponse()->getBody()->getContents());
+            $dataHandler = new FailedResponseData();
+            return $this->error($dataHandler->setErrorData(json_decode($e->getResponse()->getBody()->getContents(), true)));
         } catch(\Exception $e){
             return $this->error($e->getMessage());
         }

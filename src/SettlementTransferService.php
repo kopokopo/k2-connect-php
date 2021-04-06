@@ -7,7 +7,7 @@ require 'vendor/autoload.php';
 use Kopokopo\SDK\Requests\MerchantBankAccountRequest;
 use Kopokopo\SDK\Requests\MerchantWalletRequest;
 use Kopokopo\SDK\Requests\SettleFundsRequest;
-use Kopokopo\SDK\Requests\StatusRequest;
+use Kopokopo\SDK\Data\FailedResponseData;
 use Exception;
 
 class SettlementTransferService extends Service
@@ -19,6 +19,9 @@ class SettlementTransferService extends Service
             $response = $this->client->post('merchant_bank_accounts', ['body' => json_encode($merchantBankAccountRequest->getSettlementAccountBody()), 'headers' => $merchantBankAccountRequest->getHeaders()]);
 
             return $this->postSuccess($response);
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            $dataHandler = new FailedResponseData();
+            return $this->error($dataHandler->setErrorData(json_decode($e->getResponse()->getBody()->getContents(), true)));
         } catch (Exception $e) {
             return $this->error($e->getMessage());
         }
@@ -31,6 +34,9 @@ class SettlementTransferService extends Service
             $response = $this->client->post('merchant_wallets', ['body' => json_encode($merchantWalletRequest->getSettlementAccountBody()), 'headers' => $merchantWalletRequest->getHeaders()]);
 
             return $this->postSuccess($response);
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            $dataHandler = new FailedResponseData();
+            return $this->error($dataHandler->setErrorData(json_decode($e->getResponse()->getBody()->getContents(), true)));
         } catch (Exception $e) {
             return $this->error($e->getMessage());
         }
@@ -44,7 +50,8 @@ class SettlementTransferService extends Service
 
             return $this->postSuccess($response);
         } catch (\GuzzleHttp\Exception\ClientException $e) {
-            return $this->error($e->getResponse()->getBody()->getContents());
+            $dataHandler = new FailedResponseData();
+            return $this->error($dataHandler->setErrorData(json_decode($e->getResponse()->getBody()->getContents(), true)));
         } catch(\Exception $e){
             return $this->error($e->getMessage());
         }

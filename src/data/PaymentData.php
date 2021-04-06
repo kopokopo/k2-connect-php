@@ -19,8 +19,8 @@ class PaymentData
 
         $data['metadata'] = $result['attributes']['metadata'];
 
-        $data['linkSelf'] = $result['_links']['self'];
-        $data['callbackUrl'] = $result['_links']['callback_url'];
+        $data['linkSelf'] = $result['attributes']['_links']['self'];
+        $data['callbackUrl'] = $result['attributes']['_links']['callback_url'];
        
         return $data;
     }

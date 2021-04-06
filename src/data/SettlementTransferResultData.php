@@ -17,8 +17,8 @@ class SettlementTransferResultData
 
         $data['transferBatches'] = $result['attributes']['transfer_batches'];
 
-        $data['linkSelf'] = $result['_links']['self'];
-        $data['callbackUrl'] = $result['_links']['callback_url'];
+        $data['linkSelf'] = $result['attributes']['_links']['self'];
+        $data['callbackUrl'] = $result['attributes']['_links']['callback_url'];
        
         return $data;
     }

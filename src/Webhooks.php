@@ -7,6 +7,7 @@ require 'vendor/autoload.php';
 use Kopokopo\SDK\Requests\WebhookSubscribeRequest;
 use Kopokopo\SDK\Helpers\Auth;
 use Kopokopo\SDK\Data\DataHandler;
+use Kopokopo\SDK\Data\FailedResponseData;
 use InvalidArgumentException;
 
 class Webhooks extends Service
@@ -40,7 +41,9 @@ class Webhooks extends Service
         } catch (InvalidArgumentException $e) {
             return $this->error($e->getMessage());
         } catch (\GuzzleHttp\Exception\ClientException $e) {
-            return $this->error($e->getResponse()->getBody()->getContents());
+            $dataHandler = new FailedResponseData();
+
+            return $this->error($dataHandler->setErrorData(json_decode($e->getResponse()->getBody()->getContents(), true)));
         } catch(\Exception $e){
             return $this->error($e->getMessage());
         }

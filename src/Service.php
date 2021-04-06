@@ -3,6 +3,7 @@
 namespace Kopokopo\SDK;
 
 use Kopokopo\SDK\Requests\StatusRequest;
+use Kopokopo\SDK\Data\DataHandler;
 use GuzzleHttp\Client;
 use Exception;
 
@@ -32,15 +33,7 @@ abstract class Service
     {
         return [
             'status' => 'success',
-            'location' => $data->getHeaders()['Location'],
-        ];
-    }
-
-    protected static function tokenSuccess($data)
-    {
-        return [
-            'status' => 'success',
-            'data' => json_decode($data->getBody()->getContents()),
+            'location' => $data->getHeaders()['location'][0],
         ];
     }
 
@@ -59,7 +52,12 @@ abstract class Service
 
             $response = $this->client->get($status->getLocation(), ['headers' => $status->getHeaders()]);
 
-            return $this->success($response);
+            $dataHandler = new DataHandler(json_decode($response->getBody()->getContents(), true));
+
+            return $this->success($dataHandler->dataHandlerSort());
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            $dataHandler = new FailedResponseData();
+            return $this->error($dataHandler->setErrorData(json_decode($e->getResponse()->getBody()->getContents(), true)));
         } catch (Exception $e) {
             return $this->error($e->getMessage());
         }

@@ -35,7 +35,7 @@ class StkData
                 $data['senderMiddleName'] = $result['attributes']['event']['resource']['sender_middle_name'];
                 $data['senderLastName'] = $result['attributes']['event']['resource']['sender_last_name'];
 
-                $data['linkResource'] = $result['attributes']['_links']['resource'];
+                //$data['linkResource'] = $result['attributes']['_links']['resource'];
                 break;
         }
 

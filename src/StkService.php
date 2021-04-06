@@ -5,7 +5,7 @@ namespace Kopokopo\SDK;
 require 'vendor/autoload.php';
 
 use Kopokopo\SDK\Requests\StkIncomingPaymentRequest;
-use Kopokopo\SDK\Requests\StatusRequest;
+use Kopokopo\SDK\Data\FailedResponseData;
 use Exception;
 
 class StkService extends Service
@@ -18,7 +18,8 @@ class StkService extends Service
 
             return $this->postSuccess($response);
         } catch (\GuzzleHttp\Exception\ClientException $e) {
-            return $this->error($e->getResponse()->getBody()->getContents());
+            $dataHandler = new FailedResponseData();
+            return $this->error($dataHandler->setErrorData(json_decode($e->getResponse()->getBody()->getContents(), true)));
         } catch(\Exception $e){
             return $this->error($e->getMessage());
         }
