@@ -11,11 +11,16 @@ abstract class BaseRequest
         $this->data = $data;
     }
 
+    public function getAccessToken()
+    {
+        return $this->getRequestData('accessToken');
+    }
+
     public function getHeaders()
     {
         return array('Accept' => 'application/json',
                     'Content-Type' => 'application/json',
-                    'Authorization' => 'Bearer '.$this->getRequestData('accessToken'),
+                    'Authorization' => 'Bearer '.$this->getAccessToken(),
                 );
     }
 

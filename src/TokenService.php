@@ -1,6 +1,9 @@
 <?php
 
 namespace Kopokopo\SDK;
+use Kopokopo\SDK\Data\TokenData;
+use Kopokopo\SDK\Data\FailedResponseData;
+use Kopokopo\SDK\Requests\TokenRequest;
 
 class TokenService extends Service
 {
@@ -17,9 +20,76 @@ class TokenService extends Service
         try {
             $response = $this->client->post('oauth/token', ['form_params' => $requestData]);
 
-            return $this->tokenSuccess($response);
+            $dataHandler = new TokenData();
+
+            return $this->success($dataHandler->setGetTokenData(json_decode($response->getBody()->getContents(), true)));
         } catch (\GuzzleHttp\Exception\ClientException $e) {
-            return $this->error($e->getResponse()->getBody()->getContents());
+            $dataHandler = new FailedResponseData();
+            return $this->error($dataHandler->setTokenErrorData(json_decode($e->getResponse()->getBody()->getContents(), true)));
+        } catch(\Exception $e){
+            return $this->error($e->getMessage());
+        }
+    }
+
+    public function revokeToken($options)
+    {
+        try {
+            $tokenRequest = new TokenRequest($options);
+
+            $requestData = [
+                'client_id' => $this->clientId,
+                'client_secret' => $this->clientSecret,
+                'token' => $tokenRequest->getAccessToken(),
+            ];
+            
+            $response = $this->client->post('oauth/revoke', ['form_params' => $requestData]);
+
+            return $this->success($response->getBody()->getContents());
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            $dataHandler = new FailedResponseData();
+            return $this->error($dataHandler->setTokenErrorData(json_decode($e->getResponse()->getBody()->getContents(), true)));
+        } catch(\Exception $e){
+            return $this->error($e->getMessage());
+        }
+    }
+
+    public function introspectToken($options)
+    {
+        try {
+            $tokenRequest = new TokenRequest($options);
+
+            $requestData = [
+                'client_id' => $this->clientId,
+                'client_secret' => $this->clientSecret,
+                'token' => $tokenRequest->getAccessToken(),
+            ];
+
+            $response = $this->client->post('oauth/introspect', ['form_params' => $requestData]);
+
+            $dataHandler = new TokenData();
+
+            return $this->success($dataHandler->setIntrospectTokenData(json_decode($response->getBody()->getContents(), true)));
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            $dataHandler = new FailedResponseData();
+            return $this->error($dataHandler->setTokenErrorData(json_decode($e->getResponse()->getBody()->getContents(), true)));
+        } catch(\Exception $e){
+            return $this->error($e->getMessage());
+        }
+    }
+
+    public function infoToken($options)
+    {
+        try {
+            $tokenRequest = new TokenRequest($options);
+
+            $response = $this->client->get('oauth/token/info', ['headers' => $tokenRequest->getHeaders()]);
+
+            $dataHandler = new TokenData();
+
+            return $this->success($dataHandler->setInfoTokenData(json_decode($response->getBody()->getContents(), true)));
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            $dataHandler = new FailedResponseData();
+            return $this->error($dataHandler->setTokenErrorData(json_decode($e->getResponse()->getBody()->getContents(), true)));
         } catch(\Exception $e){
             return $this->error($e->getMessage());
         }
