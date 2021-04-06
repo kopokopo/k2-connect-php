@@ -6,7 +6,7 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" (for="firstName")> First Name </label>
             <div class="col-sm-7">
-                <input class="form-control" name="firstName"  type='text' placeholder='Enter first name' required/>
+                <input class="form-control" name="firstName"  type='text' placeholder='Enter first name'/>
                 <div class="small form-text text-muted">
                     Enter first name
                 </div>
@@ -15,7 +15,7 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" (for="lastName")> Last Name </label>
             <div class="col-sm-7">
-                <input class="form-control" name="lastName"  type='text' placeholder='Enter last name' required/>
+                <input class="form-control" name="lastName"  type='text' placeholder='Enter last name'/>
                 <div class="small form-text text-muted">
                     Enter last name
                 </div>

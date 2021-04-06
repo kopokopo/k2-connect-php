@@ -28,7 +28,7 @@
         <div class="form-group row">
             <label class="col-sm-3 col-form-label" (for="scope_ref")> Scope Reference(Till Number) </label>
             <div class="col-sm-7">
-                <input class="form-control" name="scope_ref"  type='text' placeholder='Enter scope reference' required/>
+                <input class="form-control" name="scope_ref"  type='text' placeholder='Enter scope reference'/>
                 <div class="small form-text text-muted">
                     Enter the scope reference(Leave null for company scope)
                 </div>
