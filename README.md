@@ -106,6 +106,8 @@ $webhooks = $K2->Webhooks();
 $response = $webhooks->subscribe([
     'eventType' => 'buygoods_transaction_received',
     'url' => 'http://localhost:8000/webhook',
+    'scope' => 'till',
+    'scopeReference' => '000000',
     'accessToken' => 'my_access_token'
 ]);
 
@@ -138,11 +140,30 @@ The only supported ISO currency code at the moment is: `KES`
 
 ### `TokenService`
 
-- `getToken()` to get an access token.
+- `$TokenService->getToken()` to get an access token.
 
-  - The response will contain: `token_type`, `expires_in`, `created_at` and `access_token`
+  - The response will have the following structure
+  ```php
+  [ 'status' => 'success',
+    'data' => [
+      'accessToken' => 'GT6576QGYdYh8i5s8DnxUQVphFewh-8eiO2',
+      'tokenType' => 'Bearer',
+      'expires_in' => 3600,
+      'created_at' => '2021-04-06T13:49:50+03:00'
+    ]
+  ]
+  ```
 
 NB: The access token is required to send subsequent requests
+
+- `$TokenService->revokeToken(['accessToken' => 'myRand0mAcc3ssT0k3n'])` to revoke an access token.
+
+NB: The access token cannot be used to send subsequent requests
+
+- `$TokenService->introspectToken(['accessToken' => 'myRand0mAcc3ssT0k3n'])` to introspect a token.
+
+- `$TokenService->infoToken(['accessToken' => 'myRand0mAcc3ssT0k3n'])` to get more information on a token
+
 
 ### `StkService`
 
@@ -243,8 +264,35 @@ For more information, please read [api-docs#transfer](https://api-docs.kopokopo.
 Note: The asynchronous results are processed like webhooks.
 
 - To access the different parts of the response or webhook payload passed, use the following keys to access:
+  
+#### Token Response
 
-  #### Webhooks
+- getToken() successful response
+
+  - `acessToken`
+  - `tokenType`
+  - `expiresIn`
+  - `createdAt`
+
+- introspectToken() successful response
+
+  - `active`
+  - `scope`
+  - `clientId`
+  - `tokenType`
+  - `exp` - expiring time
+  - `iat` - initiated at
+
+- infoToken() successful response
+
+  - `scope`
+  - `expiresIn`
+  - `resourceOwnerId`
+  - `applicationId`
+  - `tokenType`
+  - `createdAt`
+
+#### Webhooks
 
 - Buygoods Received
 
@@ -332,6 +380,7 @@ Note: The asynchronous results are processed like webhooks.
   - `amount`
   - `currency`
   - `status`
+  - `disbursements`
   - `linkSelf`
   - `linkResource`
   - `destinationReference`
@@ -345,7 +394,6 @@ Note: The asynchronous results are processed like webhooks.
 
   - if destination type is mobile wallet:
 
-    - `transactionReference`
     - `firstName`
     - `lastName`
     - `phoneNumber`
@@ -372,9 +420,7 @@ Note: The asynchronous results are processed like webhooks.
   - `type`
   - `createdAt`
   - `status`
-  - `destinationType`
-  - `destinationReference`
-  - `transactionReference`
+  - `transferBatches`
   - `amount`
   - `currency`
   - `linkSelf`
@@ -385,10 +431,8 @@ Note: The asynchronous results are processed like webhooks.
   - `id`
   - `type`
   - `status`
-  - `originationTime`
-  - `destinationType`
-  - `destinationReference`
-  - `transactionReference`
+  - `createdAt`
+  - `transferBatches`
   - `amount`
   - `currency`
   - `metadata`
@@ -418,7 +462,6 @@ Note: The asynchronous results are processed like webhooks.
     - `resourceStatus`
     - `errors`
     - `metadata`
-    - `linkResource`
     - `linkSelf`    
     - `callbackUrl`
 
@@ -430,8 +473,7 @@ Note: The asynchronous results are processed like webhooks.
     - `status`
     - `eventType`
     - `resource`
-    - `errorsCode`
-    - `errorsDescription`
+    - `errors`
     - `metadata`
     - `linkSelf`
     - `callbackUrl`
@@ -522,6 +564,15 @@ Note: The asynchronous results are processed like webhooks.
     - `metadata`
     - `linkSelf`
     - `callbackUrl`
+
+#### Error responses
+
+- `errorCode`
+- `errorMessage`
+
+- Token Error Responses
+  - `error`
+  - `errorDescription`
 
 
 For more information on the expected payloads and error codes, please read the [api docs](https://api-docs.kopokopo.com)
