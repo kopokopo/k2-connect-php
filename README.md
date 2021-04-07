@@ -43,7 +43,7 @@ $K2 = new K2($options);
 - [Webhooks](#webhooks) : `$webhooks = $K2->Webhooks();`
 - [STK PUSH](#stkservice) : `$stk = $K2->StkService();`
 - [Pay](#payservice) : `$pay = $K2->PayService();`
-- [Transfer](#transferservice) : `$transfer = $K2->TransferService();`
+- [Settlement Transfer](#settlementtransferservice) : `$transfer = $K2->SettlementTransferService();`
 
 ## Usage
 
@@ -227,9 +227,9 @@ For more information, please read <https://api-docs.kopokopo.com/#receive-paymen
 
 For more information, please read <https://api-docs.kopokopo.com/#send-money-pay>
 
-### `TransferService`
+### `SettlementTransferService`
 
-- `TransferService->createMerchantBankAccount([ accountOpts ])`: `accountOpts`: An array of arrays containing the following keys:
+- `SettlementTransferService->createMerchantBankAccount([ accountOpts ])`: `accountOpts`: An array of arrays containing the following keys:
 
   - `accountName`: Settlement Account Name `REQUIRED`
   - `bankBranchRef`: Settlement Bank Branch Reference `REQUIRED`
@@ -237,13 +237,13 @@ For more information, please read <https://api-docs.kopokopo.com/#send-money-pay
   - `settlementMethod`: Settlement method `REQUIRED`
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
 
-- `TransferService->createMerchantWallet([ accountOpts ])`: `accountOpts`: An array of arrays containing the following keys:
+- `SettlementTransferService->createMerchantWallet([ accountOpts ])`: `accountOpts`: An array of arrays containing the following keys:
 
   - `phoneNumber`: Phone number to settle to `REQUIRED`
   - `network`: Mobile money network to settle to `REQUIRED`
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
 
-- `TransferService->settleFunds([ settleOpts ])`: `settleOpts`: An array of arrays containing the following keys:
+- `SettlementTransferService->settleFunds([ settleOpts ])`: `settleOpts`: An array of arrays containing the following keys:
 
   - `destinationType`: The destination type `REQUIRED FOR A TARGETED TRANSFER`
   - `destinationReference`: The destination reference `REQUIRED FOR A TARGETED TRANSFER`
@@ -251,7 +251,7 @@ For more information, please read <https://api-docs.kopokopo.com/#send-money-pay
   - `amount`: Amount to settle. `REQUIRED FOR A TARGETED TRANSFER` PS: If not included the whole balance will be settled.
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
 
-- `TransferService->getStatus([ location ])`:
+- `SettlementTransferService->getStatus([ location ])`:
 
   - `location`: The request location you get when you send a request
 
