@@ -283,6 +283,7 @@ class SettlementTransferServiceTest extends TestCase
                 'destinationType' => 'merchant_wallet',
                 'destinationReference' => 'my_destination_ref',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
+                'callbackUrl' => 'http://localhost:8000/test',
             ])
         );
     }
@@ -291,6 +292,17 @@ class SettlementTransferServiceTest extends TestCase
     {
         $this->assertArraySubset(
             ['status' => 'success'],
+            $this->settleFundsClient->settleFunds([
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+                'callbackUrl' => 'http://localhost:8000/test',
+            ])
+        );
+    }
+
+    public function testBlindSettleFundsWithNocallbackUrlFails()
+    {
+        $this->assertArraySubset(
+            ['data' => 'You have to provide the callbackUrl'],
             $this->settleFundsClient->settleFunds([
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
@@ -306,6 +318,21 @@ class SettlementTransferServiceTest extends TestCase
                 'currency' => 'KES',
                 'destinationType' => 'merchant_wallet',
                 'destinationReference' => 'my_destination_ref',
+                'callbackUrl' => 'http://localhost:8000/test',
+            ])
+        );
+    }
+
+    public function testTargettedSettleFundsWithNocallbackUrlFails()
+    {
+        $this->assertArraySubset(
+            ['data' => 'You have to provide the callbackUrl'],
+            $this->settleFundsClient->settleFunds([
+                'amount' => 333,
+                'currency' => 'KES',
+                'destinationType' => 'merchant_wallet',
+                'destinationReference' => 'my_destination_ref',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
     }

@@ -39,6 +39,11 @@ class SettleFundsRequest extends BaseRequest
         return $this->getRequestData('destinationType');
     }
 
+    public function getUrl()
+    {
+        return $this->getRequestData('callbackUrl');
+    }
+
     public function getSettleFundsBody()
     {
         return [
@@ -48,6 +53,9 @@ class SettleFundsRequest extends BaseRequest
             ],
             'destination_reference' => $this->getDestinationRef(),
             'destination_type' => $this->getDestinationType(),
+            '_links' => [
+                'callback_url' => $this->getUrl(),
+            ],
         ];
     }
 }
