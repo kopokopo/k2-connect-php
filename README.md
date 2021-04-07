@@ -148,8 +148,8 @@ The only supported ISO currency code at the moment is: `KES`
     'data' => [
       'accessToken' => 'GT6576QGYdYh8i5s8DnxUQVphFewh-8eiO2',
       'tokenType' => 'Bearer',
-      'expires_in' => 3600,
-      'created_at' => '2021-04-06T13:49:50+03:00'
+      'expiresIn' => 3600,
+      'createdAt' => '2021-04-06T13:49:50+03:00'
     ]
   ]
   ```
