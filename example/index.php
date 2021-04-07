@@ -75,6 +75,70 @@ $router->map('GET', '/merchantbankaccount', function () {
     require __DIR__.'/views/merchantbankaccount.php';
 });
 
+$router->map('GET', '/paymobilerecipient', function () {
+    require __DIR__.'/views/paymobilerecipient.php';
+});
+
+$router->map('GET', '/paybankrecipient', function () {
+    require __DIR__.'/views/paybankrecipient.php';
+});
+
+$router->map('GET', '/paytillrecipient', function () {
+    require __DIR__.'/views/paytillrecipient.php';
+});
+
+$router->map('GET', '/paymerchantrecipient', function () {
+    require __DIR__.'/views/paymerchantrecipient.php';
+});
+
+$router->map('GET', '/token', function () {
+    global $K2;
+
+    $tokens = $K2->TokenService();
+    $response = $tokens->getToken();
+
+    $access_token = $response['data']['accessToken'];
+
+
+    echo json_encode($response);
+});
+
+$router->map('GET', '/revoketoken', function () {
+    global $K2;
+
+    $tokens = $K2->TokenService();
+    $tokenResponse = $tokens->getToken();
+
+    $access_token = $tokenResponse['data']['accessToken'];
+
+    $response = $tokens->revokeToken(['accessToken' => $access_token]);
+    echo json_encode($response);
+});
+
+$router->map('GET', '/infotoken', function () {
+    global $K2;
+
+    $tokens = $K2->TokenService();
+    $tokenResponse = $tokens->getToken();
+
+    $access_token = $tokenResponse['data']['accessToken'];
+
+    $response = $tokens->infoToken(['accessToken' => $access_token]);
+    echo json_encode($response);
+});
+
+$router->map('GET', '/introspecttoken', function () {
+    global $K2;
+
+    $tokens = $K2->TokenService();
+    $tokenResponse = $tokens->getToken();
+
+    $access_token = $tokenResponse['data']['accessToken'];
+
+    $response = $tokens->introspectToken(['accessToken' => $access_token]);
+    echo json_encode($response);
+});
+
 $router->map('POST', '/webhook/subscribe', function () {
     global $K2;
 
@@ -83,9 +147,9 @@ $router->map('POST', '/webhook/subscribe', function () {
 
     // echo json_encode($response);
     // echo json_encode($response['data']);
-    // echo json_encode($response['data']->access_token);
+    // echo json_encode($response['data']['accessToken']);
 
-    $access_token = $response['data']->access_token;
+    $access_token = $response['data']['accessToken'];
 
     // echo $access_token;
 
@@ -110,7 +174,7 @@ $router->map('POST', '/stk', function () {
     $tokens = $K2->TokenService();
     $response = $tokens->getToken();
 
-    $access_token = $response['data']->access_token;
+    $access_token = $response['data']['accessToken'];
 
     $options = [
         'paymentChannel' => 'M-PESA STK Push',
@@ -121,7 +185,7 @@ $router->map('POST', '/stk', function () {
         'amount' => $_POST['amount'],
         'currency' => 'KES',
         'email' => 'example@example.com',
-        'callbackUrl' => 'https://webhook.site/675d4ef4-0629-481f-83cd-d101f55e4bc8',
+        'callbackUrl' => 'https://4773626d5d5c.ngrok.io/webhook',
         'accessToken' => $access_token,
     ];
     $response = $stk->initiateIncomingPayment($options);
@@ -136,7 +200,7 @@ $router->map('POST', '/merchantwallet', function () {
     $tokens = $K2->TokenService();
     $response = $tokens->getToken();
 
-    $access_token = $response['data']->access_token;
+    $access_token = $response['data']['accessToken'];
 
     $options = [
         'firstName' => $_POST['firstName'],
@@ -157,7 +221,7 @@ $router->map('POST', '/merchantbankaccount', function () {
     $tokens = $K2->TokenService();
     $response = $tokens->getToken();
 
-    $access_token = $response['data']->access_token;
+    $access_token = $response['data']['accessToken'];
 
     $options = [
         'bankBranchRef' => $_POST['bankBranchRef'],
@@ -178,16 +242,101 @@ $router->map('POST', '/transfer', function () {
     $tokens = $K2->TokenService();
     $response = $tokens->getToken();
 
-    $access_token = $response['data']->access_token;
+    $access_token = $response['data']['accessToken'];
 
     $options = [
         'amount' => $_POST['amount'],
         'currency' => 'KES',
         'destinationReference' => $_POST['destinationReference'],
         'destinationType' => $_POST['destinationType'],
+        'callbackUrl' => 'https://4773626d5d5c.ngrok.io/webhook',
         'accessToken' => $access_token,
     ];
     $response = $transfer->settleFunds($options);
+
+    echo json_encode($response);
+});
+
+$router->map('POST', '/paymobilerecipient', function () {
+    global $K2;
+    $transfer = $K2->PayService();
+
+    $tokens = $K2->TokenService();
+    $response = $tokens->getToken();
+
+    $access_token = $response['data']['accessToken'];
+
+    $options = [
+        'type' => 'mobile_wallet',
+        'firstName' => $_POST['firstName'],
+        'lastName' => $_POST['lastName'],
+        'phoneNumber' => $_POST['phoneNumber'],
+        'network' => $_POST['network'],
+        'accessToken' => $access_token,
+    ];
+    $response = $transfer->addPayRecipient($options);
+
+    echo json_encode($response);
+});
+
+$router->map('POST', '/paybankrecipient', function () {
+    global $K2;
+    $transfer = $K2->PayService();
+
+    $tokens = $K2->TokenService();
+    $response = $tokens->getToken();
+
+    $access_token = $response['data']['accessToken'];
+
+    $options = [
+        'type' => 'bank_account',
+        'bankBranchRef' => $_POST['bankBranchRef'],
+        'accountName' => $_POST['accountName'],
+        'accountNumber' => $_POST['accountNumber'],
+        'settlementMethod' => $_POST['settlementMethod'],
+        'accessToken' => $access_token,
+    ];
+    $response = $transfer->addPayRecipient($options);
+
+    echo json_encode($response);
+});
+
+$router->map('POST', '/paytillrecipient', function () {
+    global $K2;
+    $transfer = $K2->PayService();
+
+    $tokens = $K2->TokenService();
+    $response = $tokens->getToken();
+
+    $access_token = $response['data']['accessToken'];
+
+    $options = [
+        'type' => 'till',
+        'tillName' => $_POST['tillName'],
+        'tillNumber' => $_POST['tillNumber'],
+        'accessToken' => $access_token,
+    ];
+    $response = $transfer->addPayRecipient($options);
+
+    echo json_encode($response);
+});
+
+$router->map('POST', '/paymerchantrecipient', function () {
+    global $K2;
+    $transfer = $K2->PayService();
+
+    $tokens = $K2->TokenService();
+    $response = $tokens->getToken();
+
+    $access_token = $response['data']['accessToken'];
+
+    $options = [
+        'type' => 'kopo_kopo_merchant',
+        'aliasName' => $_POST['aliasName'],
+        'tillNumber' => $_POST['tillNumber'],
+        'accessToken' => $access_token,
+    ];
+    $response = $transfer->addPayRecipient($options);
 
     echo json_encode($response);
 });
@@ -199,7 +348,7 @@ $router->map('POST', '/pay', function () {
     $tokens = $K2->TokenService();
     $response = $tokens->getToken();
 
-    $access_token = $response['data']->access_token;
+    $access_token = $response['data']['accessToken'];
 
     $options = [
         'destinationType' => $_POST['destinationType'],
@@ -207,7 +356,7 @@ $router->map('POST', '/pay', function () {
         'amount' => $_POST['amount'],
         'currency' => 'KES',
         'accessToken' => $access_token,
-        'callbackUrl' => 'http://localhost:8000/webhook',
+        'callbackUrl' => 'https://4773626d5d5c.ngrok.io/webhook',
     ];
     $response = $pay->sendPay($options);
 
@@ -235,7 +384,7 @@ $router->map('POST', '/status', function () {
     $tokens = $K2->TokenService();
     $response = $tokens->getToken();
 
-    $access_token = $response['data']->access_token;
+    $access_token = $response['data']['accessToken'];
 
     $webhooks = $K2->Webhooks();
 

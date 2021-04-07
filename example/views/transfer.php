@@ -9,6 +9,7 @@
                 <select name = "destinationType">
                     <option value="merchant_bank_account"> Merchant Bank Account </option>
                     <option value="merchant_wallet">Merchant Wallet</option>
+                    <option value="">Blind Settlement</option>
                 </select>
             </div>
         </div>
