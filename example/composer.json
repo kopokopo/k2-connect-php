@@ -8,19 +8,9 @@
             "email": "nicollet.njora05@gmail.com"
         }
     ],
-    "repositories": [
-        {
-            "type": "git",
-            "url": "git://github.com/kopokopo/k2-connect-php"
-        }
-    ],
     "require": {
         "altorouter/altorouter": "1.1.0",
-        "kopokopo/k2-connect-php": "dev-master",
-        "vlucas/phpdotenv": "^5.3@dev"
-    },
-    "config": {
-        "secure-http": false
-    },
-    "minimum-stability": "dev"
+        "vlucas/phpdotenv": "^5.3@dev",
+        "kopokopo/k2-connect-php": "^1.0"
+    }
 }
