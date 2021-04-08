@@ -1,7 +1,9 @@
 {
     "name": "kopokopo/k2-connect-php",
     "description": "Kopokopo's php SDK",
+    "homepage": "https://github.com/kopokopo/k2-connect-php",
     "type": "library",
+    "license": "MIT",
     "require": {
         "guzzlehttp/guzzle": "^6.3"
     },

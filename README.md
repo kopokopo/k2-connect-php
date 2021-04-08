@@ -1,5 +1,7 @@
 # Kopokopo PHP SDK
 
+[![Latest Stable Version](https://img.shields.io/packagist/v/kopokopo/k2-connect-php)](https://packagist.org/packages/kopokopo/k2-connect-php)
+
 This is a module to assist php developers in consuming Kopokopo's API
 
 ## Installation
@@ -47,7 +49,7 @@ $K2 = new K2($options);
 
 You will need to pass an access token when sending data to Kopokopo's API.
 
-This will return an `access_token` and `expires_in` values
+This will return `accessToken` and `expiresIn` values
 
 ```php
 use Kopokopo\SDK\K2;
