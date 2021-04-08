@@ -116,7 +116,7 @@ print_r($response);
 $stk = $K2->StkService();
 $result = $stk->initiateIncomingPayment([
                 'paymentChannel' => 'M-PESA STK Push',
-                'tillNumber' => '13432',
+                'tillNumber' => 'K000000',
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
                 'phoneNumber' => '0712345678',
