@@ -42,6 +42,8 @@ $K2 = new K2($options);
 - [STK PUSH](#stkservice) : `$stk = $K2->StkService();`
 - [Pay](#payservice) : `$pay = $K2->PayService();`
 - [Settlement Transfer](#settlementtransferservice) : `$transfer = $K2->SettlementTransferService();`
+- [PollingService](#pollingservice) : `$polling = $K2->PollingService();`
+- [SmsNotificationService](#smsnotificationservice) : `$sms_notification = $K2->SmsNotificationService();`
 
 ## Usage
 
@@ -174,7 +176,7 @@ NB: The access token cannot be used to send subsequent requests
   - `email`: Customer's email address
   - `currency`: 3-digit ISO format currency code. `REQUIRED`
   - `amount`: Amount to charge. `REQUIRED`
-  - `callbackUrl`: Amount to charge. `REQUIRED`
+  - `callbackUrl`: Url that the [result](#responsesandresults) will be posted to `REQUIRED`
   - `paymentChannel`: Payment channel. Default is: `"M-PESA STK Push"`. `REQUIRED`
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
   - `metadata`: It is a hash containing a maximum of 5 key value pairs
@@ -182,6 +184,7 @@ NB: The access token cannot be used to send subsequent requests
 - `$StkService->getStatus([location ])`:
 
   - `location`: The request location you get when you send a request
+  - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
 
 For more information, please read <https://api-docs.kopokopo.com/#receive-payments-from-m-pesa-users-via-stk-push>
 
@@ -215,13 +218,14 @@ For more information, please read <https://api-docs.kopokopo.com/#receive-paymen
   - `destinationReference`: The recipient reference. `REQUIRED`
   - `currency`: 3-digit ISO format currency code. `REQUIRED`
   - `amount`: Amount to charge. `REQUIRED`
-  - `callbackUrl`: Amount to charge. `REQUIRED`
+  - `callbackUrl`: Url that the [result](#responsesandresults) will be posted to `REQUIRED`
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
   - `metadata`: It is a hash containing a maximum of 5 key value pairs
 
 - `PayService->getStatus([ location ])`:
 
   - `location`: The request location you get when you send a request
+  - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
 
 For more information, please read <https://api-docs.kopokopo.com/#send-money-pay>
 
@@ -252,8 +256,48 @@ For more information, please read <https://api-docs.kopokopo.com/#send-money-pay
 - `SettlementTransferService->getStatus([ location ])`:
 
   - `location`: The request location you get when you send a request
+  - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
 
 For more information, please read [api-docs#transfer](https://api-docs.kopokopo.com/#transfer-to-your-account-s)
+
+### `PollingService`
+
+- `PollingService->pollTransactions([ pollingOpts ])`: `pollingOpts`: An array of arrays containing the following keys:
+
+  - `fromTime`: The starting time of the polling request
+  - `toTime`: The end time of the polling request
+  - `scope`: The scope of the polling request
+  - `scopeReference`: The scope reference `REQUIRED for the 'Till' scope`  
+  - `callbackUrl`: Url that the [result](#responsesandresults) will be posted to `REQUIRED`
+  - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`  
+
+- `PollingService->getStatus([ statusOpts ])`: `statusOpts`: An array of arrays containing the following keys:
+
+  - `location`: The location url you got from the request `REQUIRED`
+  - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
+
+This works the same for all requests that you get a location response.
+
+For more information, please read [api-docs#polling](https://api-docs.kopokopo.com/#polling)
+
+### `SmsNotificationService`
+
+- `SmsNotificationService->sendTransactionSmsNotification([ transactionNotificationOpts ])`: `transactionNotificationOpts`: An array of arrays containing the following keys:
+
+  - `webhookEventReference`: The webhook event reference for a buygoods_transaction_received webhook.
+  - `message`: The message to be sent
+  - `callbackUrl`: Url that the [result](#responsesandresults) will be posted to `REQUIRED`
+  - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`  
+
+- `SmsNotificationService->getStatus([ statusOpts ])`: `statusOpts`: An array of arrays containing the following keys:
+
+  - `location`: The location url you got from the request `REQUIRED`
+  - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
+
+This works the same for all requests that you get a location response.
+
+For more information, please read [api-docs#transaction-sms-notifications](https://api-docs.kopokopo.com/#transaction-sms-notifications)
+
 
 ### Responses and Results
 
@@ -476,6 +520,27 @@ Note: The asynchronous results are processed like webhooks.
     - `linkSelf`
     - `callbackUrl`
 
+- Polling Result
+  - `id`
+  - `type`
+  - `status`
+  - `fromTime`
+  - `toTime`
+  - `scope`
+  - `scopeReference`
+  - `transactions`
+  - `linkSelf`
+  - `callbackUrl`
+
+- Transaction SMS Notification Result
+  - `id`
+  - `type`
+  - `status`
+  - `message`
+  - `webhookEventReference`
+  - `linkSelf`
+  - `callbackUrl`
+
 #### Status Payloads
 
 - Webhook Subscription Status
@@ -562,6 +627,12 @@ Note: The asynchronous results are processed like webhooks.
     - `metadata`
     - `linkSelf`
     - `callbackUrl`
+
+- Polling Status
+  - This payload is the same as the `Polling` result payload
+
+- Transaction SMS Notification Status
+  - This payload is the same as the `Transaction SMS Notification` result payload
 
 #### Error responses
 
