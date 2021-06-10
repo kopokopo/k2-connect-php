@@ -4,7 +4,7 @@ namespace Kopokopo\SDK\Data;
 
 class BuygoodsReceivedData
 {
-    public function setData($result)
+    public static function setData($result)
     {
         $data['id'] = $result['id'];
         

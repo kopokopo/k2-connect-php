@@ -37,7 +37,8 @@ class DataHandler
             }
         } else {
             // Results
-            return ResultDataHandler::sort($this->data['data']);
+            $resultDataHandler = new ResultDataHandler;
+            return $resultDataHandler->sort($this->data['data']);
         }        
     }
 }

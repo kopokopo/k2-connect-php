@@ -4,7 +4,7 @@ namespace Kopokopo\SDK\Data;
 
 class B2bReceivedData
 {
-    public function setData($result)
+    public static function setData($result)
     {
         $data['id'] = $result['id'];
         $data['topic'] = $result['topic'];
