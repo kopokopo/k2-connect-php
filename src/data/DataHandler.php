@@ -36,7 +36,7 @@ class DataHandler
                     break;
             }
         } else {
-            // Results
+            // Result and Status Payloads
             $resultDataHandler = new ResultDataHandler;
             return $resultDataHandler->sort($this->data['data']);
         }        

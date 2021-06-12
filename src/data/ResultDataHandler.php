@@ -29,6 +29,12 @@ class ResultDataHandler
             case 'payment':
                 return PaymentData::setData($data);
             break;
+            case 'polling':
+                return PollingData::setData($data);
+            break;
+            case 'transaction_sms_notification':
+                return TransactionSmsNotificationData::setData($data);
+            break;
         }
     }
 }
