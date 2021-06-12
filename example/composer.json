@@ -11,6 +11,6 @@
     "require": {
         "altorouter/altorouter": "1.1.0",
         "vlucas/phpdotenv": "^5.3@dev",
-        "kopokopo/k2-connect-php": "^1.0"
+        "kopokopo/k2-connect-php": "dev-development"
     }
 }

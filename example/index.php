@@ -91,6 +91,14 @@ $router->map('GET', '/paymerchantrecipient', function () {
     require __DIR__.'/views/paymerchantrecipient.php';
 });
 
+$router->map('GET', '/polling', function () {
+    require __DIR__.'/views/polling.php';
+});
+
+$router->map('GET', '/smsnotification', function () {
+    require __DIR__.'/views/smsnotification.php';
+});
+
 $router->map('GET', '/token', function () {
     global $K2;
 
@@ -189,6 +197,48 @@ $router->map('POST', '/stk', function () {
         'accessToken' => $access_token,
     ];
     $response = $stk->initiateIncomingPayment($options);
+
+    echo json_encode($response);
+});
+
+$router->map('POST', '/polling', function () {
+    global $K2;
+    $polling = $K2->PollingService();
+
+    $tokens = $K2->TokenService();
+    $response = $tokens->getToken();
+
+    $access_token = $response['data']['accessToken'];
+
+    $options = [
+        'fromTime' => $_POST['from_time'],
+        'toTime' => $_POST['to_time'],
+        'scope' => $_POST['scope'],
+        'scopeReference' => $_POST['scope_ref'],
+        'callbackUrl' => 'https://8ad50a368ffa.ngrok.io/webhook',
+        'accessToken' => $access_token,
+    ];
+    $response = $polling->pollTransactions($options);
+
+    echo json_encode($response);
+});
+
+$router->map('POST', '/smsnotification', function () {
+    global $K2;
+    $sms_notification = $K2->SmsNotificationService();
+
+    $tokens = $K2->TokenService();
+    $response = $tokens->getToken();
+
+    $access_token = $response['data']['accessToken'];
+
+    $options = [
+        'message' => $_POST['message'],
+        'webhookEventReference' => $_POST['webhookEventReference'],
+        'callbackUrl' => 'https://8ad50a368ffa.ngrok.io/webhook',
+        'accessToken' => $access_token,
+    ];
+    $response = $sms_notification->sendTransactionSmsNotification($options);
 
     echo json_encode($response);
 });
