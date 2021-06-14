@@ -4,7 +4,7 @@ namespace Kopokopo\SDK\Helpers;
 
 use hash_hmac;
 
-require 'vendor/autoload.php';
+// require 'vendor/autoload.php';
 
 class Auth
 {
