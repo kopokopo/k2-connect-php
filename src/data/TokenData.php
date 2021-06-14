@@ -6,12 +6,12 @@ class TokenData
 {
     protected $data;
 
-    public function setGetTokenData($errorResponse)
+    public function setGetTokenData($response)
     {
-        $this->data['accessToken'] = $errorResponse['access_token'];
-        $this->data['tokenType'] = $errorResponse['token_type'];
-        $this->data['expiresIn'] = $errorResponse['expires_in'];
-        $this->data['createdAt'] = $errorResponse['created_at'];
+        $this->data['accessToken'] = $response['access_token'];
+        $this->data['tokenType'] = $response['token_type'];
+        $this->data['expiresIn'] = $response['expires_in'];
+        $this->data['createdAt'] = $response['created_at'];
 
         return $this->data;
     }

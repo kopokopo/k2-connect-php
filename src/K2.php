@@ -69,4 +69,18 @@ class K2
 
         return $transfer;
     }
+
+    public function PollingService()
+    {
+        $poll = new PollingService($this->client, $this->options);
+
+        return $poll;
+    }
+
+    public function SmsNotificationService()
+    {
+        $smsNotify = new SmsNotificationService($this->client, $this->options);
+
+        return $smsNotify;
+    }
 }

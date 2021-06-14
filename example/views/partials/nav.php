@@ -51,6 +51,24 @@
                     <a class="dropdown-item" href="/status">Query Transfer status</a>
                 </div>
             </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Polling
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="/polling">Poll Transactions</a>
+                    <a class="dropdown-item" href="/status">Query Polling status</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sms Notification
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="/smsnotification">Send sms Notifications</a>
+                    <a class="dropdown-item" href="/status">Query Sms Notification status</a>
+                </div>
+            </li>
         </ul>
     </div>
 </nav>

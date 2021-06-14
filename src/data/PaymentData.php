@@ -4,7 +4,7 @@ namespace Kopokopo\SDK\Data;
 
 class PaymentData
 {
-    public function setData($result)
+    public static function setData($result)
     {
         $data['id'] = $result['id'];
         $data['type'] = $result['type'];

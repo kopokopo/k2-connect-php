@@ -4,6 +4,7 @@ namespace Kopokopo\SDK;
 
 use Kopokopo\SDK\Requests\StatusRequest;
 use Kopokopo\SDK\Data\DataHandler;
+use Kopokopo\SDK\Data\FailedResponseData;
 use GuzzleHttp\Client;
 use Exception;
 

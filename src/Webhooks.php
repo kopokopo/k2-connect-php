@@ -2,7 +2,7 @@
 
 namespace Kopokopo\SDK;
 
-require 'vendor/autoload.php';
+// require 'vendor/autoload.php';
 
 use Kopokopo\SDK\Requests\WebhookSubscribeRequest;
 use Kopokopo\SDK\Helpers\Auth;

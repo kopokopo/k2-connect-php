@@ -4,17 +4,17 @@ namespace Kopokopo\SDK;
 
 // require 'vendor/autoload.php';
 
-use Kopokopo\SDK\Requests\StkIncomingPaymentRequest;
+use Kopokopo\SDK\Requests\TransactionSmsNotificationRequest;
 use Kopokopo\SDK\Data\FailedResponseData;
 use Exception;
 
-class StkService extends Service
+class SmsNotificationService extends Service
 {
-    public function initiateIncomingPayment($options)
+    public function sendTransactionSmsNotification($options)
     {
-        $stkPaymentRequest = new StkIncomingPaymentRequest($options);
+        $transactionNotificationRequest = new TransactionSmsNotificationRequest($options);
         try {
-            $response = $this->client->post('incoming_payments', ['body' => json_encode($stkPaymentRequest->getPaymentRequestBody()), 'headers' => $stkPaymentRequest->getHeaders()]);
+            $response = $this->client->post('transaction_sms_notifications', ['body' => json_encode($transactionNotificationRequest->getSmsNotificationBody()), 'headers' => $transactionNotificationRequest->getHeaders()]);
 
             return $this->postSuccess($response);
         } catch (\GuzzleHttp\Exception\ClientException $e) {
