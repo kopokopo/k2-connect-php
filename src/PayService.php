@@ -7,7 +7,7 @@ namespace Kopokopo\SDK;
 use Kopokopo\SDK\Requests\PayRecipientMobileRequest;
 use Kopokopo\SDK\Requests\PayRecipientAccountRequest;
 use Kopokopo\SDK\Requests\PayRecipientTillRequest;
-use Kopokopo\SDK\Requests\PayRecipientMerchantRequest;
+use Kopokopo\SDK\Requests\PayRecipientPaybillRequest;
 use Kopokopo\SDK\Requests\PayRequest;
 use Kopokopo\SDK\Data\FailedResponseData;
 use Exception;
@@ -26,8 +26,8 @@ class PayService extends Service
                 $payRecipientrequest = new PayRecipientAccountRequest($options);
             } elseif ($options['type'] === 'till') {
                 $payRecipientrequest = new PayRecipientTillRequest($options);
-            } elseif ($options['type'] === 'kopo_kopo_merchant') {
-                $payRecipientrequest = new PayRecipientMerchantRequest($options);
+            } elseif ($options['type'] === 'paybill') {
+                $payRecipientrequest = new PayRecipientPaybillRequest($options);
             } elseif ($options['type'] === 'mobile_wallet') {
                 $payRecipientrequest = new PayRecipientMobileRequest($options);
             } else{
@@ -39,6 +39,7 @@ class PayService extends Service
             return $this->postSuccess($response);
         } catch (\GuzzleHttp\Exception\ClientException $e) {
             $dataHandler = new FailedResponseData();
+            // TODO: Nico - pass the status code and check if the response has a body
             return $this->error($dataHandler->setErrorData(json_decode($e->getResponse()->getBody()->getContents(), true)));
         } catch (Exception $e) {
             return $this->error($e->getMessage());
@@ -54,6 +55,7 @@ class PayService extends Service
             return $this->postSuccess($response);
         } catch (\GuzzleHttp\Exception\ClientException $e) {
             $dataHandler = new FailedResponseData();
+            // TODO: Nico - pass the status code and check if the response has a body
             return $this->error($dataHandler->setErrorData(json_decode($e->getResponse()->getBody()->getContents(), true)));
         } catch(\Exception $e){
             return $this->error($e->getMessage());

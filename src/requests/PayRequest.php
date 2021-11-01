@@ -9,7 +9,6 @@ class PayRequest extends BaseRequest
         return $this->getRequestData('destinationReference');
     }
 
-    // TODO: Validate destination type
     public function getDestinationType()
     {
         return $this->getRequestData('destinationType');
@@ -23,6 +22,29 @@ class PayRequest extends BaseRequest
     public function getCurrency()
     {
         return $this->getRequestData('currency');
+    }
+
+    public function getDescription()
+    {
+        return $this->getRequestData('description');
+    }
+
+    public function getCategory()
+    {
+        if (!isset($this->data['category'])) {
+            return null;
+        }
+
+        return $this->getRequestData('category');
+    }
+
+    public function getTags()
+    {
+        if (!isset($this->data['tags'])) {
+            return null;
+        }
+
+        return $this->getRequestData('tags');
     }
 
     public function getUrl()
@@ -48,6 +70,9 @@ class PayRequest extends BaseRequest
                 'currency' => $this->getCurrency(),
                 'value' => $this->getAmount(),
             ],
+            'description' => $this->getDescription(),
+            'category' => $this->getCategory(),
+            'tags' => $this->getTags(),
             'metadata' => $this->getMetadata(),
             '_links' => [
                 'callback_url' => $this->getUrl(),

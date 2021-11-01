@@ -87,8 +87,8 @@ $router->map('GET', '/paytillrecipient', function () {
     require __DIR__.'/views/paytillrecipient.php';
 });
 
-$router->map('GET', '/paymerchantrecipient', function () {
-    require __DIR__.'/views/paymerchantrecipient.php';
+$router->map('GET', '/paypaybillrecipient', function () {
+    require __DIR__.'/views/paypaybillrecipient.php';
 });
 
 $router->map('GET', '/polling', function () {
@@ -371,7 +371,7 @@ $router->map('POST', '/paytillrecipient', function () {
     echo json_encode($response);
 });
 
-$router->map('POST', '/paymerchantrecipient', function () {
+$router->map('POST', '/paypaybillrecipient', function () {
     global $K2;
     $transfer = $K2->PayService();
 
@@ -381,9 +381,10 @@ $router->map('POST', '/paymerchantrecipient', function () {
     $access_token = $response['data']['accessToken'];
 
     $options = [
-        'type' => 'kopo_kopo_merchant',
-        'aliasName' => $_POST['aliasName'],
-        'tillNumber' => $_POST['tillNumber'],
+        'type' => 'paybill',
+        'paybillName' => $_POST['paybillName'],
+        'paybillNumber' => $_POST['paybillNumber'],
+        'paybillAccountNumber' => $_POST['paybillAccountNumber'],
         'accessToken' => $access_token,
     ];
     $response = $transfer->addPayRecipient($options);
@@ -403,6 +404,9 @@ $router->map('POST', '/pay', function () {
     $options = [
         'destinationType' => $_POST['destinationType'],
         'destinationReference' => $_POST['destinationReference'],
+        'description' => $_POST['description'],
+        'category' => '',
+        'tags' => '',
         'amount' => $_POST['amount'],
         'currency' => 'KES',
         'accessToken' => $access_token,

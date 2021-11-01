@@ -6,6 +6,10 @@ class K2InitialiseRequest extends BaseRequest
 {
     public function getBaseUrl()
     {
+        if (isset($this->data['baseUrl']) && $this->data['baseUrl'] == 'https://app.kopokopo.com') {
+            throw new \InvalidArgumentException("Invalid base url.");
+        }
+
         return $this->getRequestData('baseUrl');
     }
 
