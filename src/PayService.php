@@ -37,10 +37,9 @@ class PayService extends Service
             $response = $this->client->post('pay_recipients', ['body' => json_encode($payRecipientrequest->getPayRecipientBody()), 'headers' => $payRecipientrequest->getHeaders()]);
 
             return $this->postSuccess($response);
-        } catch (\GuzzleHttp\Exception\ClientException $e) {
+        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
             $dataHandler = new FailedResponseData();
-            // TODO: Nico - pass the status code and check if the response has a body
-            return $this->error($dataHandler->setErrorData(json_decode($e->getResponse()->getBody()->getContents(), true)));
+            return $this->error($dataHandler->setErrorData($e));
         } catch (Exception $e) {
             return $this->error($e->getMessage());
         }
@@ -53,10 +52,9 @@ class PayService extends Service
             $response = $this->client->post('payments', ['body' => json_encode($payRequest->getPayBody()), 'headers' => $payRequest->getHeaders()]);
 
             return $this->postSuccess($response);
-        } catch (\GuzzleHttp\Exception\ClientException $e) {
+        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
             $dataHandler = new FailedResponseData();
-            // TODO: Nico - pass the status code and check if the response has a body
-            return $this->error($dataHandler->setErrorData(json_decode($e->getResponse()->getBody()->getContents(), true)));
+            return $this->error($dataHandler->setErrorData($e));
         } catch(\Exception $e){
             return $this->error($e->getMessage());
         }

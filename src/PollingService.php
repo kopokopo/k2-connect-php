@@ -17,9 +17,9 @@ class PollingService extends Service
             $response = $this->client->post('polling', ['body' => json_encode($pollingRequest->getPollingRequestBody()), 'headers' => $pollingRequest->getHeaders()]);
 
             return $this->postSuccess($response);
-        } catch (\GuzzleHttp\Exception\ClientException $e) {
+        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
             $dataHandler = new FailedResponseData();
-            return $this->error($dataHandler->setErrorData(json_decode($e->getResponse()->getBody()->getContents(), true)));
+            return $this->error($dataHandler->setErrorData($e));
         } catch(\Exception $e){
             return $this->error($e->getMessage());
         }
