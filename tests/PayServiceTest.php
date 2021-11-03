@@ -360,54 +360,71 @@ class PayServiceTest extends TestCase
     }
 
     /*
-    *   Add Pay Recipient (Kopo kopo Merchant) tests
+    *   Add Pay Recipient (Paybill) tests
     */
 
-    public function testAddPayRecipientMerchantSucceeds()
+    public function testAddPayRecipientPaybillSucceeds()
     {
         $this->assertArraySubset(
             ['status' => 'success'],
             $this->payRecipientClient->addPayRecipient([
-                'type' => 'kopo_kopo_merchant',
-                'aliasName' => 'Doe',
-                'tillNumber' => '123456',
+                'type' => 'paybill',
+                'paybillName' => 'Doe',
+                'paybillNumber' => '123456',
+                'paybillAccountNumber' => '67890',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
     }
 
-    public function testAddPayRecipientMerchantWithNoAliasNameFails()
+    public function testAddPayRecipientPaybillWithNoPaybillNameFails()
     {
         $this->assertArraySubset(
-            ['data' => 'You have to provide the aliasName'],
+            ['data' => 'You have to provide the paybillName'],
             $this->payRecipientClient->addPayRecipient([
-                'type' => 'kopo_kopo_merchant',
-                'tillNumber' => '123456',
+                'type' => 'paybill',
+                'paybillNumber' => '123456',
+                'paybillAccountNumber' => '67890',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
     }
 
-    public function testAddPayRecipientMerchantWithNoTillNumberFails()
+    public function testAddPayRecipientPaybillWithNoPaybillNumberFails()
     {
         $this->assertArraySubset(
-            ['data' => 'You have to provide the tillNumber'],
+            ['data' => 'You have to provide the paybillNumber'],
             $this->payRecipientClient->addPayRecipient([
-                'type' => 'kopo_kopo_merchant',
-                'aliasName' => 'Doe',
+                'type' => 'paybill',
+                'paybillName' => 'Doe',
+                'paybillAccountNumber' => '67890',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
     }
 
-    public function testAddPayRecipientMerchantWithNoAccessTokenFails()
+    public function testAddPayRecipientPaybillWithNoPaybillAccountNumberFails()
+    {
+        $this->assertArraySubset(
+            ['data' => 'You have to provide the paybillAccountNumber'],
+            $this->payRecipientClient->addPayRecipient([
+                'type' => 'paybill',
+                'paybillName' => 'Doe',
+                'paybillNumber' => '123456',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+            ])
+        );
+    }
+
+    public function testAddPayRecipientPaybillWithNoAccessTokenFails()
     {
         $this->assertArraySubset(
             ['data' => 'You have to provide the accessToken'],
             $this->payRecipientClient->addPayRecipient([
-                'type' => 'kopo_kopo_merchant',
-                'aliasName' => 'Doe',
-                'tillNumber' => '123456',
+                'type' => 'paybill',
+                'paybillName' => 'Doe',
+                'paybillNumber' => '123456',
+                'paybillAccountNumber' => '67890',
             ])
         );
     }
@@ -444,6 +461,9 @@ class PayServiceTest extends TestCase
                 'destinationType' => 'mobile_wallet',
                 'amount' => 3444,
                 'currency' => 'KES',
+                'description' => 'Salary payment for May 2021',
+			    'category' => 'Salary Payment',
+			    'tags' => 'Salary,May',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
                 'callbackUrl' => 'http://localhost:8000/webhook',
             ])
@@ -458,6 +478,9 @@ class PayServiceTest extends TestCase
                 'destinationType' => 'mobile_wallet',
                 'amount' => 3444,
                 'currency' => 'KES',
+                'description' => 'Salary payment for May 2021',
+			    'category' => 'Salary Payment',
+			    'tags' => 'Salary,May',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
                 'callbackUrl' => 'http://localhost:8000/webhook',
             ])
@@ -472,6 +495,9 @@ class PayServiceTest extends TestCase
                 'destinationReference' => 'my_destination_alias',
                 'destinationType' => 'mobile_wallet',
                 'currency' => 'KES',
+                'description' => 'Salary payment for May 2021',
+			    'category' => 'Salary Payment',
+			    'tags' => 'Salary,May',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
                 'callbackUrl' => 'http://localhost:8000/webhook',
             ])
@@ -486,6 +512,26 @@ class PayServiceTest extends TestCase
                 'destinationReference' => 'my_destination_alias',
                 'destinationType' => 'mobile_wallet',
                 'amount' => 3444,
+                'description' => 'Salary payment for May 2021',
+			    'category' => 'Salary Payment',
+			    'tags' => 'Salary,May',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+                'callbackUrl' => 'http://localhost:8000/webhook',
+            ])
+        );
+    }
+
+    public function testSendPayWithNoDescriptionFails()
+    {
+        $this->assertArraySubset(
+            ['data' => 'You have to provide the description'],
+            $this->sendPayClient->sendPay([
+                'destinationReference' => 'my_destination_alias',
+                'destinationType' => 'mobile_wallet',
+                'amount' => 3444,
+                'currency' => 'KES',
+			    'category' => 'Salary Payment',
+			    'tags' => 'Salary,May',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
                 'callbackUrl' => 'http://localhost:8000/webhook',
             ])
@@ -501,6 +547,9 @@ class PayServiceTest extends TestCase
                 'destinationType' => 'mobile_wallet',
                 'amount' => 3444,
                 'currency' => 'KES',
+                'description' => 'Salary payment for May 2021',
+			    'category' => 'Salary Payment',
+			    'tags' => 'Salary,May',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ])
         );
@@ -515,6 +564,9 @@ class PayServiceTest extends TestCase
                 'destinationType' => 'mobile_wallet',
                 'amount' => 3444,
                 'currency' => 'KES',
+                'description' => 'Salary payment for May 2021',
+			    'category' => 'Salary Payment',
+			    'tags' => 'Salary,May',
                 'callbackUrl' => 'http://localhost:8000/webhook',
             ])
         );

@@ -56,9 +56,9 @@ abstract class Service
             $dataHandler = new DataHandler(json_decode($response->getBody()->getContents(), true));
 
             return $this->success($dataHandler->dataHandlerSort());
-        } catch (\GuzzleHttp\Exception\ClientException $e) {
+        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
             $dataHandler = new FailedResponseData();
-            return $this->error($dataHandler->setErrorData(json_decode($e->getResponse()->getBody()->getContents(), true)));
+            return $this->error($dataHandler->setErrorData($e));
         } catch (Exception $e) {
             return $this->error($e->getMessage());
         }

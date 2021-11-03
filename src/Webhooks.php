@@ -40,10 +40,9 @@ class Webhooks extends Service
             return $this->postSuccess($response);
         } catch (InvalidArgumentException $e) {
             return $this->error($e->getMessage());
-        } catch (\GuzzleHttp\Exception\ClientException $e) {
+        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
             $dataHandler = new FailedResponseData();
-
-            return $this->error($dataHandler->setErrorData(json_decode($e->getResponse()->getBody()->getContents(), true)));
+            return $this->error($dataHandler->setErrorData($e));
         } catch(\Exception $e){
             return $this->error($e->getMessage());
         }

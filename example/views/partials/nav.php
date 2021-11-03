@@ -36,7 +36,7 @@
                     <a class="dropdown-item" href="/paymobilerecipient">Add Mobile PAY recipient</a>
                     <a class="dropdown-item" href="/paybankrecipient">Add Bank PAY recipient</a>
                     <a class="dropdown-item" href="/paytillrecipient">Add Till PAY recipient</a>
-                    <a class="dropdown-item" href="/paymerchantrecipient">Add Merchant PAY recipient</a>
+                    <a class="dropdown-item" href="/paypaybillrecipient">Add Paybill PAY recipient</a>
                     <a class="dropdown-item" href="/status">Payment status</a>
                 </div>
             </li>

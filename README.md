@@ -207,9 +207,10 @@ For more information, please read <https://api-docs.kopokopo.com/#receive-paymen
     - External Till Recipient(`till`)
       - `tillNumber`: Pay recipient's till number `REQUIRED`
       - `tillName`: Pay recipient's till name `REQUIRED`
-    - Kopo Kopo Merchant(`kopo_kopo_merchant`)
-      - `tillNumber`: Pay recipient's till number `REQUIRED`
-      - `aliasName`: Pay recipient's alias name `REQUIRED`
+    - Paybill(`paybill`)
+      - `paybillName`: Pay recipient's paybill name `REQUIRED`
+      - `paybillNumber`: Pay recipient's paybill number `REQUIRED`
+      - `paybillAccountNumber`: Pay recipient's account number `REQUIRED`
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
 
 - `PayService->sendPay([ payOptions ])`: `payOptions`: An array of arrays containing the following keys:
@@ -219,6 +220,9 @@ For more information, please read <https://api-docs.kopokopo.com/#receive-paymen
   - `currency`: 3-digit ISO format currency code. `REQUIRED`
   - `amount`: Amount to charge. `REQUIRED`
   - `callbackUrl`: Url that the [result](#responsesandresults) will be posted to `REQUIRED`
+  - `description`: Payment description `REQUIRED`
+  - `tags`: Tags associated with the payment
+  - `category`: Category that the payment belongs to
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
   - `metadata`: It is a hash containing a maximum of 5 key value pairs
 
@@ -605,10 +609,11 @@ Note: The asynchronous results are processed like webhooks.
     - `tillNumber`
     - `tillName`
 
-  - If `recipientType == "Kopo Kopo Merchant"`
+  - If `recipientType == "Paybill"`
 
-    - `tillNumber`
-    - `aliasName`
+    - `paybillName`
+    - `paybillNumber`
+    - `paybillAccountNumber`
 
 - Stk Push Status
 
