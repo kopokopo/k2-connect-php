@@ -12,10 +12,16 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Exception\RequestException;
 use Kopokopo\SDK\SmsNotificationService;
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 
 class SmsNotificationServiceTest extends TestCase
 {
-    public function setup()
+    use ArraySubsetAsserts;
+
+    private $transactionSmsNotificationClient;
+    private $statusClient;
+
+    public function setup(): void
     {
         $options = [
             'clientId' => 'your_client_id',

@@ -1,6 +1,7 @@
 <?php
 
 namespace Kopokopo\SDK;
+
 use Kopokopo\SDK\Data\TokenData;
 use Kopokopo\SDK\Data\FailedResponseData;
 use Kopokopo\SDK\Requests\TokenRequest;
@@ -22,11 +23,13 @@ class TokenService extends Service
 
             $dataHandler = new TokenData();
 
-            return $this->success($dataHandler->setGetTokenData(json_decode($response->getBody()->getContents(), true)));
+            return $this->success(
+                $dataHandler->setGetTokenData(json_decode($response->getBody()->getContents(), true))
+            );
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
             $dataHandler = new FailedResponseData();
             return $this->error($dataHandler->setTokenErrorData($e));
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             return $this->error($e->getMessage());
         }
     }
@@ -41,14 +44,14 @@ class TokenService extends Service
                 'client_secret' => $this->clientSecret,
                 'token' => $tokenRequest->getAccessToken(),
             ];
-            
+
             $response = $this->client->post('oauth/revoke', ['form_params' => $requestData]);
 
             return $this->success($response->getBody()->getContents());
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
             $dataHandler = new FailedResponseData();
             return $this->error($dataHandler->setTokenErrorData($e));
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             return $this->error($e->getMessage());
         }
     }
@@ -68,11 +71,13 @@ class TokenService extends Service
 
             $dataHandler = new TokenData();
 
-            return $this->success($dataHandler->setIntrospectTokenData(json_decode($response->getBody()->getContents(), true)));
+            return $this->success(
+                $dataHandler->setIntrospectTokenData(json_decode($response->getBody()->getContents(), true))
+            );
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
             $dataHandler = new FailedResponseData();
             return $this->error($dataHandler->setTokenErrorData($e));
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             return $this->error($e->getMessage());
         }
     }
@@ -86,11 +91,13 @@ class TokenService extends Service
 
             $dataHandler = new TokenData();
 
-            return $this->success($dataHandler->setInfoTokenData(json_decode($response->getBody()->getContents(), true)));
+            return $this->success(
+                $dataHandler->setInfoTokenData(json_decode($response->getBody()->getContents(), true))
+            );
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
             $dataHandler = new FailedResponseData();
             return $this->error($dataHandler->setTokenErrorData($e));
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             return $this->error($e->getMessage());
         }
     }

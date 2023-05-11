@@ -30,11 +30,17 @@ class PayService extends Service
                 $payRecipientrequest = new PayRecipientPaybillRequest($options);
             } elseif ($options['type'] === 'mobile_wallet') {
                 $payRecipientrequest = new PayRecipientMobileRequest($options);
-            } else{
+            } else {
                 throw new \InvalidArgumentException('Invalid recipient type');
             }
 
-            $response = $this->client->post('pay_recipients', ['body' => json_encode($payRecipientrequest->getPayRecipientBody()), 'headers' => $payRecipientrequest->getHeaders()]);
+            $response = $this->client->post(
+                'pay_recipients',
+                [
+                    'body' => json_encode($payRecipientrequest->getPayRecipientBody()),
+                    'headers' => $payRecipientrequest->getHeaders()
+                ]
+            );
 
             return $this->postSuccess($response);
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
@@ -49,13 +55,19 @@ class PayService extends Service
     {
         $payRequest = new PayRequest($options);
         try {
-            $response = $this->client->post('payments', ['body' => json_encode($payRequest->getPayBody()), 'headers' => $payRequest->getHeaders()]);
+            $response = $this->client->post(
+                'payments',
+                [
+                    'body' => json_encode($payRequest->getPayBody()),
+                    'headers' => $payRequest->getHeaders()
+                ]
+            );
 
             return $this->postSuccess($response);
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
             $dataHandler = new FailedResponseData();
             return $this->error($dataHandler->setErrorData($e));
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             return $this->error($e->getMessage());
         }
     }

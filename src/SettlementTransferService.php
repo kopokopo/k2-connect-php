@@ -16,7 +16,13 @@ class SettlementTransferService extends Service
     {
         $merchantBankAccountRequest = new MerchantBankAccountRequest($options);
         try {
-            $response = $this->client->post('merchant_bank_accounts', ['body' => json_encode($merchantBankAccountRequest->getSettlementAccountBody()), 'headers' => $merchantBankAccountRequest->getHeaders()]);
+            $response = $this->client->post(
+                'merchant_bank_accounts',
+                [
+                    'body' => json_encode($merchantBankAccountRequest->getSettlementAccountBody()),
+                    'headers' => $merchantBankAccountRequest->getHeaders()
+                ]
+            );
 
             return $this->postSuccess($response);
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
@@ -31,7 +37,13 @@ class SettlementTransferService extends Service
     {
         $merchantWalletRequest = new MerchantWalletRequest($options);
         try {
-            $response = $this->client->post('merchant_wallets', ['body' => json_encode($merchantWalletRequest->getSettlementAccountBody()), 'headers' => $merchantWalletRequest->getHeaders()]);
+            $response = $this->client->post(
+                'merchant_wallets',
+                [
+                    'body' => json_encode($merchantWalletRequest->getSettlementAccountBody()),
+                    'headers' => $merchantWalletRequest->getHeaders()
+                ]
+            );
 
             return $this->postSuccess($response);
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
@@ -46,13 +58,19 @@ class SettlementTransferService extends Service
     {
         $settleFundsRequest = new SettleFundsRequest($options);
         try {
-            $response = $this->client->post('settlement_transfers', ['body' => json_encode($settleFundsRequest->getSettleFundsBody()), 'headers' => $settleFundsRequest->getHeaders()]);
+            $response = $this->client->post(
+                'settlement_transfers',
+                [
+                    'body' => json_encode($settleFundsRequest->getSettleFundsBody()),
+                    'headers' => $settleFundsRequest->getHeaders()
+                ]
+            );
 
             return $this->postSuccess($response);
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
             $dataHandler = new FailedResponseData();
             return $this->error($dataHandler->setErrorData($e));
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             return $this->error($e->getMessage());
         }
     }

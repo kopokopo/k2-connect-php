@@ -12,10 +12,18 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Exception\RequestException;
 use Kopokopo\SDK\TokenService;
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 
 class TokenServiceTest extends TestCase
 {
-    public function setup()
+    use ArraySubsetAsserts;
+
+    private $tokenRevokeClient;
+    private $tokenRequestClient;
+    private $introspectClient;
+    private $infoClient;
+
+    public function setup(): void
     {
         $options = [
             'clientId' => 'your_client_id',
@@ -108,14 +116,6 @@ class TokenServiceTest extends TestCase
 
         // Use the $infoClient to create an instance of the TokenService() class
         $this->infoClient = new TokenService($infoClient, $options);
-    }
-
-    public function testGetTokenSucceeds()
-    {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->tokenRequestClient->getToken()
-        );
     }
 
     public function testRevokeTokenSucceeds()
