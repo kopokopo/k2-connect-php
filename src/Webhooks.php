@@ -35,7 +35,13 @@ class Webhooks extends Service
     {
         try {
             $subscribeRequest = new WebhookSubscribeRequest($options);
-            $response = $this->client->post('webhook_subscriptions', ['body' => json_encode($subscribeRequest->getWebhookSubscribeBody()), 'headers' => $subscribeRequest->getHeaders()]);
+            $response = $this->client->post(
+                'webhook_subscriptions',
+                [
+                    'body' => json_encode($subscribeRequest->getWebhookSubscribeBody()),
+                    'headers' => $subscribeRequest->getHeaders()
+                ]
+            );
 
             return $this->postSuccess($response);
         } catch (InvalidArgumentException $e) {
@@ -43,7 +49,7 @@ class Webhooks extends Service
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
             $dataHandler = new FailedResponseData();
             return $this->error($dataHandler->setErrorData($e));
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             return $this->error($e->getMessage());
         }
     }

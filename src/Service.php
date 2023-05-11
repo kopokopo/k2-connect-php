@@ -13,6 +13,7 @@ abstract class Service
     protected $client;
     protected $clientId;
     protected $clientSecret;
+    protected $apiKey;
 
     public function __construct($client, $options)
     {

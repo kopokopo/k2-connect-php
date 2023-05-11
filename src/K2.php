@@ -12,6 +12,7 @@ class K2
     protected $client;
     protected $tokenClient;
     public $baseUrl;
+    public $version;
 
     public function __construct($options)
     {

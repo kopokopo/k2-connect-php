@@ -9,7 +9,8 @@ use Kopokopo\SDK\K2;
 
 class K2Test extends TestCase
 {
-    public function setup()
+    private $client;
+    public function setup(): void
     {
         $options = [
             'clientId' => 'your_client_id',

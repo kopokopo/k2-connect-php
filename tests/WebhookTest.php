@@ -13,10 +13,16 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Exception\RequestException;
 use Kopokopo\SDK\K2;
 use Kopokopo\SDK\Webhooks;
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 
 class WebhookTest extends TestCase
 {
-    public function setup()
+    use ArraySubsetAsserts;
+
+    private $client;
+    private $subscribeClient;
+
+    public function setup(): void
     {
         $options = [
             'clientId' => 'your_client_id',
@@ -33,7 +39,7 @@ class WebhookTest extends TestCase
         */
 
         // subscribe() response headers
-        $subscribeHeaders = file_get_contents(__DIR__.'/Mocks/subscribeHeaders.json');
+        $subscribeHeaders = file_get_contents(__DIR__ . '/Mocks/subscribeHeaders.json');
 
         // Create an instance of MockHandler for returning responses for subscribe()
         $subscribeMock = new MockHandler([
@@ -143,14 +149,21 @@ class WebhookTest extends TestCase
      */
     public function testWebhookHandlerWithNoDataFails()
     {
-        $this->expectException($this->client->webhookHandler());
+        $k2Sig = 'eeww';
+        $reqBody = file_get_contents(__DIR__ . '/Mocks/hooks/customercreated.json');
+        $response = $this->client->webhookHandler($reqBody, $k2Sig, 'my_webhook_secret');
+
+        $this->assertArraySubset(
+            ['status' => 'error'],
+            $response
+        );
     }
 
     public function testCustomerCreatedWebhookHandler()
     {
         $k2Sig = '4dc26548d9a8a5ad7b1b31d56146bdaec28038bbfa4e20bf57fed39e975c9aaa';
 
-        $reqBody = file_get_contents(__DIR__.'/Mocks/hooks/customercreated.json');
+        $reqBody = file_get_contents(__DIR__ . '/Mocks/hooks/customercreated.json');
         $response = $this->client->webhookHandler($reqBody, $k2Sig, 'my_webhook_secret');
 
         $this->assertArraySubset(

@@ -12,10 +12,18 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Exception\RequestException;
 use Kopokopo\SDK\SettlementTransferService;
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 
 class SettlementTransferServiceTest extends TestCase
 {
-    public function setup()
+    use ArraySubsetAsserts;
+    
+    private $merchantBankAccountClient;
+    private $merchantWalletClient;
+    private $settleFundsClient;
+    private $statusClient;
+
+    public function setup(): void
     {
         $options = [
             'clientId' => 'your_client_id',

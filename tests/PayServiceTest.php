@@ -12,10 +12,17 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Exception\RequestException;
 use Kopokopo\SDK\PayService;
+use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
+
 
 class PayServiceTest extends TestCase
 {
-    public function setup()
+    use ArraySubsetAsserts;
+    private $payRecipientClient;
+    private $sendPayClient;
+    private $statusClient;
+
+    public function setup(): void
     {
         $options = [
             'clientId' => 'your_client_id',
