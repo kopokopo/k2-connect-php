@@ -16,7 +16,7 @@ use Kopokopo\SDK\Webhooks;
 
 class WebhookTest extends TestCase
 {
-    public function setup()
+    public function setup(): void
     {
         $options = [
             'clientId' => 'your_client_id',
@@ -57,81 +57,81 @@ class WebhookTest extends TestCase
 
     public function testWebhookSubscribeSucceeds()
     {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->subscribeClient->subscribe([
-                'eventType' => 'buygoods_transaction_received',
-                'url' => 'http://localhost:8000/webhook',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-                'scope' => 'Company',
-                'scopeReference' => null
-            ])
-        );
+        $response = $this->subscribeClient->subscribe([
+            'eventType' => 'buygoods_transaction_received',
+            'url' => 'http://localhost:8000/webhook',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+            'scope' => 'Company',
+            'scopeReference' => null
+        ]);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
     }
 
     public function testWebhookSubscribeWithNoEventTypeFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the eventType'],
-            $this->subscribeClient->subscribe([
-                'url' => 'http://localhost:8000/webhook',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-                'scope' => 'company',
-                'scopeReference' => '1'
-            ])
-        );
+        $response = $this->subscribeClient->subscribe([
+            'url' => 'http://localhost:8000/webhook',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+            'scope' => 'company',
+            'scopeReference' => '1'
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the eventType', $response['data']);
     }
 
     public function testWebhookSubscribeWithNoScopeFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the scope'],
-            $this->subscribeClient->subscribe([
-                'eventType' => 'buygoods_transaction_received',
-                'url' => 'http://localhost:8000/webhook',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-                'scopeReference' => '1',
-            ])
-        );
+        $response = $this->subscribeClient->subscribe([
+            'eventType' => 'buygoods_transaction_received',
+            'url' => 'http://localhost:8000/webhook',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+            'scopeReference' => '1',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the scope', $response['data']);
     }
 
     public function testWebhookSubscribeWithNoScopeReferenceFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the scopeReference'],
-            $this->subscribeClient->subscribe([
-                'eventType' => 'buygoods_transaction_received',
-                'url' => 'http://localhost:8000/webhook',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-                'scope' => 'till',
-            ])
-        );
+        $response = $this->subscribeClient->subscribe([
+            'eventType' => 'buygoods_transaction_received',
+            'url' => 'http://localhost:8000/webhook',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+            'scope' => 'till',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the scopeReference', $response['data']);
     }
 
     public function testWebhookSubscribeWithNoUrlFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the url'],
-            $this->subscribeClient->subscribe([
-                'eventType' => 'buygoods_transaction_received',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-                'scope' => 'company',
-                'scopeReference' => '1'
-            ])
-        );
+         $response = $this->subscribeClient->subscribe([
+            'eventType' => 'buygoods_transaction_received',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+            'scope' => 'company',
+            'scopeReference' => '1'
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the url', $response['data']);
     }
 
     public function testWebhookSubscribeWithNoAccessTokenFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the accessToken'],
-            $this->subscribeClient->subscribe([
-                'eventType' => 'buygoods_transaction_received',
-                'url' => 'http://localhost:8000/webhook',
-                'scope' => 'company',
-                'scopeReference' => '1'
-            ])
-        );
+        $response = $this->subscribeClient->subscribe([
+            'eventType' => 'buygoods_transaction_received',
+            'url' => 'http://localhost:8000/webhook',
+            'scope' => 'company',
+            'scopeReference' => '1'
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the accessToken', $response['data']);
     }
 
     /*
@@ -143,7 +143,8 @@ class WebhookTest extends TestCase
      */
     public function testWebhookHandlerWithNoDataFails()
     {
-        $this->expectException($this->client->webhookHandler());
+        $this->expectException(\ArgumentCountError::class);
+        $this->client->webhookHandler();
     }
 
     public function testCustomerCreatedWebhookHandler()
@@ -153,9 +154,7 @@ class WebhookTest extends TestCase
         $reqBody = file_get_contents(__DIR__.'/Mocks/hooks/customercreated.json');
         $response = $this->client->webhookHandler($reqBody, $k2Sig, 'my_webhook_secret');
 
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $response
-        );
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
     }
 }

@@ -15,7 +15,7 @@ use Kopokopo\SDK\StkService;
 
 class StkServiceTest extends TestCase
 {
-    public function setup()
+    public function setup(): void
     {
         $options = [
             'clientId' => 'your_client_id',
@@ -51,7 +51,7 @@ class StkServiceTest extends TestCase
         */
 
         // json response to be returned
-        $statusBody = file_get_contents(__DIR__.'/Mocks/stk-status.json');
+        $statusBody = file_get_contents(__DIR__.'/Mocks/stkStatus.json');
 
         // Create an instance of MockHandler for returning responses for getStatus()
         $statusMock = new MockHandler([
@@ -75,208 +75,190 @@ class StkServiceTest extends TestCase
 
     public function testIncomingPaymentRequestSucceeds()
     {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->incomingPaymentRequestClient->initiateIncomingPayment([
-                'paymentChannel' => 'M-PESA',
-                'tillNumber' => '13432',
-                'firstName' => 'Jane',
-                'lastName' => 'Doe',
-                'phoneNumber' => '+254712345678',
-                'amount' => 3455,
-                'currency' => 'KES',
-                'email' => 'example@example.com',
-                'callbackUrl' => 'http://localhost:8000/test',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->incomingPaymentRequestClient->initiateIncomingPayment([
+            'paymentChannel' => 'M-PESA',
+            'tillNumber' => '13432',
+            'firstName' => 'Jane',
+            'lastName' => 'Doe',
+            'phoneNumber' => '+254712345678',
+            'amount' => 3455,
+            'currency' => 'KES',
+            'email' => 'example@example.com',
+            'callbackUrl' => 'http://localhost:8000/test',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
     }
 
     public function testIncomingPaymentRequestWithNoPhoneFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the phoneNumber'],
-            $this->incomingPaymentRequestClient->initiateIncomingPayment([
-                'paymentChannel' => 'M-PESA',
-                'tillNumber' => '13432',
-                'firstName' => 'Jane',
-                'lastName' => 'Doe',
-                'amount' => 3455,
-                'currency' => 'KES',
-                'email' => 'example@example.com',
-                'callbackUrl' => 'http://localhost:8000/test',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->incomingPaymentRequestClient->initiateIncomingPayment([
+            'paymentChannel' => 'M-PESA',
+            'tillNumber' => '13432',
+            'firstName' => 'Jane',
+            'lastName' => 'Doe',
+            'amount' => 3455,
+            'currency' => 'KES',
+            'email' => 'example@example.com',
+            'callbackUrl' => 'http://localhost:8000/test',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the phoneNumber', $response['data']);
     }
 
     public function testIncomingPaymentRequestWithInvalidPhoneFormatFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'Invalid phone number format'],
-            $this->incomingPaymentRequestClient->initiateIncomingPayment([
-                'paymentChannel' => 'M-PESA',
-                'tillNumber' => '13432',
-                'firstName' => 'Jane',
-                'lastName' => 'Doe',
-                'phoneNumber' => '0712345678',
-                'amount' => 3455,
-                'currency' => 'KES',
-                'email' => 'example@example.com',
-                'callbackUrl' => 'http://localhost:8000/test',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+       $response = $this->incomingPaymentRequestClient->initiateIncomingPayment([
+            'paymentChannel' => 'M-PESA',
+            'tillNumber' => '13432',
+            'firstName' => 'Jane',
+            'lastName' => 'Doe',
+            'phoneNumber' => '0712345678',
+            'amount' => 3455,
+            'currency' => 'KES',
+            'email' => 'example@example.com',
+            'callbackUrl' => 'http://localhost:8000/test',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('Invalid phone number format', $response['data']);
     }
 
     public function testIncomingPaymentRequestWithNoEmailSucceeds()
     {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->incomingPaymentRequestClient->initiateIncomingPayment([
-                'paymentChannel' => 'M-PESA',
-                'tillNumber' => '13432',
-                'firstName' => 'Jane',
-                'lastName' => 'Doe',
-                'phoneNumber' => '+254712345678',
-                'amount' => 3455,
-                'currency' => 'KES',
-                'callbackUrl' => 'http://localhost:8000/test',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+       $response = $this->incomingPaymentRequestClient->initiateIncomingPayment([
+            'paymentChannel' => 'M-PESA',
+            'tillNumber' => '13432',
+            'firstName' => 'Jane',
+            'lastName' => 'Doe',
+            'phoneNumber' => '+254712345678',
+            'amount' => 3455,
+            'currency' => 'KES',
+            'callbackUrl' => 'http://localhost:8000/test',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
     }
 
     public function testIncomingPaymentRequestWithNoTillFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the tillNumber'],
-            $this->incomingPaymentRequestClient->initiateIncomingPayment([
-                'paymentChannel' => 'M-PESA',
-                'firstName' => 'Jane',
-                'lastName' => 'Doe',
-                'phoneNumber' => '+254712345678',
-                'amount' => 3455,
-                'currency' => 'KES',
-                'email' => 'example@example.com',
-                'callbackUrl' => 'http://localhost:8000/test',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->incomingPaymentRequestClient->initiateIncomingPayment([
+            'paymentChannel' => 'M-PESA',
+            'firstName' => 'Jane',
+            'lastName' => 'Doe',
+            'phoneNumber' => '+254712345678',
+            'amount' => 3455,
+            'currency' => 'KES',
+            'email' => 'example@example.com',
+            'callbackUrl' => 'http://localhost:8000/test',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the tillNumber', $response['data']);
     }
 
     public function testIncomingPaymentRequestWithNoCallbackUrlFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the callbackUrl'],
-            $this->incomingPaymentRequestClient->initiateIncomingPayment([
-                'paymentChannel' => 'M-PESA',
-                'tillNumber' => '13432',
-                'firstName' => 'Jane',
-                'lastName' => 'Doe',
-                'phoneNumber' => '+254712345678',
-                'amount' => 3455,
-                'currency' => 'KES',
-                'email' => 'example@example.com',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->incomingPaymentRequestClient->initiateIncomingPayment([
+            'paymentChannel' => 'M-PESA',
+            'tillNumber' => '13432',
+            'firstName' => 'Jane',
+            'lastName' => 'Doe',
+            'phoneNumber' => '+254712345678',
+            'amount' => 3455,
+            'currency' => 'KES',
+            'email' => 'example@example.com',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the callbackUrl', $response['data']);
     }
 
     public function testIncomingPaymentRequestWithoutEmailSucceeds()
     {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->incomingPaymentRequestClient->initiateIncomingPayment([
-                'paymentChannel' => 'M-PESA',
-                'tillNumber' => '13432',
-                'firstName' => 'Jane',
-                'lastName' => 'Doe',
-                'phoneNumber' => '+254712345678',
-                'amount' => 3455,
-                'currency' => 'KES',
-                'callbackUrl' => 'http://localhost:8000/test',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->incomingPaymentRequestClient->initiateIncomingPayment([
+            'paymentChannel' => 'M-PESA',
+            'tillNumber' => '13432',
+            'firstName' => 'Jane',
+            'lastName' => 'Doe',
+            'phoneNumber' => '+254712345678',
+            'amount' => 3455,
+            'currency' => 'KES',
+            'callbackUrl' => 'http://localhost:8000/test',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
     }
 
     public function testIncomingPaymentRequestWithNoCurrencyFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the currency'],
-            $this->incomingPaymentRequestClient->initiateIncomingPayment([
-                'paymentChannel' => 'M-PESA',
-                'tillNumber' => '13432',
-                'firstName' => 'Jane',
-                'lastName' => 'Doe',
-                'phoneNumber' => '+254712345678',
-                'amount' => 3455,
-                'email' => 'example@example.com',
-                'callbackUrl' => 'http://localhost:8000/test',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
-    }
+         $response = $this->incomingPaymentRequestClient->initiateIncomingPayment([
+            'paymentChannel' => 'M-PESA',
+            'tillNumber' => '13432',
+            'firstName' => 'Jane',
+            'lastName' => 'Doe',
+            'phoneNumber' => '+254712345678',
+            'amount' => 3455,
+            'email' => 'example@example.com',
+            'callbackUrl' => 'http://localhost:8000/test',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
 
-    public function testIncomingPaymentRequestWithNoTillNumberFails()
-    {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the tillNumber'],
-            $this->incomingPaymentRequestClient->initiateIncomingPayment([
-                'paymentChannel' => 'M-PESA',
-                'firstName' => 'Jane',
-                'lastName' => 'Doe',
-                'phoneNumber' => '+254712345678',
-                'amount' => 3455,
-                'currency' => 'KES',
-                'email' => 'example@example.com',
-                'callbackUrl' => 'http://localhost:8000/test',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the currency', $response['data']);
     }
 
     public function testIncomingPaymentRequestWithMetadataSucceeds()
     {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->incomingPaymentRequestClient->initiateIncomingPayment([
-                'paymentChannel' => 'M-PESA',
-                'tillNumber' => '13432',
-                'firstName' => 'Jane',
-                'lastName' => 'Doe',
-                'phoneNumber' => '+254712345678',
-                'amount' => 3455,
-                'currency' => 'KES',
-                'email' => 'example@example.com',
-                'callbackUrl' => 'http://localhost:8000/test',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-                'metadata' => [
-                    'customer_id' => '123456789',
-                    'reference' => '123456',
-                    'notes' => 'Payment for invoice 12345',
-                ],
-            ])
-        );
+         $response = $this->incomingPaymentRequestClient->initiateIncomingPayment([
+            'paymentChannel' => 'M-PESA',
+            'tillNumber' => '13432',
+            'firstName' => 'Jane',
+            'lastName' => 'Doe',
+            'phoneNumber' => '+254712345678',
+            'amount' => 3455,
+            'currency' => 'KES',
+            'email' => 'example@example.com',
+            'callbackUrl' => 'http://localhost:8000/test',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+            'metadata' => [
+                'customer_id' => '123456789',
+                'reference' => '123456',
+                'notes' => 'Payment for invoice 12345',
+            ],
+        ]);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
     }
 
     public function testIncomingPaymentRequestWithNoAccessTokenFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the accessToken'],
-            $this->incomingPaymentRequestClient->initiateIncomingPayment([
-                'paymentChannel' => 'M-PESA',
-                'tillNumber' => '13432',
-                'firstName' => 'Jane',
-                'lastName' => 'Doe',
-                'phoneNumber' => '+254712345678',
-                'amount' => 3455,
-                'currency' => 'KES',
-                'email' => 'example@example.com',
-                'callbackUrl' => 'http://localhost:8000/test',
-            ])
-        );
+        $response = $this->incomingPaymentRequestClient->initiateIncomingPayment([
+            'paymentChannel' => 'M-PESA',
+            'tillNumber' => '13432',
+            'firstName' => 'Jane',
+            'lastName' => 'Doe',
+            'phoneNumber' => '+254712345678',
+            'amount' => 3455,
+            'currency' => 'KES',
+            'email' => 'example@example.com',
+            'callbackUrl' => 'http://localhost:8000/test',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the accessToken', $response['data']);
     }
 
     /*
@@ -285,32 +267,32 @@ class StkServiceTest extends TestCase
 
     public function testGetStatusSucceeds()
     {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->statusClient->getStatus([
-                'location' => 'http://localhost:3000/incoming_payments/c7f300c0-f1ef-4151-9bbe-005005aa3747',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->statusClient->getStatus([
+            'location' => 'http://localhost:3000/incoming_payments/c7f300c0-f1ef-4151-9bbe-005005aa3747',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
     }
 
     public function testGetStatusWithNoLocationFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the location'],
-            $this->statusClient->getStatus([
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->statusClient->getStatus([
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the location', $response['data']);
     }
 
     public function testGetStatusWithNoAccessTokenFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the accessToken'],
-            $this->statusClient->getStatus([
-                'location' => 'http://localhost:3000/incoming_payments/c7f300c0-f1ef-4151-9bbe-005005aa3747',
-            ])
-        );
+        $response = $this->statusClient->getStatus([
+            'location' => 'http://localhost:3000/incoming_payments/c7f300c0-f1ef-4151-9bbe-005005aa3747',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the accessToken', $response['data']);
     }
 }

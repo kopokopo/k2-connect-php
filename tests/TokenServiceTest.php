@@ -15,7 +15,7 @@ use Kopokopo\SDK\TokenService;
 
 class TokenServiceTest extends TestCase
 {
-    public function setup()
+    public function setup(): void
     {
         $options = [
             'clientId' => 'your_client_id',
@@ -30,10 +30,12 @@ class TokenServiceTest extends TestCase
 
         // getToken() response headers
         $tokenHeaders = file_get_contents(__DIR__.'/Mocks/tokenHeaders.json');
+        // json response to be returned
+        $tokenResponse= file_get_contents(__DIR__.'/Mocks/tokenResponse.json');
 
         // Create an instance of MockHandler for returning responses for getToken()
         $tokenRequestMock = new MockHandler([
-            new Response(200, json_decode($tokenHeaders, true)),
+            new Response(200, [], $tokenResponse),
             new RequestException('Error Communicating with Server', new Request('GET', 'test')),
         ]);
 
@@ -70,7 +72,7 @@ class TokenServiceTest extends TestCase
         */
 
         // json response to be returned
-        $introspectBody = file_get_contents(__DIR__.'/Mocks/token-introspect.json');
+        $introspectBody = file_get_contents(__DIR__.'/Mocks/tokenIntrospect.json');
 
         // Create an instance of MockHandler for returning responses for introspectToken()
         $introspectMock = new MockHandler([
@@ -92,7 +94,7 @@ class TokenServiceTest extends TestCase
         */
 
         // json response to be returned
-        $infoBody = file_get_contents(__DIR__.'/Mocks/token-info.json');
+        $infoBody = file_get_contents(__DIR__.'/Mocks/tokenInfo.json');
 
         // Create an instance of MockHandler for returning responses for infoToken()
         $infoMock = new MockHandler([
@@ -112,63 +114,63 @@ class TokenServiceTest extends TestCase
 
     public function testGetTokenSucceeds()
     {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->tokenRequestClient->getToken()
-        );
+        $response = $this->tokenRequestClient->getToken();
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
     }
 
     public function testRevokeTokenSucceeds()
     {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->tokenRevokeClient->revokeToken([
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->tokenRevokeClient->revokeToken([
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
     }
 
     public function testRevokeTokenWithNoAccessTokenFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the accessToken'],
-            $this->tokenRevokeClient->revokeToken([])
-        );
+        $response = $this->tokenRevokeClient->revokeToken([]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the accessToken', $response['data']);
     }
 
     public function testIntrospectTokenSucceeds()
     {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->introspectClient->introspectToken([
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->introspectClient->introspectToken([
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
     }
 
     public function testIntrospectTokenWithNoAccessTokenFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the accessToken'],
-            $this->introspectClient->introspectToken([])
-        );
+        $response = $this->introspectClient->introspectToken([]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the accessToken', $response['data']);
     }
 
     public function testInfoTokenSucceeds()
     {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->infoClient->infoToken([
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+       $response = $this->infoClient->infoToken([
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
     }
 
     public function testInfoTokenWithNoAccessTokenFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the accessToken'],
-            $this->infoClient->infoToken([])
-        );
+        $response = $this->infoClient->infoToken([]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the accessToken', $response['data']);
     }
 }
