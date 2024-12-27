@@ -15,7 +15,7 @@ use Kopokopo\SDK\SettlementTransferService;
 
 class SettlementTransferServiceTest extends TestCase
 {
-    public function setup()
+    public function setup(): void
     {
         $options = [
             'clientId' => 'your_client_id',
@@ -95,7 +95,7 @@ class SettlementTransferServiceTest extends TestCase
         */
 
         // json response to be returned
-        $statusBody = file_get_contents(__DIR__.'/Mocks/transfer-status.json');
+        $statusBody = file_get_contents(__DIR__.'/Mocks/transferStatus.json');
 
         // Create an instance of MockHandler for returning responses for getStatus()
         $statusMock = new MockHandler([
@@ -123,80 +123,80 @@ class SettlementTransferServiceTest extends TestCase
 
     public function testCreateMerchantBankAccountRTSSucceeds()
     {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->merchantBankAccountClient->createMerchantBankAccount([
-                'accountName' => 'my_account_name',
-                'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
-                'accountNumber' => '1234567890',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-                'settlementMethod' => 'RTS',
-            ])
-        );
+        $response = $this->merchantBankAccountClient->createMerchantBankAccount([
+            'accountName' => 'my_account_name',
+            'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
+            'accountNumber' => '1234567890',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+            'settlementMethod' => 'RTS',
+        ]);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
     }
 
     public function testCreateMerchantBankAccountWithNoAccountNameFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the accountName'],
-            $this->merchantBankAccountClient->createMerchantBankAccount([
-                'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
-                'accountNumber' => '1234567890',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-                'settlementMethod' => 'RTS',
-            ])
-        );
+        $response = $this->merchantBankAccountClient->createMerchantBankAccount([
+            'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
+            'accountNumber' => '1234567890',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+            'settlementMethod' => 'RTS',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the accountName', $response['data']);
     }
 
     public function testCreateMerchantBankAccountWithNoBankBranchRefFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the bankBranchRef'],
-            $this->merchantBankAccountClient->createMerchantBankAccount([
-                'accountName' => 'my_account_name',
-                'accountNumber' => '1234567890',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-                'settlementMethod' => 'RTS',
-            ])
-        );
+        $response = $this->merchantBankAccountClient->createMerchantBankAccount([
+            'accountName' => 'my_account_name',
+            'accountNumber' => '1234567890',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+            'settlementMethod' => 'RTS',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the bankBranchRef', $response['data']);
     }
 
     public function testCreateMerchantBankAccountWithNoAccountNumberFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the accountNumber'],
-            $this->merchantBankAccountClient->createMerchantBankAccount([
-                'accountName' => 'my_account_name',
-                'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-                'settlementMethod' => 'RTS',
-            ])
-        );
+        $response = $this->merchantBankAccountClient->createMerchantBankAccount([
+            'accountName' => 'my_account_name',
+            'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+            'settlementMethod' => 'RTS',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the accountNumber', $response['data']);
     }
 
     public function testCreateMerchantBankAccountWithNoSettlementMethodFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the settlementMethod'],
-            $this->merchantBankAccountClient->createMerchantBankAccount([
-                'accountName' => 'my_account_name',
-                'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->merchantBankAccountClient->createMerchantBankAccount([
+            'accountName' => 'my_account_name',
+            'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the settlementMethod', $response['data']);
     }
 
     public function testCreateMerchantBankAccountWithNoAccessTokenFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the accessToken'],
-            $this->merchantBankAccountClient->createMerchantBankAccount([
-                'accountName' => 'my_account_name',
-                'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
-                'accountNumber' => '1234567890',
-                'settlementMethod' => 'RTS',
-            ])
-        );
+        $response = $this->merchantBankAccountClient->createMerchantBankAccount([
+            'accountName' => 'my_account_name',
+            'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
+            'accountNumber' => '1234567890',
+            'settlementMethod' => 'RTS',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the accessToken', $response['data']);
     }
 
       /*
@@ -205,68 +205,68 @@ class SettlementTransferServiceTest extends TestCase
 
     public function testCreateMerchantWalletSucceeds()
     {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->merchantWalletClient->createMerchantWallet([
-                'firstName' => 'Jane',
-                'lastName' => 'Doe',
-                'network' => 'Safaricom',
-                'phoneNumber' => '+254792345678',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->merchantWalletClient->createMerchantWallet([
+            'firstName' => 'Jane',
+            'lastName' => 'Doe',
+            'network' => 'Safaricom',
+            'phoneNumber' => '+254792345678',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
     }
 
     public function testCreateMerchantWalletWithNoFirstNameFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the firstName'],
-            $this->merchantWalletClient->createMerchantWallet([
-                'lastName' => 'Doe',
-                'network' => 'Safaricom',
-                'phoneNumber' => '+254792345678',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->merchantWalletClient->createMerchantWallet([
+            'lastName' => 'Doe',
+            'network' => 'Safaricom',
+            'phoneNumber' => '+254792345678',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the firstName', $response['data']);
     }
 
     public function testCreateMerchantWalletWithNoLastNameFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the lastName'],
-            $this->merchantWalletClient->createMerchantWallet([
-                'firstName' => 'Jane',
-                'network' => 'Safaricom',
-                'phoneNumber' => '+254792345678',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+       $response = $this->merchantWalletClient->createMerchantWallet([
+            'firstName' => 'Jane',
+            'network' => 'Safaricom',
+            'phoneNumber' => '+254792345678',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the lastName', $response['data']);
     }
 
     public function testCreateMerchantWalletWithNoNetworkFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the network'],
-            $this->merchantWalletClient->createMerchantWallet([
-                'firstName' => 'Jane',
-                'lastName' => 'Doe',
-                'phoneNumber' => '+254792345678',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->merchantWalletClient->createMerchantWallet([
+            'firstName' => 'Jane',
+            'lastName' => 'Doe',
+            'phoneNumber' => '+254792345678',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the network', $response['data']);
     }
 
     public function testCreateMerchantWalletWithNoPhoneNumberFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the phoneNumber'],
-            $this->merchantWalletClient->createMerchantWallet([
-                'firstName' => 'Jane',
-                'lastName' => 'Doe',
-                'network' => 'Safaricom',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->merchantWalletClient->createMerchantWallet([
+            'firstName' => 'Jane',
+            'lastName' => 'Doe',
+            'network' => 'Safaricom',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the phoneNumber', $response['data']);
     }
 
     /*
@@ -275,66 +275,66 @@ class SettlementTransferServiceTest extends TestCase
 
     public function testTargettedSettleFundsSucceeds()
     {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->settleFundsClient->settleFunds([
-                'amount' => 333,
-                'currency' => 'KES',
-                'destinationType' => 'merchant_wallet',
-                'destinationReference' => 'my_destination_ref',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-                'callbackUrl' => 'http://localhost:8000/test',
-            ])
-        );
+        $response = $this->settleFundsClient->settleFunds([
+            'amount' => 333,
+            'currency' => 'KES',
+            'destinationType' => 'merchant_wallet',
+            'destinationReference' => 'my_destination_ref',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+            'callbackUrl' => 'http://localhost:8000/test',
+        ]);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
     }
 
     public function testBlindSettleFundsSucceeds()
     {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->settleFundsClient->settleFunds([
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-                'callbackUrl' => 'http://localhost:8000/test',
-            ])
-        );
+        $response = $this->settleFundsClient->settleFunds([
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+            'callbackUrl' => 'http://localhost:8000/test',
+        ]);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
     }
 
     public function testBlindSettleFundsWithNocallbackUrlFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the callbackUrl'],
-            $this->settleFundsClient->settleFunds([
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->settleFundsClient->settleFunds([
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the callbackUrl', $response['data']);
     }
 
     public function testTargettedSettleFundsWithNoAccessTokenFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the accessToken'],
-            $this->settleFundsClient->settleFunds([
-                'amount' => 333,
-                'currency' => 'KES',
-                'destinationType' => 'merchant_wallet',
-                'destinationReference' => 'my_destination_ref',
-                'callbackUrl' => 'http://localhost:8000/test',
-            ])
-        );
+        $response = $this->settleFundsClient->settleFunds([
+            'amount' => 333,
+            'currency' => 'KES',
+            'destinationType' => 'merchant_wallet',
+            'destinationReference' => 'my_destination_ref',
+            'callbackUrl' => 'http://localhost:8000/test',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the accessToken', $response['data']);
     }
 
     public function testTargettedSettleFundsWithNocallbackUrlFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the callbackUrl'],
-            $this->settleFundsClient->settleFunds([
-                'amount' => 333,
-                'currency' => 'KES',
-                'destinationType' => 'merchant_wallet',
-                'destinationReference' => 'my_destination_ref',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->settleFundsClient->settleFunds([
+            'amount' => 333,
+            'currency' => 'KES',
+            'destinationType' => 'merchant_wallet',
+            'destinationReference' => 'my_destination_ref',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the callbackUrl', $response['data']);
     }
 
     /*
@@ -343,32 +343,32 @@ class SettlementTransferServiceTest extends TestCase
 
     public function testGetStatusSucceeds()
     {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->statusClient->getStatus([
-                'location' => 'my_request_id',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->statusClient->getStatus([
+            'location' => 'my_request_id',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
     }
 
     public function testGetStatusWithNoLocationFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the location'],
-            $this->statusClient->getStatus([
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->statusClient->getStatus([
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the location', $response['data']);
     }
 
     public function testGetStatusWithNoAccessTokenFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the accessToken'],
-            $this->statusClient->getStatus([
-                'location' => 'my_request_id',
-            ])
-        );
+        $response = $this->statusClient->getStatus([
+            'location' => 'my_request_id',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the accessToken', $response['data']);
     }
 }

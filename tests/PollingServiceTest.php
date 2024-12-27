@@ -15,7 +15,7 @@ use Kopokopo\SDK\PollingService;
 
 class PollingServiceTest extends TestCase
 {
-    public function setup()
+    public function setup(): void
     {
         $options = [
             'clientId' => 'your_client_id',
@@ -51,7 +51,7 @@ class PollingServiceTest extends TestCase
         */
 
         // json response to be returned
-        $statusBody = file_get_contents(__DIR__.'/Mocks/polling-status.json');
+        $statusBody = file_get_contents(__DIR__.'/Mocks/pollingStatus.json');
 
         // Create an instance of MockHandler for returning responses for getStatus()
         $statusMock = new MockHandler([
@@ -75,117 +75,117 @@ class PollingServiceTest extends TestCase
 
     public function testPollTransactionSucceeds()
     {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->pollingRequestClient->pollTransactions([
-                'fromTime' => '2021-03-28T08:50:22+03:00',
-                'toTime' => '2021-04-01T08:50:22+03:00',
-                'scope' => 'company',
-                'scopeReference' => '9597',
-                'callbackUrl' => 'http://localhost:8000/test',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->pollingRequestClient->pollTransactions([
+            'fromTime' => '2021-03-28T08:50:22+03:00',
+            'toTime' => '2021-04-01T08:50:22+03:00',
+            'scope' => 'company',
+            'scopeReference' => '9597',
+            'callbackUrl' => 'http://localhost:8000/test',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+        
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
     }
 
     public function testPollTransactionWithNoFromTimeFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the fromTime'],
-            $this->pollingRequestClient->pollTransactions([
-                'toTime' => '2021-04-01T08:50:22+03:00',
-                'scope' => 'company',
-                'scopeReference' => '9597',
-                'callbackUrl' => 'http://localhost:8000/test',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->pollingRequestClient->pollTransactions([
+            'toTime' => '2021-04-01T08:50:22+03:00',
+            'scope' => 'company',
+            'scopeReference' => '9597',
+            'callbackUrl' => 'http://localhost:8000/test',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the fromTime', $response['data']);
     }
 
     public function testPollTransactionWithNoToTimeFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the toTime'],
-            $this->pollingRequestClient->pollTransactions([
-                'fromTime' => '2021-03-28T08:50:22+03:00',
-                'scope' => 'company',
-                'scopeReference' => '9597',
-                'callbackUrl' => 'http://localhost:8000/test',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->pollingRequestClient->pollTransactions([
+            'fromTime' => '2021-03-28T08:50:22+03:00',
+            'scope' => 'company',
+            'scopeReference' => '9597',
+            'callbackUrl' => 'http://localhost:8000/test',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the toTime', $response['data']);
     }
 
     public function testPollTransactionWithNoScopeFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the scope'],
-            $this->pollingRequestClient->pollTransactions([
-                'fromTime' => '2021-03-28T08:50:22+03:00',
-                'toTime' => '2021-04-01T08:50:22+03:00',
-                'scopeReference' => '9597',
-                'callbackUrl' => 'http://localhost:8000/test',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->pollingRequestClient->pollTransactions([
+            'fromTime' => '2021-03-28T08:50:22+03:00',
+            'toTime' => '2021-04-01T08:50:22+03:00',
+            'scopeReference' => '9597',
+            'callbackUrl' => 'http://localhost:8000/test',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the scope', $response['data']);
     }
 
     public function testPollTransactionWithNoScopeReferenceForCompanyScopeSucceeds()
     {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->pollingRequestClient->pollTransactions([
-                'fromTime' => '2021-03-28T08:50:22+03:00',
-                'toTime' => '2021-04-01T08:50:22+03:00',
-                'scope' => 'company',
-                'scopeReference' => null,
-                'callbackUrl' => 'http://localhost:8000/test',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->pollingRequestClient->pollTransactions([
+            'fromTime' => '2021-03-28T08:50:22+03:00',
+            'toTime' => '2021-04-01T08:50:22+03:00',
+            'scope' => 'company',
+            'scopeReference' => null,
+            'callbackUrl' => 'http://localhost:8000/test',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
     }
 
     public function testPollTransactionWithNoScopeReferenceForTillScopeFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the scopeReference'],
-            $this->pollingRequestClient->pollTransactions([
-                'fromTime' => '2021-03-28T08:50:22+03:00',
-                'toTime' => '2021-04-01T08:50:22+03:00',
-                'scope' => 'till',
-                'scopeReference' => null,
-                'callbackUrl' => 'http://localhost:8000/test',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->pollingRequestClient->pollTransactions([
+            'fromTime' => '2021-03-28T08:50:22+03:00',
+            'toTime' => '2021-04-01T08:50:22+03:00',
+            'scope' => 'till',
+            'scopeReference' => null,
+            'callbackUrl' => 'http://localhost:8000/test',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the scopeReference', $response['data']);
     }
 
     public function testPollTransactionWithNoCallbackUrlFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the callbackUrl'],
-            $this->pollingRequestClient->pollTransactions([
-                'fromTime' => '2021-03-28T08:50:22+03:00',
-                'toTime' => '2021-04-01T08:50:22+03:00',
-                'scope' => 'company',
-                'scopeReference' => '9597',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->pollingRequestClient->pollTransactions([
+            'fromTime' => '2021-03-28T08:50:22+03:00',
+            'toTime' => '2021-04-01T08:50:22+03:00',
+            'scope' => 'company',
+            'scopeReference' => '9597',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the callbackUrl', $response['data']);
     }
 
     public function testPollTransactionWithNoAccessTokenFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the accessToken'],
-            $this->pollingRequestClient->pollTransactions([
-                'fromTime' => '2021-03-28T08:50:22+03:00',
-                'toTime' => '2021-04-01T08:50:22+03:00',
-                'scope' => 'company',
-                'scopeReference' => '9597',
-                'callbackUrl' => 'http://localhost:8000/test',
-            ])
-        );
+        $response = $this->pollingRequestClient->pollTransactions([
+            'fromTime' => '2021-03-28T08:50:22+03:00',
+            'toTime' => '2021-04-01T08:50:22+03:00',
+            'scope' => 'company',
+            'scopeReference' => '9597',
+            'callbackUrl' => 'http://localhost:8000/test',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the accessToken', $response['data']);
     }
 
     /*
@@ -194,32 +194,32 @@ class PollingServiceTest extends TestCase
 
     public function testGetStatusSucceeds()
     {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->statusClient->getStatus([
-                'location' => 'http://localhost:3000/polling/c7f300c0-f1ef-4151-9bbe-005005aa3747',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->statusClient->getStatus([
+            'location' => 'http://localhost:3000/polling/c7f300c0-f1ef-4151-9bbe-005005aa3747',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
     }
 
     public function testGetStatusWithNoLocationFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the location'],
-            $this->statusClient->getStatus([
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->statusClient->getStatus([
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the location', $response['data']);
     }
 
     public function testGetStatusWithNoAccessTokenFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the accessToken'],
-            $this->statusClient->getStatus([
-                'location' => 'http://localhost:3000/polling/c7f300c0-f1ef-4151-9bbe-005005aa3747',
-            ])
-        );
+        $response = $this->statusClient->getStatus([
+            'location' => 'http://localhost:3000/polling/c7f300c0-f1ef-4151-9bbe-005005aa3747',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the accessToken', $response['data']);
     }
 }

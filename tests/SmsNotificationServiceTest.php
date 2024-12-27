@@ -15,7 +15,7 @@ use Kopokopo\SDK\SmsNotificationService;
 
 class SmsNotificationServiceTest extends TestCase
 {
-    public function setup()
+    public function setup(): void
     {
         $options = [
             'clientId' => 'your_client_id',
@@ -51,7 +51,7 @@ class SmsNotificationServiceTest extends TestCase
         */
 
         // json response to be returned
-        $statusBody = file_get_contents(__DIR__.'/Mocks/transaction-sms-notification-status.json');
+        $statusBody = file_get_contents(__DIR__.'/Mocks/transactionSmsNotificationStatus.json');
 
         // Create an instance of MockHandler for returning responses for getStatus()
         $statusMock = new MockHandler([
@@ -75,63 +75,63 @@ class SmsNotificationServiceTest extends TestCase
 
     public function testTransactionSmsNotificationSucceeds()
     {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->transactionSmsNotificationClient->sendTransactionSmsNotification([
-                'message' => 'Your message here',
-                'webhookEventReference' => '2133dbfb-24b9-40fc-ae57-2d7559785760',
-                'callbackUrl' => 'http://localhost:8000/test',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->transactionSmsNotificationClient->sendTransactionSmsNotification([
+            'message' => 'Your message here',
+            'webhookEventReference' => '2133dbfb-24b9-40fc-ae57-2d7559785760',
+            'callbackUrl' => 'http://localhost:8000/test',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
     }
 
     public function testTransactionSmsNotificationWithNoMessage()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the message'],
-            $this->transactionSmsNotificationClient->sendTransactionSmsNotification([
-                'webhookEventReference' => '2133dbfb-24b9-40fc-ae57-2d7559785760',
-                'callbackUrl' => 'http://localhost:8000/test',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->transactionSmsNotificationClient->sendTransactionSmsNotification([
+            'webhookEventReference' => '2133dbfb-24b9-40fc-ae57-2d7559785760',
+            'callbackUrl' => 'http://localhost:8000/test',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the message', $response['data']);
     }
 
     public function testTransactionSmsNotificationWithNoWebhookEventReference()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the webhookEventReference'],
-            $this->transactionSmsNotificationClient->sendTransactionSmsNotification([
-                'message' => 'Your message here',
-                'callbackUrl' => 'http://localhost:8000/test',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->transactionSmsNotificationClient->sendTransactionSmsNotification([
+            'message' => 'Your message here',
+            'callbackUrl' => 'http://localhost:8000/test',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the webhookEventReference', $response['data']);
     }
 
     public function testTransactionSmsNotificationWithNoCallbackUrlFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the callbackUrl'],
-            $this->transactionSmsNotificationClient->sendTransactionSmsNotification([
-                'message' => 'Your message here',
-                'webhookEventReference' => '2133dbfb-24b9-40fc-ae57-2d7559785760',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->transactionSmsNotificationClient->sendTransactionSmsNotification([
+            'message' => 'Your message here',
+            'webhookEventReference' => '2133dbfb-24b9-40fc-ae57-2d7559785760',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the callbackUrl', $response['data']);
     }
 
     public function testTransactionSmsNotificationWithNoAccessTokenFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the accessToken'],
-            $this->transactionSmsNotificationClient->sendTransactionSmsNotification([
-                'message' => 'Your message here',
-                'webhookEventReference' => '2133dbfb-24b9-40fc-ae57-2d7559785760',
-                'callbackUrl' => 'http://localhost:8000/test',
-            ])
-        );
+        $response = $this->transactionSmsNotificationClient->sendTransactionSmsNotification([
+            'message' => 'Your message here',
+            'webhookEventReference' => '2133dbfb-24b9-40fc-ae57-2d7559785760',
+            'callbackUrl' => 'http://localhost:8000/test',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the accessToken', $response['data']);
     }
 
     /*
@@ -140,32 +140,32 @@ class SmsNotificationServiceTest extends TestCase
 
     public function testGetStatusSucceeds()
     {
-        $this->assertArraySubset(
-            ['status' => 'success'],
-            $this->statusClient->getStatus([
-                'location' => 'http://localhost:3000/transaction_sms_notifications/9dfd9772-ce1c-4104-a12f-ca550d1b2bdf',
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->statusClient->getStatus([
+            'location' => 'http://localhost:3000/transaction_sms_notifications/9dfd9772-ce1c-4104-a12f-ca550d1b2bdf',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
     }
 
     public function testGetStatusWithNoLocationFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the location'],
-            $this->statusClient->getStatus([
-                'accessToken' => 'myRand0mAcc3ssT0k3n',
-            ])
-        );
+        $response = $this->statusClient->getStatus([
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the location', $response['data']);
     }
 
     public function testGetStatusWithNoAccessTokenFails()
     {
-        $this->assertArraySubset(
-            ['data' => 'You have to provide the accessToken'],
-            $this->statusClient->getStatus([
-                'location' => 'http://localhost:3000/transaction_sms_notifications/9dfd9772-ce1c-4104-a12f-ca550d1b2bdf',
-            ])
-        );
+        $response = $this->statusClient->getStatus([
+            'location' => 'http://localhost:3000/transaction_sms_notifications/9dfd9772-ce1c-4104-a12f-ca550d1b2bdf',
+        ]);
+
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('You have to provide the accessToken', $response['data']);
     }
 }
