@@ -269,6 +269,34 @@ class SettlementTransferServiceTest extends TestCase
         $this->assertEquals('You have to provide the phoneNumber', $response['data']);
     }
 
+    public function testCreateMerchantWalletWithShorterPhoneLengthFails()
+        {
+            $response = $this->merchantWalletClient->createMerchantWallet([
+                'firstName' => 'Jane',
+                'lastName' => 'Doe',
+                'phoneNumber' => '+25470137',
+                'network' => 'Safaricom',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+            ]);
+
+            $this->assertArrayHasKey('data', $response);
+            $this->assertEquals('Invalid phone number format', $response['data']);
+        }
+
+        public function testCreateMerchantWalletWithLongerPhoneLengthFails()
+        {
+            $response = $this->merchantWalletClient->createMerchantWallet([
+                'firstName' => 'Jane',
+                'lastName' => 'Doe',
+                'phoneNumber' => '+2547013788077777',
+                'network' => 'Safaricom',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+            ]);
+
+            $this->assertArrayHasKey('data', $response);
+            $this->assertEquals('Invalid phone number format', $response['data']);
+        }
+
     /*
     *   Settle Funds tests
     */
