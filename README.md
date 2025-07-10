@@ -132,7 +132,7 @@ $result = $stk->initiateIncomingPayment([
 print_r($result);
 ```
 
-For other usage examples check out the [example app](https://github.com/NicoNjora/k2-connect-php-example).
+For other usage examples check out the [example app](https://github.com/kopokopo/k2-connect-php/tree/master/example) available in this project.
 
 ## Services
 
