@@ -6,6 +6,7 @@ use Kopokopo\SDK\Requests\StatusRequest;
 use Kopokopo\SDK\Data\DataHandler;
 use Kopokopo\SDK\Data\FailedResponseData;
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response;
 use Exception;
 
 abstract class Service
@@ -13,8 +14,13 @@ abstract class Service
     protected $client;
     protected $clientId;
     protected $clientSecret;
+    protected $apiKey;
 
-    public function __construct($client, $options)
+    /**
+    * @param Client $client
+    * @param array $options
+    */
+    public function __construct(Client $client, array $options)
     {
         $this->client = $client;
         $this->clientId = $options['clientId'];
@@ -22,7 +28,11 @@ abstract class Service
         $this->apiKey = $options['apiKey'];
     }
 
-    protected static function error($data)
+    /*
+    * @param string|array $data
+    * @return array
+    */
+    protected static function error(string|array $data): array
     {
         return [
             'status' => 'error',
@@ -30,7 +40,11 @@ abstract class Service
         ];
     }
 
-    protected static function postSuccess($data)
+    /*
+    * @param Response $data
+    * @return array
+    */
+    protected static function postSuccess(Response $data): array
     {
         return [
             'status' => 'success',
@@ -38,7 +52,11 @@ abstract class Service
         ];
     }
 
-    protected static function success($data)
+    /*
+    * @param string|array $data
+    * @return array
+    */
+    protected static function success(string|array $data): array
     {
         return [
             'status' => 'success',
@@ -46,7 +64,10 @@ abstract class Service
         ];
     }
 
-    public function getStatus($options)
+    /**
+    * @param array $options
+    */
+    public function getStatus(array $options): array
     {
         try {
             $status = new StatusRequest($options);
