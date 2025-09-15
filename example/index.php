@@ -427,9 +427,10 @@ $router->map('POST', '/webhook', function () {
 
     $response = $webhooks->webhookHandler($json_str, $_SERVER['HTTP_X_KOPOKOPO_SIGNATURE']);
 
-    echo json_encode($response);
-    // print("POST Details: " .$json_str);
-    // print_r($json_str);
+
+    file_put_contents(__DIR__ . '/last_response.json', json_encode($response));
+
+    echo json_encode(['status' => 'received']);
 });
 
 $router->map('POST', '/status', function () {
@@ -452,9 +453,13 @@ $router->map('POST', '/status', function () {
 });
 
 $router->map('GET', '/webhook/resource', function () {
-    global $response;
-    echo $response;
-    echo $response;
+    $file = __DIR__ . '/last_response.json';
+
+    if (file_exists($file)) {
+        echo file_get_contents($file);
+    } else {
+        echo json_encode(['message' => 'No response yet.']);
+    }
 });
 
 $match = $router->match();
