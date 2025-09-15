@@ -23,7 +23,6 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="/stk">STK Push</a>
-                    <a class="dropdown-item" href="/stk/result">Process Payment Request Result</a>
                     <a class="dropdown-item" href="/status">Query Payment Status</a>
                 </div>
             </li>
