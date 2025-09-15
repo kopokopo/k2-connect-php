@@ -12,12 +12,8 @@ class K2
     protected $client;
     protected $tokenClient;
     public $baseUrl;
-    protected $version;
 
-    /**
-     * @param array $options
-     */
-    public function __construct(array $options)
+    public function __construct($options)
     {
         $k2InitialiseRequest = new K2InitialiseRequest($options);
 
@@ -39,49 +35,49 @@ class K2
         ]);
     }
 
-    public function TokenService(): TokenService
+    public function TokenService()
     {
         $token = new TokenService($this->tokenClient, $this->options);
 
         return $token;
     }
 
-    public function Webhooks(): Webhooks
+    public function Webhooks()
     {
         $webhooks = new Webhooks($this->client, $this->options);
 
         return $webhooks;
     }
 
-    public function StkService(): StkService
+    public function StkService()
     {
         $stk = new StkService($this->client, $this->options);
 
         return $stk;
     }
 
-    public function PayService(): PayService
+    public function PayService()
     {
         $pay = new PayService($this->client, $this->options);
 
         return $pay;
     }
 
-    public function SettlementTransferService(): SettlementTransferService
+    public function SettlementTransferService()
     {
         $transfer = new SettlementTransferService($this->client, $this->options);
 
         return $transfer;
     }
 
-    public function PollingService(): PollingService
+    public function PollingService()
     {
         $poll = new PollingService($this->client, $this->options);
 
         return $poll;
     }
 
-    public function SmsNotificationService(): SmsNotificationService
+    public function SmsNotificationService()
     {
         $smsNotify = new SmsNotificationService($this->client, $this->options);
 
