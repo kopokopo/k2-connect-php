@@ -24,7 +24,7 @@ class K2
         $this->baseUrl = $k2InitialiseRequest->getBaseUrl();
         $this->options = $k2InitialiseRequest->getOptions();
 
-        $this->version = 'v1/';
+        $this->version = 'v2/';
 
         $this->client = new Client([
             'base_uri' => $this->baseUrl . "/api/" . $this->version,
@@ -72,6 +72,11 @@ class K2
         $transfer = new SettlementTransferService($this->client, $this->options);
 
         return $transfer;
+    }
+
+    public function SendMoneyService(): SendMoneyService
+    {
+        return new SendMoneyService($this->client, $this->options);
     }
 
     public function PollingService(): PollingService

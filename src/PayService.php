@@ -44,19 +44,4 @@ class PayService extends Service
             return $this->error($e->getMessage());
         }
     }
-
-    public function sendPay($options)
-    {
-        $payRequest = new PayRequest($options);
-        try {
-            $response = $this->client->post('payments', ['body' => json_encode($payRequest->getPayBody()), 'headers' => $payRequest->getHeaders()]);
-
-            return $this->postSuccess($response);
-        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
-            $dataHandler = new FailedResponseData();
-            return $this->error($dataHandler->setErrorData($e));
-        } catch(\Exception $e){
-            return $this->error($e->getMessage());
-        }
-    }
 }

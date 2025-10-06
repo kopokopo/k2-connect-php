@@ -449,137 +449,13 @@ class PayServiceTest extends TestCase
     }
 
     /*
-    *   Send Pay tests
-    */
-
-    public function testSendPaySucceeds()
-    {
-        $response = $this->sendPayClient->sendPay([
-            'destinationReference' => 'my_destination_alias',
-            'destinationType' => 'mobile_wallet',
-            'amount' => 3444,
-            'currency' => 'KES',
-            'description' => 'Salary payment for May 2021',
-            'category' => 'Salary Payment',
-            'tags' => 'Salary,May',
-            'accessToken' => 'myRand0mAcc3ssT0k3n',
-            'callbackUrl' => 'http://localhost:8000/webhook',
-        ]);
-
-        $this->assertArrayHasKey('status', $response);
-        $this->assertEquals('success', $response['status']);
-    }
-
-    public function testSendPayWithNoDestinationReferenceFails()
-    {
-        $response = $this->sendPayClient->sendPay([
-            'destinationType' => 'mobile_wallet',
-            'amount' => 3444,
-            'currency' => 'KES',
-            'description' => 'Salary payment for May 2021',
-            'category' => 'Salary Payment',
-            'tags' => 'Salary,May',
-            'accessToken' => 'myRand0mAcc3ssT0k3n',
-            'callbackUrl' => 'http://localhost:8000/webhook',
-        ]);
-
-        $this->assertArrayHasKey('data', $response);
-        $this->assertEquals('You have to provide the destinationReference', $response['data']);
-    }
-
-    public function testSendPayWithNoAmountFails()
-    {
-        $response = $this->sendPayClient->sendPay([
-            'destinationReference' => 'my_destination_alias',
-            'destinationType' => 'mobile_wallet',
-            'currency' => 'KES',
-            'description' => 'Salary payment for May 2021',
-            'category' => 'Salary Payment',
-            'tags' => 'Salary,May',
-            'accessToken' => 'myRand0mAcc3ssT0k3n',
-            'callbackUrl' => 'http://localhost:8000/webhook',
-        ]);
-
-        $this->assertArrayHasKey('data', $response);
-        $this->assertEquals('You have to provide the amount', $response['data']);
-    }
-
-    public function testSendPayWithNoCurrencyFails()
-    {
-        $response = $this->sendPayClient->sendPay([
-            'destinationReference' => 'my_destination_alias',
-            'destinationType' => 'mobile_wallet',
-            'amount' => 3444,
-            'description' => 'Salary payment for May 2021',
-            'category' => 'Salary Payment',
-            'tags' => 'Salary,May',
-            'accessToken' => 'myRand0mAcc3ssT0k3n',
-            'callbackUrl' => 'http://localhost:8000/webhook',
-        ]);
-
-        $this->assertArrayHasKey('data', $response);
-        $this->assertEquals('You have to provide the currency', $response['data']);
-    }
-
-    public function testSendPayWithNoDescriptionFails()
-    {
-        $response = $this->sendPayClient->sendPay([
-            'destinationReference' => 'my_destination_alias',
-            'destinationType' => 'mobile_wallet',
-            'amount' => 3444,
-            'currency' => 'KES',
-            'category' => 'Salary Payment',
-            'tags' => 'Salary,May',
-            'accessToken' => 'myRand0mAcc3ssT0k3n',
-            'callbackUrl' => 'http://localhost:8000/webhook',
-        ]);
-
-        $this->assertArrayHasKey('data', $response);
-        $this->assertEquals('You have to provide the description', $response['data']);
-    }
-
-    public function testSendPayWithNoCallbackUrlFails()
-    {
-        $response = $this->sendPayClient->sendPay([
-            'destinationReference' => 'my_destination_alias',
-            'destinationType' => 'mobile_wallet',
-            'amount' => 3444,
-            'currency' => 'KES',
-            'description' => 'Salary payment for May 2021',
-            'category' => 'Salary Payment',
-            'tags' => 'Salary,May',
-            'accessToken' => 'myRand0mAcc3ssT0k3n',
-        ]);
-
-        $this->assertArrayHasKey('data', $response);
-        $this->assertEquals('You have to provide the callbackUrl', $response['data']);
-    }
-
-    public function testSendPayWithNoAccessTokenFails()
-    {
-        $response = $this->sendPayClient->sendPay([
-            'destinationReference' => 'my_destination_alias',
-            'destinationType' => 'mobile_wallet',
-            'amount' => 3444,
-            'currency' => 'KES',
-            'description' => 'Salary payment for May 2021',
-            'category' => 'Salary Payment',
-            'tags' => 'Salary,May',
-            'callbackUrl' => 'http://localhost:8000/webhook',
-        ]);
-
-        $this->assertArrayHasKey('data', $response);
-        $this->assertEquals('You have to provide the accessToken', $response['data']);
-    }
-
-    /*
     *  Pay status tests
     */
 
     public function testGetStatus()
     {
         $response = $this->statusClient->getStatus([
-            'location' => 'http://localhost:3000/payments/c7f300c0-f1ef-4151-9bbe-005005aa3747',
+            'location' => 'http://localhost:3000/api/v2/pay_recipients/569c043a-e2a3-40ad-939b-7c4f12a2a46d',
             'accessToken' => 'myRand0mAcc3ssT0k3n',
         ]);
 
@@ -600,7 +476,7 @@ class PayServiceTest extends TestCase
     public function testGetStatusWithNoAccessTokenFails()
     {
         $response = $this->statusClient->getStatus([
-            'location' => 'http://localhost:3000/payments/c7f300c0-f1ef-4151-9bbe-005005aa3747',
+            'location' => 'http://localhost:3000/api/v2/pay_recipients/569c043a-e2a3-40ad-939b-7c4f12a2a46d',
         ]);
 
         $this->assertArrayHasKey('data', $response);
