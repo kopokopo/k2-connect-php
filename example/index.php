@@ -6,6 +6,8 @@ use Kopokopo\SDK\K2;
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->safeLoad();
 
+const JSON_ENCODING_FLAGS = JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
+
 $options = [
     'clientId' => $_ENV['K2_CLIENT_ID'],
     'clientSecret' => $_ENV['K2_CLIENT_SECRET'],
@@ -47,16 +49,12 @@ $router->map('GET', '/settlementaccounts', function () {
     require __DIR__.'/views/settlementaccounts.php';
 });
 
-$router->map('GET', '/transfer', function () {
-    require __DIR__.'/views/transfer.php';
-});
-
 $router->map('GET', '/transfer/status', function () {
     require __DIR__.'/views/transferstatus.php';
 });
 
-$router->map('GET', '/pay', function () {
-    require __DIR__.'/views/pay.php';
+$router->map("GET", "/send_money", function () {
+    require __DIR__."/views/send_money.php";
 });
 
 $router->map('GET', '/pay/recipients', function () {
@@ -285,28 +283,6 @@ $router->map('POST', '/merchantbankaccount', function () {
     echo json_encode($response);
 });
 
-$router->map('POST', '/transfer', function () {
-    global $K2;
-    $transfer = $K2->SettlementTransferService();
-
-    $tokens = $K2->TokenService();
-    $response = $tokens->getToken();
-
-    $access_token = $response['data']['accessToken'];
-
-    $options = [
-        'amount' => $_POST['amount'],
-        'currency' => 'KES',
-        'destinationReference' => $_POST['destinationReference'],
-        'destinationType' => $_POST['destinationType'],
-        'callbackUrl' => 'https://4773626d5d5c.ngrok.io/webhook',
-        'accessToken' => $access_token,
-    ];
-    $response = $transfer->settleFunds($options);
-
-    echo json_encode($response);
-});
-
 $router->map('POST', '/paymobilerecipient', function () {
     global $K2;
     $transfer = $K2->PayService();
@@ -392,29 +368,23 @@ $router->map('POST', '/paypaybillrecipient', function () {
     echo json_encode($response);
 });
 
-$router->map('POST', '/pay', function () {
+$router->map("POST", "/send_money", function () {
     global $K2;
-    $pay = $K2->PayService();
-
-    $tokens = $K2->TokenService();
-    $response = $tokens->getToken();
-
-    $access_token = $response['data']['accessToken'];
+    $sendMoneyService = $K2->SendMoneyService();
+    $tokenService = $K2->TokenService();
+    $response = $tokenService->getToken();
+    $accessToken = $response["data"]["accessToken"];
 
     $options = [
-        'destinationType' => $_POST['destinationType'],
-        'destinationReference' => $_POST['destinationReference'],
-        'description' => $_POST['description'],
-        'category' => '',
-        'tags' => '',
-        'amount' => $_POST['amount'],
-        'currency' => 'KES',
-        'accessToken' => $access_token,
-        'callbackUrl' => 'https://4773626d5d5c.ngrok.io/webhook',
+        "destinations" => $_POST["destination"]["type"] == "my_accounts" ? null : [$_POST["destination"]],
+        "currency" => "KES",
+        "sourceIdentifier" => $_POST["sourceIdentifier"] ?? null,
+        "callbackUrl" => $_POST["callbackUrl"],
+        "accessToken" => $accessToken,
     ];
-    $response = $pay->sendPay($options);
+    $response = $sendMoneyService->sendMoney($options);
 
-    echo json_encode($response);
+    echo "<pre>".json_encode($response, JSON_ENCODING_FLAGS)."</pre>";
 });
 
 $router->map('POST', '/webhook', function () {
@@ -449,7 +419,7 @@ $router->map('POST', '/status', function () {
     );
     $response = $webhooks->getStatus($options);
 
-    echo json_encode($response);
+    echo "<pre>".json_encode($response, JSON_ENCODING_FLAGS)."</pre>";
 });
 
 $router->map('GET', '/webhook/resource', function () {

@@ -1,0 +1,4 @@
+{
+  "location": "http://localhost:3000/api/v2/send_money/716481bc-635c-4d35-92c9-65bb0797196a",
+  "Content-Type": "application/json"
+}

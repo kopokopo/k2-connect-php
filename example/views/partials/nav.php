@@ -28,26 +28,17 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Pay
+                    Send Money
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="/pay">Create a Payment</a>
-                    <a class="dropdown-item" href="/paymobilerecipient">Add Mobile PAY recipient</a>
-                    <a class="dropdown-item" href="/paybankrecipient">Add Bank PAY recipient</a>
-                    <a class="dropdown-item" href="/paytillrecipient">Add Till PAY recipient</a>
-                    <a class="dropdown-item" href="/paypaybillrecipient">Add Paybill PAY recipient</a>
-                    <a class="dropdown-item" href="/status">Payment status</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Settlement
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="/transfer">Initiate a transfer</a>
-                    <a class="dropdown-item" href="/merchantwallet">Create a Merchant Wallet</a>
-                    <a class="dropdown-item" href="/merchantbankaccount">Create a Merchant Bank Account</a>
-                    <a class="dropdown-item" href="/status">Query Transfer status</a>
+                    <a class="dropdown-item" href="/send_money">Create a Payment</a>
+                    <a class="dropdown-item" href="/merchantwallet">Create Merchant Wallet</a>
+                    <a class="dropdown-item" href="/merchantbankaccount">Create Merchant Bank Account</a>
+                    <a class="dropdown-item" href="/paymobilerecipient">Create External Wallet Recipient</a>
+                    <a class="dropdown-item" href="/paybankrecipient">Create Bank Recipient</a>
+                    <a class="dropdown-item" href="/paytillrecipient">Create Till Recipient</a>
+                    <a class="dropdown-item" href="/paypaybillrecipient">Create Paybill Recipient</a>
+                    <a class="dropdown-item" href="/status">Query Send Money Status</a>
                 </div>
             </li>
             <li class="nav-item dropdown">

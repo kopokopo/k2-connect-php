@@ -41,19 +41,4 @@ class SettlementTransferService extends Service
             return $this->error($e->getMessage());
         }
     }
-
-    public function settleFunds($options)
-    {
-        $settleFundsRequest = new SettleFundsRequest($options);
-        try {
-            $response = $this->client->post('settlement_transfers', ['body' => json_encode($settleFundsRequest->getSettleFundsBody()), 'headers' => $settleFundsRequest->getHeaders()]);
-
-            return $this->postSuccess($response);
-        } catch (\GuzzleHttp\Exception\BadResponseException $e) {
-            $dataHandler = new FailedResponseData();
-            return $this->error($dataHandler->setErrorData($e));
-        } catch(\Exception $e){
-            return $this->error($e->getMessage());
-        }
-    }
 }

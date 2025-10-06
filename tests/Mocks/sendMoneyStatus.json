@@ -1,0 +1,79 @@
+{
+  "data": {
+    "id": "716481bc-635c-4d35-92c9-65bb0797196a",
+    "type": "send_money",
+    "attributes": {
+      "status": "Processed",
+      "created_at": "2025-09-23T20:05:46.522+03:00",
+      "source_identifier": "4321",
+      "destinations": [
+        {
+          "type": "mobile_wallet",
+          "amount": 1000,
+          "network": "Safaricom",
+          "nickname": "Test",
+          "favourite": true,
+          "description": "Testing",
+          "phone_number": "254900000000"
+        },
+        {
+          "type": "mobile_wallet",
+          "amount": 1000,
+          "network": "Safaricom",
+          "nickname": "Test",
+          "favourite": true,
+          "description": "Testing",
+          "phone_number": "254900111111"
+        }
+      ],
+      "currency": "KES",
+      "transfer_batches": [
+        {
+          "status": "Transferred",
+          "amount": "1000.0",
+          "disbursements": [
+            {
+              "amount": "1000.0",
+              "errors": null,
+              "status": "Transferred",
+              "nickname": "Test",
+              "favourite": true,
+              "phone_number": "254900111111",
+              "destination_type": "mobile_wallet",
+              "origination_time": "2025-09-23T20:22:59.913+03:00",
+              "destination_reference": "a3bd6298-8a5a-4a93-b880-7948a621fdfb",
+              "transaction_reference": "QCL160124A7"
+            }
+          ]
+        },
+        {
+          "status": "Transferred",
+          "amount": "1000.0",
+          "disbursements": [
+            {
+              "amount": "1000.0",
+              "errors": null,
+              "status": "Transferred",
+              "nickname": "Test",
+              "favourite": true,
+              "phone_number": "254900000000",
+              "destination_type": "mobile_wallet",
+              "origination_time": "2025-09-23T20:26:49.173+03:00",
+              "destination_reference": "5f58ce16-0320-4da8-ad38-0f2cf7f520f2",
+              "transaction_reference": "QDZ273694C8"
+            }
+          ]
+        }
+      ],
+      "errors": null,
+      "metadata": {
+        "notes": "Salary payment for September 2025",
+        "customerId": "8675309"
+      },
+      "_links": {
+        "callback_url": "https://my_call_back_url.com",
+        "self": "http://localhost:3000/api/v2/send_money/716481bc-635c-4d35-92c9-65bb0797196a"
+      }
+    }
+  }
+}

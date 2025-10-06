@@ -6,7 +6,7 @@ use Kopokopo\SDK\Requests\StatusRequest;
 use Kopokopo\SDK\Data\DataHandler;
 use Kopokopo\SDK\Data\FailedResponseData;
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
 use Exception;
 
 abstract class Service
@@ -44,7 +44,7 @@ abstract class Service
     * @param Response $data
     * @return array
     */
-    protected static function postSuccess(Response $data): array
+    protected static function postSuccess(ResponseInterface $data): array
     {
         return [
             'status' => 'success',

@@ -6,7 +6,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.4 || ^8.0",
-        "guzzlehttp/guzzle": "^6.3 || ^7.0"
+        "guzzlehttp/guzzle": "^6.3 || ^7.0",
+        "ext-json": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.6"
@@ -21,8 +22,9 @@
         "psr-4": {
             "Kopokopo\\SDK\\": "src/",
             "Kopokopo\\SDK\\Requests\\": "src/requests",
-            "Kopokopo\\SDK\\Helpers\\": "src/helpers",
-            "Kopokopo\\SDK\\Data\\": "src/data",
+          "Kopokopo\\SDK\\Requests\\SendMoneyDestinations\\": "src/requests/send_money_destinations",
+          "Kopokopo\\SDK\\Helpers\\": "src/helpers",
+          "Kopokopo\\SDK\\Data\\": "src/data",
             "Kopokopo\\SDK\\Tests\\": "tests"
         }
     }
