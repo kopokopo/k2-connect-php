@@ -20,7 +20,7 @@ abstract class Service
     * @param Client $client
     * @param array $options
     */
-    public function __construct($client, $options)
+    public function __construct(Client $client, array $options)
     {
         $this->client = $client;
         $this->clientId = $options['clientId'];
@@ -32,7 +32,7 @@ abstract class Service
     * @param string|array $data
     * @return array
     */
-    protected static function error($data)
+    protected static function error($data): array
     {
         return [
             'status' => 'error',
@@ -44,7 +44,7 @@ abstract class Service
     * @param Response $data
     * @return array
     */
-    protected static function postSuccess($data)
+    protected static function postSuccess(Response $data): array
     {
         return [
             'status' => 'success',
@@ -56,7 +56,7 @@ abstract class Service
     * @param string|array $data
     * @return array
     */
-    protected static function success($data)
+    protected static function success($data): array
     {
         return [
             'status' => 'success',
@@ -67,7 +67,7 @@ abstract class Service
     /**
     * @param array $options
     */
-    public function getStatus($options)
+    public function getStatus(array $options): array
     {
         try {
             $status = new StatusRequest($options);
