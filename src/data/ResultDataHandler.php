@@ -24,6 +24,8 @@ class ResultDataHandler
                 return PollingData::setData($data);
             case "transaction_sms_notification":
                 return TransactionSmsNotificationData::setData($data);
+            case "reversals":
+                return ReversalData::setData($data);
         }
     }
 }

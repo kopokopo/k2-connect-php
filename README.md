@@ -45,6 +45,7 @@ $K2 = new K2($options);
 - [SendMoneyService](#SendMoneyService) : `$sendMoney = $K2->SendMoneyService();`
 - [PollingService](#pollingservice) : `$polling = $K2->PollingService();`
 - [SmsNotificationService](#smsnotificationservice) : `$sms_notification = $K2->SmsNotificationService();`
+- [ReversalService](#ReversalService): `reversalService = $K2->ReversalService();`
 
 ## Usage
 
@@ -249,13 +250,13 @@ For more information, please read [api-docs#send_money](https://api-docs.kopokop
     - `destinations`: An array of nested associative arrays defining destination details.
     - `currency`: 3-digit ISO format currency code. `REQUIRED`
     - `sourceIdentifier`: The source of funds to transfer, i.e, till number or `null` for available balance.
-    - `metadata`: It is a hash containing a maximum of 5 key value pairs.
+    - `metadata`: It is a hash containing a maximum of 5 key-value pairs.
     - `callbackUrl`: URL that the result will be posted to. `REQUIRED`
     - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response. `REQUIRED`
 
 - `SendMoneyService->getStatus([ statusOptions ])`: `statusOptions`: An associative array containing the following keys:
     - `location`: The request location you get when you send a request. `REQUIRED`
-    - `accessToken`: Gotten from the `TokenService` response. `REQUIRED`
+    - `accessToken`: Gotten from the [`TokenService`](#tokenservice)  response. `REQUIRED`
 
 
 - For more information, please read [api-docs#send_money](https://api-docs.kopokopo.com/#send_money)
@@ -298,6 +299,17 @@ This works the same for all requests that you get a location response.
 
 For more information, please read [api-docs#transaction-sms-notifications](https://api-docs.kopokopo.com/#transaction-sms-notifications)
 
+### `ReversalService`
+- `ReversalService->initiateReversal([ reversalOptions ])`: `reversalOptions`: An associative array containing the following keys:
+  - `transactionReference`: Reference of the transaction to be reversed. `REQUIRED`
+  - `reason`: Reason for the reversal. `REQUIRED`
+  - `metadata`: An associative array with a maximum of 5 key-value pairs.
+  - `callbackUrl`: URL that the result will be posted to. `REQUIRED`
+  - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response. `REQUIRED`
+
+- `ReversalServices->getStatus([ statusOptions ])`: `statusOptions`An associative array containing the following keys:
+  - `location`: The request location you get when you initiate a reversal request. `REQUIRED`
+  - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response. `REQUIRED`
 
 ### Responses and Results
 
@@ -531,6 +543,19 @@ Note: The asynchronous results are processed like webhooks.
   - `linkSelf`
   - `callbackUrl`
 
+- Reversal Result
+  - `id`
+  - `type`
+  - `transactionReference`
+  - `status`
+  - `reason`
+  - `reversalBulkPayment`
+  - `errors`
+  - `metadata`
+  - `createdAt`
+  - `callbackUrl`
+  - `linkSelf`
+
 #### Status Payloads
 
 - Webhook Subscription Status
@@ -621,6 +646,9 @@ Note: The asynchronous results are processed like webhooks.
 
 - Transaction SMS Notification Status
   - This payload is the same as the `Transaction SMS Notification` result payload
+
+- Reversal Status
+  - This payload is similar to `Reversal Result` payload
 
 #### Error responses
 
