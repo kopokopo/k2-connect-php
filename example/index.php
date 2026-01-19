@@ -97,6 +97,10 @@ $router->map('GET', '/smsnotification', function () {
     require __DIR__.'/views/smsnotification.php';
 });
 
+$router->map("GET", "/reversals", function () {
+    require __DIR__."/views/reversals.php";
+});
+
 $router->map('GET', '/token', function () {
     global $K2;
 
@@ -430,6 +434,25 @@ $router->map('GET', '/webhook/resource', function () {
     } else {
         echo json_encode(['message' => 'No response yet.']);
     }
+});
+
+$router->map("POST", "/reversals", function () {
+    global $K2;
+    $tokenService = $K2->TokenService();
+    $response = $tokenService->getToken();
+    $accessToken = $response["data"]["accessToken"];
+    $reversalService = $K2->ReversalService();
+
+    $options = [
+        "transactionReference" => $_POST["transactionReference"],
+        "reason" => $_POST["reason"],
+        "callbackUrl" => $_POST["callbackUrl"],
+        "accessToken" => $accessToken,
+    ];
+
+    $response = $reversalService->initiateReversal($options);
+
+    echo "<pre>".json_encode($response, JSON_ENCODING_FLAGS)."</pre>";
 });
 
 $match = $router->match();
