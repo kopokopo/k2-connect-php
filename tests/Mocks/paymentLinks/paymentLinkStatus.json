@@ -1,0 +1,31 @@
+{
+  "data": {
+    "id": "d5963294-22bf-46f6-a13c-b6a9951b4312",
+    "type": "payment_link",
+    "attributes": {
+      "status": "Processed",
+      "created_at": "2026-01-20T19:58:30.460+03:00",
+      "till_name": "The Continental Ltd - Till 1",
+      "till_number": "4321",
+      "payment_reference": "INV29390943",
+      "currency": "KES",
+      "amount": 2000,
+      "note": "Note to customer",
+      "payment_link": {
+        "payment_link_status": "active",
+        "expires_at": "2026-01-27T19:58:30.483+03:00",
+        "initiator_name": "John Doe",
+        "link": "https://sandbox.kopokopo.com/links/04a976cc-b27d-4f4f-afdc-7b7e9bbefe00"
+      },
+      "errors": null,
+      "metadata": {
+        "deliveryAddress": "1234, ABC Street",
+        "promotionDetails": "End of Year Sale"
+      },
+      "_links": {
+        "callback_url": "https://webhook.site/b5da6de6-ba87-4120-aec0-d3e52a52cb26",
+        "self": "https://sandbox.kopokopo.com/api/v2/payment_links/d5963294-22bf-46f6-a13c-b6a9951b4312"
+      }
+    }
+  }
+}

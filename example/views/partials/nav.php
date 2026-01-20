@@ -51,6 +51,16 @@
                 </div>
             </li>
             <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Payment Links
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
+                    <a class="dropdown-item" href="/payment_links">Create Payment Link</a>
+                    <a class="dropdown-item" href="/cancel_payment_links">Cancel Payment Link</a>
+                    <a class="dropdown-item" href="/status">Query Payment Link Status</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Polling
                 </a>

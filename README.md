@@ -46,6 +46,7 @@ $K2 = new K2($options);
 - [PollingService](#pollingservice) : `$polling = $K2->PollingService();`
 - [SmsNotificationService](#smsnotificationservice) : `$sms_notification = $K2->SmsNotificationService();`
 - [ReversalService](#ReversalService): `reversalService = $K2->ReversalService();`
+- [PaymentLinkService](#PaymentLinkService): `paymentLinkService = $K2->PaymentLinkService();`
 
 ## Usage
 
@@ -311,6 +312,26 @@ For more information, please read [api-docs#transaction-sms-notifications](https
   - `location`: The request location you get when you initiate a reversal request. `REQUIRED`
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response. `REQUIRED`
 
+
+### `PaymentLinkService`
+- `PaymentLinkService->createPaymentLink([ paymentLinkOptions ]):` `paymentLinkOptions`: An associative array containing the following keys:
+  - `tillNumber`: Till number for the **M-PESA** or **Online Payments Account** that will receive the payment. `REQUIRED`
+  - `currency`: 3-digit ISO format currency code. `REQUIRED`
+  - `amount`: The amount the customer will pay. `REQUIRED`
+  - `paymentReference`: The merchant internal reference for the payment.
+  - `note`: Note for the customer as they make the payment.
+  - `metadata`: An associative array with a maximum of 5 key pairs.
+  - `callbackUrl`: URL that the payment link result will be posted to once a customer makes a payment. `REQUIRED`
+  - `accessToken`: Gotten from the `TokenService` response. `REQUIRED`
+
+- `PaymentLinkService->cancelPaymentLink([ cancellationOptions ])`: `cancellationOptions`: An associative array containing the following keys:
+  - `location`: The request location you get when you send a payment link request. `REQUIRED`
+  - `accessToken`: Gotten from the `TokenService` response. `REQUIRED`
+
+- `PaymentLinkService->getStatus([ statusOptions ])`: `statusOptions`: An associative array containing the following keys:
+    - `location`: The request location you get when you send a payment link request. `REQUIRED`
+    - `accessToken`: Gotten from the `TokenService` response. `REQUIRED`
+
 ### Responses and Results
 
 - All the post requests are asynchronous apart from `TokenService`. This means that the result will be posted to your custom callback url when the request is complete. The immediate response of the post requests contain the `location` url of the request you have sent which you can use to query the status.
@@ -556,6 +577,23 @@ Note: The asynchronous results are processed like webhooks.
   - `callbackUrl`
   - `linkSelf`
 
+- Payment Link Result
+  - `id`
+  - `type`
+  - `status`
+  - `currency`
+  - `amount`
+  - `tillName`
+  - `tillNumber`
+  - `paymentReference`
+  - `note`
+  - `createdAt`
+  - `paymentLink`
+  - `errors`
+  - `metadata`
+  - `callbackUrl`
+  - `linkSelf`
+
 #### Status Payloads
 
 - Webhook Subscription Status
@@ -626,7 +664,7 @@ Note: The asynchronous results are processed like webhooks.
 - Stk Push Status
 
   - Successful request
-    - This payload is simialr to the successful result
+    - This payload is similar to the successful result
   - Failed request
     - This payload is similar to failed result
   - Pending request
@@ -649,6 +687,9 @@ Note: The asynchronous results are processed like webhooks.
 
 - Reversal Status
   - This payload is similar to `Reversal Result` payload
+
+- Payment Link Status
+  - This payload is similar to `Payment Link Result` payload
 
 #### Error responses
 

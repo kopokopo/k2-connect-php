@@ -26,6 +26,8 @@ class ResultDataHandler
                 return TransactionSmsNotificationData::setData($data);
             case "reversals":
                 return ReversalData::setData($data);
+            case "payment_link":
+                return PaymentLinkData::setData($data);
         }
     }
 }
