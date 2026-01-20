@@ -101,6 +101,14 @@ $router->map("GET", "/reversals", function () {
     require __DIR__."/views/reversals.php";
 });
 
+$router->map("GET", "/payment_links", function () {
+    require __DIR__."/views/payment_links.php";
+});
+
+$router->map("GET", "/cancel_payment_links", function () {
+    require __DIR__."/views/cancel_payment_links.php";
+});
+
 $router->map('GET', '/token', function () {
     global $K2;
 
@@ -451,6 +459,45 @@ $router->map("POST", "/reversals", function () {
     ];
 
     $response = $reversalService->initiateReversal($options);
+
+    echo "<pre>".json_encode($response, JSON_ENCODING_FLAGS)."</pre>";
+});
+
+$router->map("POST", "/payment_links", function () {
+    global $K2;
+    $tokenService = $K2->TokenService();
+    $response = $tokenService->getToken();
+    $accessToken = $response["data"]["accessToken"];
+    $paymentLinkService = $K2->PaymentLinkService();
+
+    $options = [
+        "tillNumber" => $_POST["tillNumber"],
+        "currency" => "KES",
+        "amount" => $_POST["amount"],
+        "paymentReference" => $_POST["paymentReference"] ?? null,
+        "note" => $_POST["note"] ?? null,
+        "callbackUrl" => $_POST["callbackUrl"],
+        "accessToken" => $accessToken,
+    ];
+
+    $response = $paymentLinkService->createPaymentLink($options);
+
+    echo "<pre>".json_encode($response, JSON_ENCODING_FLAGS)."</pre>";
+});
+
+$router->map("POST", "/cancel_payment_links", function () {
+    global $K2;
+    $tokenService = $K2->TokenService();
+    $response = $tokenService->getToken();
+    $accessToken = $response["data"]["accessToken"];
+    $paymentLinkService = $K2->PaymentLinkService();
+
+    $options = [
+        "location" => $_POST["location"],
+        "accessToken" => $accessToken,
+    ];
+
+    $response = $paymentLinkService->cancelPaymentLink($options);
 
     echo "<pre>".json_encode($response, JSON_ENCODING_FLAGS)."</pre>";
 });

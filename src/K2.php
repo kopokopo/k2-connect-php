@@ -97,4 +97,9 @@ class K2
     {
         return new ReversalService($this->client, $this->options);
     }
+
+    public function PaymentLinkService(): PaymentLinkService
+    {
+        return new PaymentLinkService($this->client, $this->options);
+    }
 }
