@@ -250,11 +250,12 @@ For more information, please read [api-docs#send_money](https://api-docs.kopokop
     - `currency`: 3-digit ISO format currency code. `REQUIRED`
     - `sourceIdentifier`: The source of funds to transfer, i.e, till number or `null` for available balance.
     - `metadata`: It is a hash containing a maximum of 5 key value pairs.
+    - `callbackUrl`: URL that the result will be posted to. `REQUIRED`
     - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response. `REQUIRED`
 
-- `SendMoneyService->getStatus([ location ])`:
+- `SendMoneyService->getStatus([ statusOptions ])`: `statusOptions`: An associative array containing the following keys:
     - `location`: The request location you get when you send a request. `REQUIRED`
-    - `accessToken`: Gotten from the TokenService response. `REQUIRED`
+    - `accessToken`: Gotten from the `TokenService` response. `REQUIRED`
 
 
 - For more information, please read [api-docs#send_money](https://api-docs.kopokopo.com/#send_money)
