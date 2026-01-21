@@ -12,7 +12,7 @@ class FailedResponseData
 
             if(empty($response->getBody()) || empty(json_decode($response->getBody(), true)['error_message'])) {
                 $this->data['errorCode'] = $response->getStatusCode();
-                $this->data['errorMessage'] = empty($response->getBody()) ? $response->getReasonPhrase() : $response->getBody();
+                $this->data['errorMessage'] = empty(json_decode($response->getBody())) ? $response->getReasonPhrase() : $response->getBody();
 
             } else {
                 $errorPayload = json_decode($e->getResponse()->getBody(), true);
