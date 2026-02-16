@@ -34,7 +34,7 @@ class PayService extends Service
                 throw new \InvalidArgumentException('Invalid recipient type');
             }
 
-            $response = $this->client->post('pay_recipients', ['body' => json_encode($payRecipientrequest->getPayRecipientBody()), 'headers' => $payRecipientrequest->getHeaders()]);
+            $response = $this->client->post('external_recipients', ['body' => json_encode($payRecipientrequest->getPayRecipientBody()), 'headers' => $payRecipientrequest->getHeaders()]);
 
             return $this->postSuccess($response);
         } catch (\GuzzleHttp\Exception\BadResponseException $e) {
