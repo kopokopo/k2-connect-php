@@ -11,10 +11,12 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Exception\RequestException;
-use Kopokopo\SDK\PayService;
+use Kopokopo\SDK\ExternalRecipientService;
 
-class PayServiceTest extends TestCase
+class ExternalRecipientServiceTest extends TestCase
 {
+    private $externalRecipientClient;
+
     public function setup(): void
     {
         $options = [
@@ -24,80 +26,32 @@ class PayServiceTest extends TestCase
             'baseUrl' => 'https://9284bede-d6e9f8d86aff.mock.pstmn.io'
         ];
 
-        /*
-        *    addPayRecipient() setup
-        */
+        // Headers to be returned by the addExternalRecipient() mock
+        $externalRecipientHeaders = file_get_contents(__DIR__.'/Mocks/externalRecipientHeaders.json');
 
-        // Headers to be returned by the addPayRecipient() mock
-        $payRecipientHeaders = file_get_contents(__DIR__.'/Mocks/payRecipientHeaders.json');
-
-        // Create an instance of MockHandler for returning responses for addPayRecipient()
-        $payRecipientMock = new MockHandler([
-            new Response(200, json_decode($payRecipientHeaders, true)),
+        // Create an instance of MockHandler for returning responses for addExternalRecipient()
+        $externalRecipientMock = new MockHandler([
+            new Response(200, json_decode($externalRecipientHeaders, true)),
             new RequestException('Error Communicating with Server', new Request('GET', 'test')),
         ]);
 
         // Assign the instance of MockHandler to a HandlerStack
-        $payRecipientHandler = HandlerStack::create($payRecipientMock);
+        $externalRecipientHandler = HandlerStack::create($externalRecipientMock);
 
-        // Create a new instance of client using the addPayRecipient() handler
-        $payRecipientClient = new Client(['handler' => $payRecipientHandler]);
+        // Create a new instance of client using the createExternalRecipient() handler
+        $externalRecipientClient = new Client(['handler' => $externalRecipientHandler]);
 
-        // Use $payRecipientClient to create an instance of the PayService() class
-        $this->payRecipientClient = new PayService($payRecipientClient, $options);
-
-        /*
-        *    sendPay() setup
-        */
-
-        // Headers to be returned by the sendPay() mock
-        $sendPayHeaders = file_get_contents(__DIR__.'/Mocks/sendPayHeaders.json');
-
-        // Create an instance of MockHandler for returning responses for sendPay()
-        $sendPayMock = new MockHandler([
-            new Response(200, json_decode($sendPayHeaders, true)),
-            new RequestException('Error Communicating with Server', new Request('GET', 'test')),
-        ]);
-
-        // Assign the instance of MockHandler to a HandlerStack
-        $sendPayHandler = HandlerStack::create($sendPayMock);
-
-        // Create a new instance of client using the sendPay() handler
-        $sendPayClient = new Client(['handler' => $sendPayHandler]);
-
-        // Use $sendPayClient to create an instance of the PayService() class
-        $this->sendPayClient = new PayService($sendPayClient, $options);
-
-        /*
-        *    getStatus() setup
-        */
-
-        // json response to be returned
-        $statusBody = file_get_contents(__DIR__.'/Mocks/payStatus.json');
-
-        // Create an instance of MockHandler for returning responses for getStatus()
-        $statusMock = new MockHandler([
-            new Response(200, [], $statusBody),
-            new RequestException('Error Communicating with Server', new Request('GET', 'test')),
-        ]);
-
-        // Assign the instance of MockHandler to a HandlerStack
-        $statusHandler = HandlerStack::create($statusMock);
-
-        // Create a new instance of client using the getStatus() handler
-        $statusClient = new Client(['handler' => $statusHandler]);
-
-        // Use $statusClient to create an instance of the PayService() class
-        $this->statusClient = new PayService($statusClient, $options);
+        // Use $externalRecipientClient to create an instance of the ExternalRecipientService() class
+        $this->externalRecipientClient = new ExternalRecipientService($externalRecipientClient, $options);
     }
 
     /*
-    *   Add Pay Recipient (Mobile) tests
+    *   Add External Mobile Wallet Recipient tests
     */
 
-    public function testAddPayRecipientMobileSucceeds()
+    public function testAddExternalMobileWalletRecipientSucceeds()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'mobile_wallet',
             'firstName' => 'Jane',
             'lastName' => 'Doe',
@@ -111,9 +65,9 @@ class PayServiceTest extends TestCase
         $this->assertEquals('success', $response['status']);
     }
 
-    public function testAddPayRecipientMobileWithNoFirstNameFails()
+    public function testAddExternalMobileWalletRecipientWithNoFirstNameFails()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'mobile_wallet',
             'lastName' => 'Doe',
             'phoneNumber' => '+254712345678',
@@ -126,9 +80,9 @@ class PayServiceTest extends TestCase
         $this->assertEquals('You have to provide the firstName', $response['data']);
     }
 
-    public function testAddPayRecipientMobileWithNoLastNameFails()
+    public function testAddExternalMobileWalletRecipientWithNoLastNameFails()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'mobile_wallet',
             'firstName' => 'Jane',
             'phoneNumber' => '+254712345678',
@@ -141,9 +95,9 @@ class PayServiceTest extends TestCase
         $this->assertEquals('You have to provide the lastName', $response['data']);
     }
 
-    public function testAddPayRecipientMobileWithNoPhoneFails()
+    public function testAddExternalMobileWalletRecipientWithNoPhoneFails()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'mobile_wallet',
             'firstName' => 'Jane',
             'lastName' => 'Doe',
@@ -156,9 +110,9 @@ class PayServiceTest extends TestCase
         $this->assertEquals('You have to provide the phoneNumber', $response['data']);
     }
 
-    public function testAddPayRecipientMobileWithInvalidPhoneFormatFails()
+    public function testAddExternalMobileWalletRecipientWithInvalidPhoneFormatFails()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'mobile_wallet',
             'firstName' => 'Jane',
             'lastName' => 'Doe',
@@ -172,9 +126,9 @@ class PayServiceTest extends TestCase
         $this->assertEquals('Invalid phone number format', $response['data']);
     }
 
-    public function testAddPayRecipientMobileWithNoNetworkFails()
+    public function testAddExternalMobileWalletRecipientWithNoNetworkFails()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'mobile_wallet',
             'firstName' => 'Jane',
             'lastName' => 'Doe',
@@ -187,9 +141,9 @@ class PayServiceTest extends TestCase
         $this->assertEquals('You have to provide the network', $response['data']);
     }
 
-    public function testAddPayRecipientMobileWithNoEmailSucceeds()
+    public function testAddExternalMobileWalletRecipientWithNoEmailSucceeds()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'mobile_wallet',
             'firstName' => 'Jane',
             'lastName' => 'Doe',
@@ -202,9 +156,9 @@ class PayServiceTest extends TestCase
         $this->assertEquals('success', $response['status']);
     }
 
-    public function testAddPayRecipientMobileWithNoAccessTokenFails()
+    public function testAddExternalMobileWalletRecipientWithNoAccessTokenFails()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'mobile_wallet',
             'firstName' => 'Jane',
             'lastName' => 'Doe',
@@ -217,12 +171,12 @@ class PayServiceTest extends TestCase
     }
 
     /*
-    *   Add Pay Recipient (Bank Account) tests
+    *   Add External Bank Account Recipient tests
     */
 
-    public function testAddPayRecipientAccountSucceeds()
+    public function testAddExternalBankAccountRecipientSucceeds()
     {
-       $response = $this->payRecipientClient->addPayRecipient([
+       $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'bank_account',
             'accountName' => 'Doe',
             'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
@@ -235,9 +189,9 @@ class PayServiceTest extends TestCase
         $this->assertEquals('success', $response['status']);
     }
 
-    public function testAddPayRecipientAccountWithNoAccountNameFails()
+    public function testAddExternalBankAccountRecipientWithNoAccountNameFails()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'bank_account',
             'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
             'accountNumber' => '1234567890',
@@ -249,9 +203,9 @@ class PayServiceTest extends TestCase
         $this->assertEquals('You have to provide the accountName', $response['data']);
     }
 
-    public function testAddPayRecipientAccountWithNoBankBranchRefFails()
+    public function testAddExternalBankAccountRecipientWithNoBankBranchRefFails()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'bank_account',
             'accountName' => 'Doe',
             'accountNumber' => '1234567890',
@@ -263,9 +217,9 @@ class PayServiceTest extends TestCase
         $this->assertEquals('You have to provide the bankBranchRef', $response['data']);
     }
 
-    public function testAddPayRecipientAccountWithNoAccountNumberFails()
+    public function testAddExternalBankAccountRecipientWithNoAccountNumberFails()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'bank_account',
             'accountName' => 'Doe',
             'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
@@ -277,9 +231,9 @@ class PayServiceTest extends TestCase
         $this->assertEquals('You have to provide the accountNumber', $response['data']);
     }
 
-    public function testAddPayRecipientAccountWithNoSettlementMethodFails()
+    public function testAddExternalBankAccountRecipientWithNoSettlementMethodFails()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'bank_account',
             'accountName' => 'Doe',
             'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
@@ -291,9 +245,9 @@ class PayServiceTest extends TestCase
         $this->assertEquals('You have to provide the settlementMethod', $response['data']);
     }
 
-    public function testAddPayRecipientAccountWithNoAccessTokenFails()
+    public function testAddExternalBankAccountRecipientWithNoAccessTokenFails()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'bank_account',
             'accountName' => 'Doe',
             'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
@@ -307,12 +261,12 @@ class PayServiceTest extends TestCase
 
 
     /*
-    *   Add Pay Recipient (External Till) tests
+    *   Add External Till Recipient tests
     */
 
-    public function testAddPayRecipientTillSucceeds()
+    public function testAddExternalTillRecipientSucceeds()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'till',
             'tillName' => 'Doe',
             'tillNumber' => '123456',
@@ -323,9 +277,9 @@ class PayServiceTest extends TestCase
         $this->assertEquals('success', $response['status']);
     }
 
-    public function testAddPayRecipientTillWithNoTillNameFails()
+    public function testAddExternalTillRecipientWithNoTillNameFails()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'till',
             'tillNumber' => '123456',
             'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -335,9 +289,9 @@ class PayServiceTest extends TestCase
         $this->assertEquals('You have to provide the tillName', $response['data']);
     }
 
-    public function testAddPayRecipientTillWithNoTillNumberFails()
+    public function testAddExternalTillRecipientWithNoTillNumberFails()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'till',
             'tillName' => 'Doe',
             'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -347,9 +301,9 @@ class PayServiceTest extends TestCase
         $this->assertEquals('You have to provide the tillNumber', $response['data']);
     }
 
-    public function testAddPayRecipientTillWithNoAccessTokenFails()
+    public function testAddExternalTillRecipientWithNoAccessTokenFails()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'till',
             'tillName' => 'Doe',
             'tillNumber' => '123456',
@@ -360,12 +314,12 @@ class PayServiceTest extends TestCase
     }
 
     /*
-    *   Add Pay Recipient (Paybill) tests
+    *   Add External Paybill Recipient tests
     */
 
-    public function testAddPayRecipientPaybillSucceeds()
+    public function testAddExternalPaybillRecipientSucceeds()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'paybill',
             'paybillName' => 'Doe',
             'paybillNumber' => '123456',
@@ -377,9 +331,9 @@ class PayServiceTest extends TestCase
         $this->assertEquals('success', $response['status']);
     }
 
-    public function testAddPayRecipientPaybillWithNoPaybillNameFails()
+    public function testAddExternalPaybillRecipientWithNoPaybillNameFails()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'paybill',
             'paybillNumber' => '123456',
             'paybillAccountNumber' => '67890',
@@ -390,9 +344,9 @@ class PayServiceTest extends TestCase
         $this->assertEquals('You have to provide the paybillName', $response['data']);
     }
 
-    public function testAddPayRecipientPaybillWithNoPaybillNumberFails()
+    public function testAddExternalPaybillRecipientWithNoPaybillNumberFails()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'paybill',
             'paybillName' => 'Doe',
             'paybillAccountNumber' => '67890',
@@ -403,9 +357,9 @@ class PayServiceTest extends TestCase
         $this->assertEquals('You have to provide the paybillNumber', $response['data']);
     }
 
-    public function testAddPayRecipientPaybillWithNoPaybillAccountNumberFails()
+    public function testAddExternalPaybillRecipientWithNoPaybillAccountNumberFails()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'paybill',
             'paybillName' => 'Doe',
             'paybillNumber' => '123456',
@@ -416,9 +370,9 @@ class PayServiceTest extends TestCase
         $this->assertEquals('You have to provide the paybillAccountNumber', $response['data']);
     }
 
-    public function testAddPayRecipientPaybillWithNoAccessTokenFails()
+    public function testAddExternalPaybillRecipientWithNoAccessTokenFails()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'type' => 'paybill',
             'paybillName' => 'Doe',
             'paybillNumber' => '123456',
@@ -430,12 +384,12 @@ class PayServiceTest extends TestCase
     }
 
     /*
-    *   Add Pay Recipient tests
+    *   Add External Recipient tests
     */
 
-    public function testAddPayRecipientWithNoTypeFails()
+    public function testAddExternalRecipientWithNoTypeFails()
     {
-        $response = $this->payRecipientClient->addPayRecipient([
+        $response = $this->externalRecipientClient->addExternalRecipient([
             'accountName' => 'Doe',
             'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
             'accountNumber' => '1234567890',
@@ -446,40 +400,5 @@ class PayServiceTest extends TestCase
 
         $this->assertArrayHasKey('data', $response);
         $this->assertEquals('You have to provide the type', $response['data']);
-    }
-
-    /*
-    *  Pay status tests
-    */
-
-    public function testGetStatus()
-    {
-        $response = $this->statusClient->getStatus([
-            'location' => 'http://localhost:3000/api/v2/pay_recipients/569c043a-e2a3-40ad-939b-7c4f12a2a46d',
-            'accessToken' => 'myRand0mAcc3ssT0k3n',
-        ]);
-
-        $this->assertArrayHasKey('status', $response);
-        $this->assertEquals('success', $response['status']);
-    }
-
-    public function testGetStatusWithNoLocationFails()
-    {
-        $response = $this->statusClient->getStatus([
-            'accessToken' => 'myRand0mAcc3ssT0k3n',
-        ]);
-
-        $this->assertArrayHasKey('data', $response);
-        $this->assertEquals('You have to provide the location', $response['data']);
-    }
-
-    public function testGetStatusWithNoAccessTokenFails()
-    {
-        $response = $this->statusClient->getStatus([
-            'location' => 'http://localhost:3000/api/v2/pay_recipients/569c043a-e2a3-40ad-939b-7c4f12a2a46d',
-        ]);
-
-        $this->assertArrayHasKey('data', $response);
-        $this->assertEquals('You have to provide the accessToken', $response['data']);
     }
 }

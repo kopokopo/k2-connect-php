@@ -297,7 +297,7 @@ $router->map('POST', '/merchantbankaccount', function () {
 
 $router->map('POST', '/paymobilerecipient', function () {
     global $K2;
-    $transfer = $K2->PayService();
+    $externalRecipientService = $K2->ExternalRecipientService();
 
     $tokens = $K2->TokenService();
     $response = $tokens->getToken();
@@ -312,14 +312,14 @@ $router->map('POST', '/paymobilerecipient', function () {
         'network' => $_POST['network'],
         'accessToken' => $access_token,
     ];
-    $response = $transfer->addPayRecipient($options);
+    $response = $externalRecipientService->addExternalRecipient($options);
 
     echo json_encode($response);
 });
 
 $router->map('POST', '/paybankrecipient', function () {
     global $K2;
-    $transfer = $K2->PayService();
+    $externalRecipientService = $K2->ExternalRecipientService();
 
     $tokens = $K2->TokenService();
     $response = $tokens->getToken();
@@ -334,14 +334,14 @@ $router->map('POST', '/paybankrecipient', function () {
         'settlementMethod' => $_POST['settlementMethod'],
         'accessToken' => $access_token,
     ];
-    $response = $transfer->addPayRecipient($options);
+    $response = $externalRecipientService->addExternalRecipient($options);
 
     echo json_encode($response);
 });
 
 $router->map('POST', '/paytillrecipient', function () {
     global $K2;
-    $transfer = $K2->PayService();
+    $externalRecipientService = $K2->ExternalRecipientService();
 
     $tokens = $K2->TokenService();
     $response = $tokens->getToken();
@@ -354,14 +354,14 @@ $router->map('POST', '/paytillrecipient', function () {
         'tillNumber' => $_POST['tillNumber'],
         'accessToken' => $access_token,
     ];
-    $response = $transfer->addPayRecipient($options);
+    $response = $externalRecipientService->addExternalRecipient($options);
 
     echo json_encode($response);
 });
 
 $router->map('POST', '/paypaybillrecipient', function () {
     global $K2;
-    $transfer = $K2->PayService();
+    $externalRecipientService = $K2->ExternalRecipientService();
 
     $tokens = $K2->TokenService();
     $response = $tokens->getToken();
@@ -375,7 +375,7 @@ $router->map('POST', '/paypaybillrecipient', function () {
         'paybillAccountNumber' => $_POST['paybillAccountNumber'],
         'accessToken' => $access_token,
     ];
-    $response = $transfer->addPayRecipient($options);
+    $response = $externalRecipientService->addExternalRecipient($options);
 
     echo json_encode($response);
 });
