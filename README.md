@@ -40,7 +40,7 @@ $K2 = new K2($options);
 - [Tokens](#tokenservice) : `$tokens = $K2->TokenService();`
 - [Webhooks](#webhooks) : `$webhooks = $K2->Webhooks();`
 - [STK PUSH](#stkservice) : `$stk = $K2->StkService();`
-- [Pay](#payservice) : `$pay = $K2->PayService();`
+- [External Recipient](#externalrecipientservice) : `$externalRecipientService = $K2->ExternalRecipientService();`
 - [Settlement Transfer](#settlementtransferservice) : `$transfer = $K2->SettlementTransferService();`
 - [SendMoneyService](#SendMoneyService) : `$sendMoney = $K2->SendMoneyService();`
 - [PollingService](#pollingservice) : `$polling = $K2->PollingService();`
@@ -191,9 +191,9 @@ NB: The access token cannot be used to send subsequent requests
 
 For more information, please read <https://api-docs.kopokopo.com/#receive-payments-from-m-pesa-users-via-stk-push>
 
-### `PayService`
+### `ExternalRecipientService`
 
-- `PayService->addPayRecipient([ payRecipientOptions ])`: `payRecipientOptions`: An array of arrays containing the following keys:
+- `ExternalRecipientService->addExternalRecipient([ externalRecipientOptions ])`: `externalRecipientOptions`: An array of arrays containing the following keys:
 
   - `type`: Recipient type `REQUIRED`
     - Mobile Wallet Recipient(`mobile_wallet`)
@@ -216,7 +216,7 @@ For more information, please read <https://api-docs.kopokopo.com/#receive-paymen
       - `paybillAccountNumber`: Pay recipient's account number `REQUIRED`
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
 
-- `PayService->getStatus([ location ])`:
+- `ExternalRecipientService->getStatus([ location ])`:
 
   - `location`: The request location you get when you send a request
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
