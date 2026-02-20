@@ -2,7 +2,7 @@
 
 namespace Kopokopo\SDK\Requests;
 
-class PayRecipientPaybillRequest extends BaseRequest
+class ExternalPaybillRequest extends BaseRequest
 {
     public function getType()
     {
@@ -24,7 +24,7 @@ class PayRecipientPaybillRequest extends BaseRequest
         return $this->getRequestData('paybillAccountNumber');
     }
 
-    public function getPayRecipientBody()
+    public function getExternalRecipientBody()
     {
         return [
             'type' => $this->getType(),

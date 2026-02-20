@@ -2,7 +2,7 @@
 
 namespace Kopokopo\SDK\Requests;
 
-class PayRecipientAccountRequest extends BaseRequest
+class ExternalBankAccountRequest extends BaseRequest
 {
     public function getType()
     {
@@ -29,7 +29,7 @@ class PayRecipientAccountRequest extends BaseRequest
         return $this->getRequestData('settlementMethod');
     }
 
-    public function getPayRecipientBody()
+    public function getExternalRecipientBody()
     {
         return [
             'type' => $this->getType(),

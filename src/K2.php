@@ -60,11 +60,9 @@ class K2
         return $stk;
     }
 
-    public function PayService(): PayService
+    public function ExternalRecipientService(): ExternalRecipientService
     {
-        $pay = new PayService($this->client, $this->options);
-
-        return $pay;
+        return new ExternalRecipientService($this->client, $this->options);
     }
 
     public function SettlementTransferService(): SettlementTransferService
