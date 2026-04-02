@@ -62,6 +62,21 @@ class WebhookTest extends TestCase
             'url' => 'http://localhost:8000/webhook',
             'accessToken' => 'myRand0mAcc3ssT0k3n',
             'scope' => 'Company',
+            'scopeReference' => null,
+            'enableDarajaPayload' => true,
+        ]);
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
+    }
+
+    public function testWebhookSubscribeWithoutEnableDarajaPayloadSucceeds()
+    {
+        $response = $this->subscribeClient->subscribe([
+            'eventType' => 'buygoods_transaction_received',
+            'url' => 'http://localhost:8000/webhook',
+            'accessToken' => 'myRand0mAcc3ssT0k3n',
+            'scope' => 'Company',
             'scopeReference' => null
         ]);
 
@@ -75,7 +90,8 @@ class WebhookTest extends TestCase
             'url' => 'http://localhost:8000/webhook',
             'accessToken' => 'myRand0mAcc3ssT0k3n',
             'scope' => 'company',
-            'scopeReference' => '1'
+            'scopeReference' => '1',
+            'enableDarajaPayload' => true,
         ]);
 
         $this->assertArrayHasKey('data', $response);
@@ -89,6 +105,7 @@ class WebhookTest extends TestCase
             'url' => 'http://localhost:8000/webhook',
             'accessToken' => 'myRand0mAcc3ssT0k3n',
             'scopeReference' => '1',
+            'enableDarajaPayload' => true,
         ]);
 
         $this->assertArrayHasKey('data', $response);
@@ -102,6 +119,7 @@ class WebhookTest extends TestCase
             'url' => 'http://localhost:8000/webhook',
             'accessToken' => 'myRand0mAcc3ssT0k3n',
             'scope' => 'till',
+            'enableDarajaPayload' => true,
         ]);
 
         $this->assertArrayHasKey('data', $response);
@@ -114,7 +132,8 @@ class WebhookTest extends TestCase
             'eventType' => 'buygoods_transaction_received',
             'accessToken' => 'myRand0mAcc3ssT0k3n',
             'scope' => 'company',
-            'scopeReference' => '1'
+            'scopeReference' => '1',
+            'enableDarajaPayload' => true,
         ]);
 
         $this->assertArrayHasKey('data', $response);
@@ -127,16 +146,13 @@ class WebhookTest extends TestCase
             'eventType' => 'buygoods_transaction_received',
             'url' => 'http://localhost:8000/webhook',
             'scope' => 'company',
-            'scopeReference' => '1'
+            'scopeReference' => '1',
+            'enableDarajaPayload' => true,
         ]);
 
         $this->assertArrayHasKey('data', $response);
         $this->assertEquals('You have to provide the accessToken', $response['data']);
     }
-
-    /*
-    *   Webhook handler tests
-    */
 
     /**
      * @expectedException \ArgumentCountError

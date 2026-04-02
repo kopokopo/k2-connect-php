@@ -15,6 +15,7 @@ class WebhookSubscriptionData
         $data['status'] = $result['attributes']['status'];
         $data['scope'] = $result['attributes']['scope'];
         $data['scopeReference'] = $result['attributes']['scope_reference'];
+        $data['darajaEnabled'] = $result['attributes']['daraja_enabled'];
        
         return $data;
     }

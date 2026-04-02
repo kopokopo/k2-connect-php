@@ -111,7 +111,8 @@ $response = $webhooks->subscribe([
     'url' => 'http://localhost:8000/webhook',
     'scope' => 'till',
     'scopeReference' => '000000',
-    'accessToken' => 'my_access_token'
+    'accessToken' => 'my_access_token',
+    'enableDarajaPayload' => 'false'
 ]);
 
 print_r($response);

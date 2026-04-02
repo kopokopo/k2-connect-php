@@ -4,22 +4,22 @@ namespace Kopokopo\SDK\Requests;
 
 class WebhookSubscribeRequest extends BaseRequest
 {
-    public function getEventType()
+    public function getEventType(): string
     {
         return $this->getRequestData('eventType');
     }
 
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->getRequestData('url');
     }
 
-    public function getScope()
+    public function getScope(): string
     {
         return $this->getRequestData('scope');
     }
 
-    public function getScopeRef()
+    public function getScopeRef(): ?string
     {
         if (!isset($this->data['scopeReference']) && strtolower($this->getScope()) == 'company' ) {
             return null;
@@ -28,13 +28,19 @@ class WebhookSubscribeRequest extends BaseRequest
         return $this->getRequestData('scopeReference');
     }
 
-    public function getWebhookSubscribeBody()
+    public function enableDarajaPayload(): ?bool
+    {
+        return $this->data["enableDarajaPayload"] ?? null;
+    }
+
+    public function getWebhookSubscribeBody(): array
     {
         return [
             'event_type' => $this->getEventType(),
             'url' => $this->getUrl(),
             'scope' => $this->getScope(),
-            'scope_reference' => $this->getScopeRef()
+            'scope_reference' => $this->getScopeRef(),
+            'enable_daraja_payload' => $this->enableDarajaPayload()
         ];
     }
 }

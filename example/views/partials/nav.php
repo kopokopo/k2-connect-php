@@ -15,6 +15,7 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="/webhook/subscribe">Webhook Subscribe</a>
                     <a class="dropdown-item" href="/webhook/resource">Buy Goods Received Resource</a>
+                    <a class="dropdown-item" href="/status">Query Subscription Status</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
