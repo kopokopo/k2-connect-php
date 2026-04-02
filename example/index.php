@@ -3,6 +3,7 @@
 require 'vendor/autoload.php';
 
 use Kopokopo\SDK\K2;
+use Kopokopo\SDK\Data\DataHandler;
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->safeLoad();
 
@@ -162,15 +163,7 @@ $router->map('POST', '/webhook/subscribe', function () {
 
     $tokens = $K2->TokenService();
     $response = $tokens->getToken();
-
-    // echo json_encode($response);
-    // echo json_encode($response['data']);
-    // echo json_encode($response['data']['accessToken']);
-
-    $access_token = $response['data']['accessToken'];
-
-    // echo $access_token;
-
+    $accessToken = $response['data']['accessToken'];
     $webhooks = $K2->Webhooks();
 
     $options = array(
@@ -178,11 +171,12 @@ $router->map('POST', '/webhook/subscribe', function () {
         'url' => $_POST['url'],
         'scope' => $_POST['scope'],
         'scopeReference' => $_POST['scope_ref'],
-        'accessToken' => $access_token,
+        'accessToken' => $accessToken,
+        'enableDarajaPayload' => isset($_POST['enableDarajaPayload']),
     );
     $response = $webhooks->subscribe($options);
 
-    echo json_encode($response);
+    echo "<pre>".json_encode($response, JSON_ENCODING_FLAGS)."</pre>";
 });
 
 $router->map('POST', '/stk', function () {
@@ -438,7 +432,8 @@ $router->map('GET', '/webhook/resource', function () {
     $file = __DIR__ . '/last_response.json';
 
     if (file_exists($file)) {
-        echo file_get_contents($file);
+        $dataHandler = new DataHandler(json_decode(file_get_contents($file), true));
+        echo "<pre>".json_encode($dataHandler->dataHandlerSort(), JSON_ENCODING_FLAGS)."</pre>";
     } else {
         echo json_encode(['message' => 'No response yet.']);
     }
