@@ -33,7 +33,7 @@ class ExternalBankAccountRequest extends BaseRequest
     {
         return [
             'type' => $this->getType(),
-            'pay_recipient' => [
+            'external_recipient' => [
                 'account_name' => $this->getAccountName(),
                 'bank_branch_ref' => $this->getBankBranchRef(),
                 'account_number' => $this->getAccountNumber(),
