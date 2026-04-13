@@ -28,7 +28,7 @@ class ExternalPaybillRequest extends BaseRequest
     {
         return [
             'type' => $this->getType(),
-            'pay_recipient' => [
+            'external_recipient' => [
                 'paybill_name' => $this->getPaybillName(),
                 'paybill_number' => $this->getPaybillNumber(),
                 'paybill_account_number' => $this->getPaybillAccountNumber(),

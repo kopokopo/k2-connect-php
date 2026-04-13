@@ -46,7 +46,7 @@ class ExternalMobileWalletRequest extends BaseRequest
     {
         return [
             'type' => $this->getType(),
-            'pay_recipient' => [
+            'external_recipient' => [
                 'first_name' => $this->getFirstName(),
                 'last_name' => $this->getLastName(),
                 'email' => $this->getEmail(),

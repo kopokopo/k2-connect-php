@@ -23,7 +23,7 @@ class ExternalTillRequest extends BaseRequest
     {
         return [
             'type' => $this->getType(),
-            'pay_recipient' => [
+            'external_recipient' => [
                 'till_name' => $this->getTillName(),
                 'till_number' => $this->getTillNumber(),
             ],
