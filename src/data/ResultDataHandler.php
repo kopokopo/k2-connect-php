@@ -18,8 +18,8 @@ class ResultDataHandler
                 return StkData::setData($data);
             case "webhook_subscription":
                 return WebhookSubscriptionData::setData($data);
-            case "pay_recipient":
-                return PayRecipientData::setData($data);
+            case "external_recipient":
+                return ExternalRecipientData::setData($data);
             case "polling":
                 return PollingData::setData($data);
             case "transaction_sms_notification":
