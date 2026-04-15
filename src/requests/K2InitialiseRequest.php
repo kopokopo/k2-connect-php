@@ -28,6 +28,15 @@ class K2InitialiseRequest extends BaseRequest
         return $this->getRequestData('apiKey');
     }
 
+    public function getSource()
+    {
+        if (isset($this->data['source'])) {
+            return $this->data['source'];
+        }
+
+        return 'Kopokopo-PHP-SDK';
+    }
+
     public function getOptions()
     {
         return [

@@ -22,12 +22,16 @@ class K2
         $k2InitialiseRequest = new K2InitialiseRequest($options);
 
         $this->baseUrl = $k2InitialiseRequest->getBaseUrl();
+        $source = $k2InitialiseRequest->getSource();
         $this->options = $k2InitialiseRequest->getOptions();
 
         $this->version = 'v2/';
 
         $this->client = new Client([
             'base_uri' => $this->baseUrl . "/api/" . $this->version,
+            'headers' => [
+                'User-Agent' => $source,
+            ]
         ]);
 
         $this->tokenClient = new Client([
