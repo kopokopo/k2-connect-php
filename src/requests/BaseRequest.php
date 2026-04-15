@@ -22,7 +22,6 @@ abstract class BaseRequest
             'Accept' => 'application/json',
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer '.$this->getAccessToken(),
-            'User-Agent' => 'Kopokopo-PHP-SDK',
         );
     }
 
