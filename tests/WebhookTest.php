@@ -157,4 +157,19 @@ class WebhookTest extends TestCase
         $this->assertArrayHasKey('status', $response);
         $this->assertEquals('success', $response['status']);
     }
+
+    public function testDarajaWebhookHandler()
+    {
+        $k2Sig = '5e639c8e6ed01a1e2eb9b000a0693123680e0bde6f2356907f4218747721029c';
+
+        $reqBody = file_get_contents(__DIR__.'/Mocks/hooks/darajawebhook.json');
+        $response = $this->client->webhookHandler($reqBody, $k2Sig, 'my_webhook_secret');
+
+        $this->assertArrayHasKey('status', $response);
+        $this->assertEquals('success', $response['status']);
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('Buy Goods', $response['data']['transactionType']);
+        $this->assertEquals('OJM6Q1W84K', $response['data']['transactionId']);
+        $this->assertEquals('Jane', $response['data']['firstName']);
+    }
 }

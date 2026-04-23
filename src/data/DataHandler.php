@@ -13,7 +13,9 @@ class DataHandler
 
     public function dataHandlerSort()
     {
-        if (isset($this->data['topic'])) {
+        if (isset($this->data['TransactionType'])) {
+            return DarajaWebhooksData::setData($this->data);
+        } elseif (isset($this->data['topic'])) {
             // Webhooks
             switch ($this->data['topic']) {
                 case 'buygoods_transaction_received':
