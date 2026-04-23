@@ -35,6 +35,8 @@ class DataHandler
                     return CustomerCreatedData::setData($this->data);
                     break;
             }
+        } elseif (isset($this->data['TransactionType'])) {
+            return DarajaWebhooksData::setData($this->data);
         } else {
             // Result and Status Payloads
             $resultDataHandler = new ResultDataHandler;
