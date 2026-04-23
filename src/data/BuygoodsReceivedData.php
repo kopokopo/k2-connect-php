@@ -17,6 +17,7 @@ class BuygoodsReceivedData
         $data['reference'] = $result['event']['resource']['reference'];
         $data['originationTime'] = $result['event']['resource']['origination_time'];
         $data['senderPhoneNumber'] = $result['event']['resource']['sender_phone_number'];
+        $data['hashedSenderPhone'] = $result['event']['resource']['hashed_sender_phone'];
         $data['amount'] = $result['event']['resource']['amount'];
         $data['currency'] = $result['event']['resource']['currency'];
         $data['tillNumber'] = $result['event']['resource']['till_number'];

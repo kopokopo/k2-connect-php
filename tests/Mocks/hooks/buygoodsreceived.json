@@ -13,6 +13,7 @@
             "reference": "OJM6Q1W84K",
             "till_number": "514459",
             "sender_phone_number": "+254999999999",
+            "hashed_sender_phone": "abc123hashedphone",
             "origination_time": "2020-10-22T10:43:19+03:00",
             "sender_last_name": "Doe",
             "sender_first_name": "Jane",
