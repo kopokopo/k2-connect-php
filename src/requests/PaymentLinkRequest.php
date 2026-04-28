@@ -13,7 +13,9 @@ class PaymentLinkRequest extends BaseRequest
             "payment_reference" => $this->getPaymentReference(),
             "note" => $this->getNote(),
             "metadata" => $this->getMetadata(),
-            "callback_url" => $this->getCallbackUrl(),
+            "_links" => [
+                "callback_url" => $this->getCallbackUrl(),
+            ],
         ];
     }
 
