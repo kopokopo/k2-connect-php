@@ -1,7 +1,7 @@
 {
   "data": {
     "id": "b42e022a-594e-47c3-b717-a259a5797312",
-    "type": "reversals",
+    "type": "reversal",
     "attributes": {
       "status": "Processed",
       "created_at": "2026-01-19T14:09:38.131+03:00",
