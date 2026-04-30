@@ -22,8 +22,6 @@ class ResultDataHandler
                 return ExternalRecipientData::setData($data);
             case "polling":
                 return PollingData::setData($data);
-            case "transaction_sms_notification":
-                return TransactionSmsNotificationData::setData($data);
             case "reversal":
                 return ReversalData::setData($data);
             case "payment_link":

@@ -94,10 +94,6 @@ $router->map('GET', '/polling', function () {
     require __DIR__.'/views/polling.php';
 });
 
-$router->map('GET', '/smsnotification', function () {
-    require __DIR__.'/views/smsnotification.php';
-});
-
 $router->map("GET", "/reversals", function () {
     require __DIR__."/views/reversals.php";
 });
@@ -223,26 +219,6 @@ $router->map('POST', '/polling', function () {
         'accessToken' => $access_token,
     ];
     $response = $polling->pollTransactions($options);
-
-    echo json_encode($response);
-});
-
-$router->map('POST', '/smsnotification', function () {
-    global $K2;
-    $sms_notification = $K2->SmsNotificationService();
-
-    $tokens = $K2->TokenService();
-    $response = $tokens->getToken();
-
-    $access_token = $response['data']['accessToken'];
-
-    $options = [
-        'message' => $_POST['message'],
-        'webhookEventReference' => $_POST['webhookEventReference'],
-        'callbackUrl' => 'https://8ad50a368ffa.ngrok.io/webhook',
-        'accessToken' => $access_token,
-    ];
-    $response = $sms_notification->sendTransactionSmsNotification($options);
 
     echo json_encode($response);
 });

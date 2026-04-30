@@ -88,13 +88,6 @@ class K2
         return $poll;
     }
 
-    public function SmsNotificationService(): SmsNotificationService
-    {
-        $smsNotify = new SmsNotificationService($this->client, $this->options);
-
-        return $smsNotify;
-    }
-
     public function ReversalService(): ReversalService
     {
         return new ReversalService($this->client, $this->options);

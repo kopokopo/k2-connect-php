@@ -44,7 +44,6 @@ $K2 = new K2($options);
 - [Settlement Transfer](#settlementtransferservice) : `$transfer = $K2->SettlementTransferService();`
 - [SendMoneyService](#SendMoneyService) : `$sendMoney = $K2->SendMoneyService();`
 - [PollingService](#pollingservice) : `$polling = $K2->PollingService();`
-- [SmsNotificationService](#smsnotificationservice) : `$sms_notification = $K2->SmsNotificationService();`
 - [ReversalService](#ReversalService): `reversalService = $K2->ReversalService();`
 - [PaymentLinkService](#PaymentLinkService): `paymentLinkService = $K2->PaymentLinkService();`
 
@@ -282,24 +281,6 @@ For more information, please read [api-docs#send_money](https://api-docs.kopokop
 This works the same for all requests that you get a location response.
 
 For more information, please read [api-docs#polling](https://api-docs.kopokopo.com/#polling)
-
-### `SmsNotificationService`
-
-- `SmsNotificationService->sendTransactionSmsNotification([ transactionNotificationOpts ])`: `transactionNotificationOpts`: An array of arrays containing the following keys:
-
-  - `webhookEventReference`: The webhook event reference for a buygoods_transaction_received webhook.
-  - `message`: The message to be sent
-  - `callbackUrl`: Url that the [result](#responsesandresults) will be posted to `REQUIRED`
-  - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`  
-
-- `SmsNotificationService->getStatus([ statusOpts ])`: `statusOpts`: An array of arrays containing the following keys:
-
-  - `location`: The location url you got from the request `REQUIRED`
-  - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
-
-This works the same for all requests that you get a location response.
-
-For more information, please read [api-docs#transaction-sms-notifications](https://api-docs.kopokopo.com/#transaction-sms-notifications)
 
 ### `ReversalService`
 - `ReversalService->initiateReversal([ reversalOptions ])`: `reversalOptions`: An associative array containing the following keys:
@@ -556,15 +537,6 @@ Note: The asynchronous results are processed like webhooks.
   - `linkSelf`
   - `callbackUrl`
 
-- Transaction SMS Notification Result
-  - `id`
-  - `type`
-  - `status`
-  - `message`
-  - `webhookEventReference`
-  - `linkSelf`
-  - `callbackUrl`
-
 - Reversal Result
   - `id`
   - `type`
@@ -682,9 +654,6 @@ Note: The asynchronous results are processed like webhooks.
 
 - Polling Status
   - This payload is the same as the `Polling` result payload
-
-- Transaction SMS Notification Status
-  - This payload is the same as the `Transaction SMS Notification` result payload
 
 - Reversal Status
   - This payload is similar to `Reversal Result` payload
