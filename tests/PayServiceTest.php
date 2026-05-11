@@ -101,7 +101,7 @@ class PayServiceTest extends TestCase
             'type' => 'mobile_wallet',
             'firstName' => 'Jane',
             'lastName' => 'Doe',
-            'phoneNumber' => '+254712345678',
+            'phoneNumber' => '254712345678',
             'network' => 'safaricom',
             'email' => 'example@example.com',
             'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -116,7 +116,7 @@ class PayServiceTest extends TestCase
         $response = $this->payRecipientClient->addPayRecipient([
             'type' => 'mobile_wallet',
             'lastName' => 'Doe',
-            'phoneNumber' => '+254712345678',
+            'phoneNumber' => '254712345678',
             'network' => 'safaricom',
             'email' => 'example@example.com',
             'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -131,7 +131,7 @@ class PayServiceTest extends TestCase
         $response = $this->payRecipientClient->addPayRecipient([
             'type' => 'mobile_wallet',
             'firstName' => 'Jane',
-            'phoneNumber' => '+254712345678',
+            'phoneNumber' => '254712345678',
             'network' => 'safaricom',
             'email' => 'example@example.com',
             'accessToken' => 'myRand0mAcc3ssT0k3n',
@@ -178,7 +178,7 @@ class PayServiceTest extends TestCase
             'type' => 'mobile_wallet',
             'firstName' => 'Jane',
             'lastName' => 'Doe',
-            'phoneNumber' => '+254712345678',
+            'phoneNumber' => '254712345678',
             'email' => 'example@example.com',
             'accessToken' => 'myRand0mAcc3ssT0k3n',
         ]);
@@ -193,7 +193,7 @@ class PayServiceTest extends TestCase
             'type' => 'mobile_wallet',
             'firstName' => 'Jane',
             'lastName' => 'Doe',
-            'phoneNumber' => '+254712345678',
+            'phoneNumber' => '254712345678',
             'network' => 'safaricom',
             'accessToken' => 'myRand0mAcc3ssT0k3n',
         ]);
@@ -208,7 +208,7 @@ class PayServiceTest extends TestCase
             'type' => 'mobile_wallet',
             'firstName' => 'Jane',
             'lastName' => 'Doe',
-            'phoneNumber' => '+254712345678',
+            'phoneNumber' => '254712345678',
             'network' => 'safaricom',
         ]);
 
@@ -439,7 +439,7 @@ class PayServiceTest extends TestCase
             'accountName' => 'Doe',
             'bankBranchRef' => '9ed38155-7d6f-11e3-83c3-5404a6144203',
             'accountNumber' => '1234567890',
-            'phoneNumber' => '+254712345678',
+            'phoneNumber' => '254712345678',
             'email' => 'example@example.com',
             'accessToken' => 'myRand0mAcc3ssT0k3n',
         ]);

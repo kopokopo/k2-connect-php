@@ -209,7 +209,7 @@ class SettlementTransferServiceTest extends TestCase
             'firstName' => 'Jane',
             'lastName' => 'Doe',
             'network' => 'Safaricom',
-            'phoneNumber' => '+254792345678',
+            'phoneNumber' => '254792345678',
             'accessToken' => 'myRand0mAcc3ssT0k3n',
         ]);
 
@@ -222,7 +222,7 @@ class SettlementTransferServiceTest extends TestCase
         $response = $this->merchantWalletClient->createMerchantWallet([
             'lastName' => 'Doe',
             'network' => 'Safaricom',
-            'phoneNumber' => '+254792345678',
+            'phoneNumber' => '254792345678',
             'accessToken' => 'myRand0mAcc3ssT0k3n',
         ]);
 
@@ -235,7 +235,7 @@ class SettlementTransferServiceTest extends TestCase
        $response = $this->merchantWalletClient->createMerchantWallet([
             'firstName' => 'Jane',
             'network' => 'Safaricom',
-            'phoneNumber' => '+254792345678',
+            'phoneNumber' => '254792345678',
             'accessToken' => 'myRand0mAcc3ssT0k3n',
         ]);
 
@@ -248,7 +248,7 @@ class SettlementTransferServiceTest extends TestCase
         $response = $this->merchantWalletClient->createMerchantWallet([
             'firstName' => 'Jane',
             'lastName' => 'Doe',
-            'phoneNumber' => '+254792345678',
+            'phoneNumber' => '254792345678',
             'accessToken' => 'myRand0mAcc3ssT0k3n',
         ]);
 
@@ -274,7 +274,7 @@ class SettlementTransferServiceTest extends TestCase
             $response = $this->merchantWalletClient->createMerchantWallet([
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phoneNumber' => '+25470137',
+                'phoneNumber' => '25470137',
                 'network' => 'Safaricom',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ]);
@@ -288,7 +288,7 @@ class SettlementTransferServiceTest extends TestCase
             $response = $this->merchantWalletClient->createMerchantWallet([
                 'firstName' => 'Jane',
                 'lastName' => 'Doe',
-                'phoneNumber' => '+2547013788077777',
+                'phoneNumber' => '2547013788077777',
                 'network' => 'Safaricom',
                 'accessToken' => 'myRand0mAcc3ssT0k3n',
             ]);
@@ -301,7 +301,7 @@ class SettlementTransferServiceTest extends TestCase
     *   Settle Funds tests
     */
 
-    public function testTargettedSettleFundsSucceeds()
+    public function testTargetedSettleFundsSucceeds()
     {
         $response = $this->settleFundsClient->settleFunds([
             'amount' => 333,
