@@ -6,6 +6,7 @@ class Validate
 {
     public function isPhoneValid($phone)
     {
+        $phone = preg_replace('/[^0-9]/', '', $phone);
         if (!preg_match('/^254\d{9}$/', $phone)) {
             throw new \InvalidArgumentException('Invalid phone number format');
         }
