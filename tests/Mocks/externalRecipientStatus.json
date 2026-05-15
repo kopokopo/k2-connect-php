@@ -1,0 +1,14 @@
+{
+  "data": {
+    "id": "569c043a-e2a3-40ad-939b-7c4f12a2a46d",
+    "type": "external_recipient",
+    "attributes": {
+      "recipient_type": "Till",
+      "account_alias": null,
+      "status": "Approved",
+      "till_name": "Test Till 44",
+      "till_number": "12444",
+      "recipient_reference": "Unavailable"
+    }
+  }
+}

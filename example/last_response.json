@@ -1,1 +1,28 @@
-{"status":"success","data":{"id":"9a1ac4d5-76dc-4569-a03c-532938763ffa","type":"settlement_transfer","createdAt":"2025-09-12T04:27:51.607+03:00","status":"Transferred","amount":"236","currency":"KES","transferBatches":[{"status":"Transferred","amount":"236","disbursements":[{"amount":"236","status":"Transferred","origination_time":"2025-09-12T04:27:51.607+03:00","transaction_reference":1757640471,"destination_type":"merchant_bank_account","destination_reference":"cc0e5289-f964-4fc0-8e81-ab48fdb3d3d9"}]}],"linkSelf":"https:\/\/sandbox.kopokopo.com\/api\/v1\/settlement_transfers\/9a1ac4d5-76dc-4569-a03c-532938763ffa","callbackUrl":"https:\/\/8532fa4c3a42.ngrok-free.app\/webhook"}}
+{
+  "topic": "buygoods_transaction_received",
+  "id": "72852c5a-7df0-4b72-b102-6afc07e87eed",
+  "created_at": "2026-04-01T17:28:54+03:00",
+  "event": {
+    "type": "Buygoods Transaction",
+    "resource": {
+      "id": "5f0f7d47-963b-4497-a712-3de60b6c9013",
+      "amount": "1000.0",
+      "status": "Received",
+      "system": "Lipa Na M-PESA",
+      "currency": "KES",
+      "reference": "APR4302026",
+      "till_number": "4321",
+      "account_number": "N/A",
+      "origination_time": "2026-04-03T17:28:54+03:00",
+      "sender_last_name": "",
+      "sender_first_name": "John",
+      "sender_middle_name": "",
+      "hashed_sender_phone": "52f759371801ab5f16266f12d5e1af9b08b96424e36266f40e4a6cb48d34d5f3",
+      "sender_phone_number": "+254900111222"
+    }
+  },
+  "_links": {
+    "self": "https://api.kopokopo.com/webhook_events/72852c5a-7df0-4b72-b102-6afc07e87eed",
+    "resource": "https://api.kopokopo.com/financial_transaction/5f0f7d47-963b-4497-a712-3de60b6c9013"
+  }
+}

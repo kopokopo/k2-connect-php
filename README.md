@@ -40,10 +40,12 @@ $K2 = new K2($options);
 - [Tokens](#tokenservice) : `$tokens = $K2->TokenService();`
 - [Webhooks](#webhooks) : `$webhooks = $K2->Webhooks();`
 - [STK PUSH](#stkservice) : `$stk = $K2->StkService();`
-- [Pay](#payservice) : `$pay = $K2->PayService();`
+- [External Recipient](#externalrecipientservice) : `$externalRecipientService = $K2->ExternalRecipientService();`
 - [Settlement Transfer](#settlementtransferservice) : `$transfer = $K2->SettlementTransferService();`
+- [SendMoneyService](#SendMoneyService) : `$sendMoney = $K2->SendMoneyService();`
 - [PollingService](#pollingservice) : `$polling = $K2->PollingService();`
-- [SmsNotificationService](#smsnotificationservice) : `$sms_notification = $K2->SmsNotificationService();`
+- [ReversalService](#ReversalService): `reversalService = $K2->ReversalService();`
+- [PaymentLinkService](#PaymentLinkService): `paymentLinkService = $K2->PaymentLinkService();`
 
 ## Usage
 
@@ -108,7 +110,8 @@ $response = $webhooks->subscribe([
     'url' => 'http://localhost:8000/webhook',
     'scope' => 'till',
     'scopeReference' => '000000',
-    'accessToken' => 'my_access_token'
+    'accessToken' => 'my_access_token',
+    'enableDarajaPayload' => 'false'
 ]);
 
 print_r($response);
@@ -188,9 +191,9 @@ NB: The access token cannot be used to send subsequent requests
 
 For more information, please read <https://api-docs.kopokopo.com/#receive-payments-from-m-pesa-users-via-stk-push>
 
-### `PayService`
+### `ExternalRecipientService`
 
-- `PayService->addPayRecipient([ payRecipientOptions ])`: `payRecipientOptions`: An array of arrays containing the following keys:
+- `ExternalRecipientService->addExternalRecipient([ externalRecipientOptions ])`: `externalRecipientOptions`: An array of arrays containing the following keys:
 
   - `type`: Recipient type `REQUIRED`
     - Mobile Wallet Recipient(`mobile_wallet`)
@@ -213,25 +216,12 @@ For more information, please read <https://api-docs.kopokopo.com/#receive-paymen
       - `paybillAccountNumber`: Pay recipient's account number `REQUIRED`
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
 
-- `PayService->sendPay([ payOptions ])`: `payOptions`: An array of arrays containing the following keys:
-
-  - `destinationType`: The recipient type. `REQUIRED`
-  - `destinationReference`: The recipient reference. `REQUIRED`
-  - `currency`: 3-digit ISO format currency code. `REQUIRED`
-  - `amount`: Amount to charge. `REQUIRED`
-  - `callbackUrl`: Url that the [result](#responsesandresults) will be posted to `REQUIRED`
-  - `description`: Payment description `REQUIRED`
-  - `tags`: Tags associated with the payment
-  - `category`: Category that the payment belongs to
-  - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
-  - `metadata`: It is a hash containing a maximum of 5 key value pairs
-
-- `PayService->getStatus([ location ])`:
+- `ExternalRecipientService->getStatus([ location ])`:
 
   - `location`: The request location you get when you send a request
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
 
-For more information, please read <https://api-docs.kopokopo.com/#send-money-pay>
+For more information, please read <https://api-docs.kopokopo.com/#send-money>
 
 ### `SettlementTransferService`
 
@@ -249,20 +239,28 @@ For more information, please read <https://api-docs.kopokopo.com/#send-money-pay
   - `network`: Mobile money network to settle to `REQUIRED`
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
 
-- `SettlementTransferService->settleFunds([ settleOpts ])`: `settleOpts`: An array of arrays containing the following keys:
-
-  - `destinationType`: The destination type `REQUIRED FOR A TARGETED TRANSFER`
-  - `destinationReference`: The destination reference `REQUIRED FOR A TARGETED TRANSFER`
-  - `currency`: 3-digit ISO format currency code. `REQUIRED FOR A TARGETED TRANSFER`
-  - `amount`: Amount to settle. `REQUIRED FOR A TARGETED TRANSFER` PS: If not included the whole balance will be settled.
-  - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
-
 - `SettlementTransferService->getStatus([ location ])`:
 
   - `location`: The request location you get when you send a request
   - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
 
-For more information, please read [api-docs#transfer](https://api-docs.kopokopo.com/#transfer-to-your-account-s)
+For more information, please read [api-docs#send_money](https://api-docs.kopokopo.com/#send_money)
+
+### `SendMoneyService`
+- `SendMoneyService->sendMoney([ sendMoneyOptions ])`: `sendMoneyOptions`: An associative array containing the following keys:
+    - `destinations`: An array of nested associative arrays defining destination details.
+    - `currency`: 3-digit ISO format currency code. `REQUIRED`
+    - `sourceIdentifier`: The source of funds to transfer, i.e, till number or `null` for available balance.
+    - `metadata`: It is a hash containing a maximum of 5 key-value pairs.
+    - `callbackUrl`: URL that the result will be posted to. `REQUIRED`
+    - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response. `REQUIRED`
+
+- `SendMoneyService->getStatus([ statusOptions ])`: `statusOptions`: An associative array containing the following keys:
+    - `location`: The request location you get when you send a request. `REQUIRED`
+    - `accessToken`: Gotten from the [`TokenService`](#tokenservice)  response. `REQUIRED`
+
+
+- For more information, please read [api-docs#send_money](https://api-docs.kopokopo.com/#send_money)
 
 ### `PollingService`
 
@@ -284,24 +282,37 @@ This works the same for all requests that you get a location response.
 
 For more information, please read [api-docs#polling](https://api-docs.kopokopo.com/#polling)
 
-### `SmsNotificationService`
+### `ReversalService`
+- `ReversalService->initiateReversal([ reversalOptions ])`: `reversalOptions`: An associative array containing the following keys:
+  - `transactionReference`: Reference of the transaction to be reversed. `REQUIRED`
+  - `reason`: Reason for the reversal. `REQUIRED`
+  - `metadata`: An associative array with a maximum of 5 key-value pairs.
+  - `callbackUrl`: URL that the result will be posted to. `REQUIRED`
+  - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response. `REQUIRED`
 
-- `SmsNotificationService->sendTransactionSmsNotification([ transactionNotificationOpts ])`: `transactionNotificationOpts`: An array of arrays containing the following keys:
+- `ReversalServices->getStatus([ statusOptions ])`: `statusOptions`An associative array containing the following keys:
+  - `location`: The request location you get when you initiate a reversal request. `REQUIRED`
+  - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response. `REQUIRED`
 
-  - `webhookEventReference`: The webhook event reference for a buygoods_transaction_received webhook.
-  - `message`: The message to be sent
-  - `callbackUrl`: Url that the [result](#responsesandresults) will be posted to `REQUIRED`
-  - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`  
 
-- `SmsNotificationService->getStatus([ statusOpts ])`: `statusOpts`: An array of arrays containing the following keys:
+### `PaymentLinkService`
+- `PaymentLinkService->createPaymentLink([ paymentLinkOptions ]):` `paymentLinkOptions`: An associative array containing the following keys:
+  - `tillNumber`: Till number for the **M-PESA** or **Online Payments Account** that will receive the payment. `REQUIRED`
+  - `currency`: 3-digit ISO format currency code. `REQUIRED`
+  - `amount`: The amount the customer will pay. `REQUIRED`
+  - `paymentReference`: The merchant internal reference for the payment.
+  - `note`: Note for the customer as they make the payment.
+  - `metadata`: An associative array with a maximum of 5 key pairs.
+  - `callbackUrl`: URL that the payment link result will be posted to once a customer makes a payment. `REQUIRED`
+  - `accessToken`: Gotten from the `TokenService` response. `REQUIRED`
 
-  - `location`: The location url you got from the request `REQUIRED`
-  - `accessToken`: Gotten from the [`TokenService`](#tokenservice) response `REQUIRED`
+- `PaymentLinkService->cancelPaymentLink([ cancellationOptions ])`: `cancellationOptions`: An associative array containing the following keys:
+  - `location`: The request location you get when you send a payment link request. `REQUIRED`
+  - `accessToken`: Gotten from the `TokenService` response. `REQUIRED`
 
-This works the same for all requests that you get a location response.
-
-For more information, please read [api-docs#transaction-sms-notifications](https://api-docs.kopokopo.com/#transaction-sms-notifications)
-
+- `PaymentLinkService->getStatus([ statusOptions ])`: `statusOptions`: An associative array containing the following keys:
+    - `location`: The request location you get when you send a payment link request. `REQUIRED`
+    - `accessToken`: Gotten from the `TokenService` response. `REQUIRED`
 
 ### Responses and Results
 
@@ -460,27 +471,17 @@ Note: The asynchronous results are processed like webhooks.
 
 #### Results
 
-- Settlement Transfer result
+- Send Money Result
 
   - `id`
   - `type`
   - `createdAt`
   - `status`
-  - `transferBatches`
-  - `amount`
+  - `sourcedIdentifier`
+  - `destinations`
   - `currency`
-  - `linkSelf`
-  - `callbackUrl`
-
-- Payment result
-
-  - `id`
-  - `type`
-  - `status`
-  - `createdAt`
   - `transferBatches`
-  - `amount`
-  - `currency`
+  - `errors`
   - `metadata`
   - `linkSelf`
   - `callbackUrl`
@@ -536,14 +537,35 @@ Note: The asynchronous results are processed like webhooks.
   - `linkSelf`
   - `callbackUrl`
 
-- Transaction SMS Notification Result
+- Reversal Result
+  - `id`
+  - `type`
+  - `transactionReference`
+  - `status`
+  - `reason`
+  - `reversalBulkPayment`
+  - `errors`
+  - `metadata`
+  - `createdAt`
+  - `callbackUrl`
+  - `linkSelf`
+
+- Payment Link Result
   - `id`
   - `type`
   - `status`
-  - `message`
-  - `webhookEventReference`
-  - `linkSelf`
+  - `currency`
+  - `amount`
+  - `tillName`
+  - `tillNumber`
+  - `paymentReference`
+  - `note`
+  - `createdAt`
+  - `paymentLink`
+  - `errors`
+  - `metadata`
   - `callbackUrl`
+  - `linkSelf`
 
 #### Status Payloads
 
@@ -575,12 +597,6 @@ Note: The asynchronous results are processed like webhooks.
   - `network`
   - `status`
   - `accountReference`
-
-- Settlement Transfer Status
-  - This payload is similar to `SettlementTransferResult` payload
-
-- Payment Status
-  - This payload is similar to `PaymentResult` payload
 
 - Pay Recipient Status
   - `id`
@@ -615,10 +631,13 @@ Note: The asynchronous results are processed like webhooks.
     - `paybillNumber`
     - `paybillAccountNumber`
 
+- Send Money Status
+    - This payload is similar to `Send Money Result` payload
+
 - Stk Push Status
 
   - Successful request
-    - This payload is simialr to the successful result
+    - This payload is similar to the successful result
   - Failed request
     - This payload is similar to failed result
   - Pending request
@@ -636,8 +655,11 @@ Note: The asynchronous results are processed like webhooks.
 - Polling Status
   - This payload is the same as the `Polling` result payload
 
-- Transaction SMS Notification Status
-  - This payload is the same as the `Transaction SMS Notification` result payload
+- Reversal Status
+  - This payload is similar to `Reversal Result` payload
+
+- Payment Link Status
+  - This payload is similar to `Payment Link Result` payload
 
 #### Error responses
 
