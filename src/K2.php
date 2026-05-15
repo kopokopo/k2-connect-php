@@ -22,12 +22,16 @@ class K2
         $k2InitialiseRequest = new K2InitialiseRequest($options);
 
         $this->baseUrl = $k2InitialiseRequest->getBaseUrl();
+        $source = $k2InitialiseRequest->getSource();
         $this->options = $k2InitialiseRequest->getOptions();
 
-        $this->version = 'v1/';
+        $this->version = 'v2/';
 
         $this->client = new Client([
             'base_uri' => $this->baseUrl . "/api/" . $this->version,
+            'headers' => [
+                'User-Agent' => $source,
+            ]
         ]);
 
         $this->tokenClient = new Client([
@@ -60,11 +64,9 @@ class K2
         return $stk;
     }
 
-    public function PayService(): PayService
+    public function ExternalRecipientService(): ExternalRecipientService
     {
-        $pay = new PayService($this->client, $this->options);
-
-        return $pay;
+        return new ExternalRecipientService($this->client, $this->options);
     }
 
     public function SettlementTransferService(): SettlementTransferService
@@ -74,6 +76,11 @@ class K2
         return $transfer;
     }
 
+    public function SendMoneyService(): SendMoneyService
+    {
+        return new SendMoneyService($this->client, $this->options);
+    }
+
     public function PollingService(): PollingService
     {
         $poll = new PollingService($this->client, $this->options);
@@ -81,10 +88,13 @@ class K2
         return $poll;
     }
 
-    public function SmsNotificationService(): SmsNotificationService
+    public function ReversalService(): ReversalService
     {
-        $smsNotify = new SmsNotificationService($this->client, $this->options);
+        return new ReversalService($this->client, $this->options);
+    }
 
-        return $smsNotify;
+    public function PaymentLinkService(): PaymentLinkService
+    {
+        return new PaymentLinkService($this->client, $this->options);
     }
 }

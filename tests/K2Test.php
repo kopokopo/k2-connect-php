@@ -9,6 +9,8 @@ use Kopokopo\SDK\K2;
 
 class K2Test extends TestCase
 {
+    private $client;
+
     public function setup(): void
     {
         $options = [
@@ -36,9 +38,9 @@ class K2Test extends TestCase
         $this->assertInstanceOf(\Kopokopo\SDK\StkService::class, $this->client->StkService());
     }
 
-    public function testPayServiceClassInitialised()
+    public function testExternalRecipientServiceClassInitialised()
     {
-        $this->assertInstanceOf(\Kopokopo\SDK\PayService::class, $this->client->PayService());
+        $this->assertInstanceOf(\Kopokopo\SDK\ExternalRecipientService::class, $this->client->ExternalRecipientService());
     }
 
     public function testTransferServiceClassInitialised()

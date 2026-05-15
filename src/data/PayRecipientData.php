@@ -2,7 +2,7 @@
 
 namespace Kopokopo\SDK\Data;
 
-class PayRecipientData
+class ExternalRecipientData
 {
     public static function setData($result)
     {

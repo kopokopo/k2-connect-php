@@ -2,7 +2,7 @@
 
 namespace Kopokopo\SDK\Requests;
 
-class PayRecipientTillRequest extends BaseRequest
+class ExternalTillRequest extends BaseRequest
 {
     public function getType()
     {
@@ -19,11 +19,11 @@ class PayRecipientTillRequest extends BaseRequest
         return $this->getRequestData('tillNumber');
     }
 
-    public function getPayRecipientBody()
+    public function getExternalRecipientBody()
     {
         return [
             'type' => $this->getType(),
-            'pay_recipient' => [
+            'external_recipient' => [
                 'till_name' => $this->getTillName(),
                 'till_number' => $this->getTillNumber(),
             ],
