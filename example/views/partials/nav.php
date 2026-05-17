@@ -15,6 +15,7 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="/webhook/subscribe">Webhook Subscribe</a>
                     <a class="dropdown-item" href="/webhook/resource">Buy Goods Received Resource</a>
+                    <a class="dropdown-item" href="/status">Query Subscription Status</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -23,32 +24,41 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="/stk">STK Push</a>
-                    <a class="dropdown-item" href="/stk/result">Process Payment Request Result</a>
                     <a class="dropdown-item" href="/status">Query Payment Status</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Pay
+                    Send Money
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="/pay">Create a Payment</a>
-                    <a class="dropdown-item" href="/paymobilerecipient">Add Mobile PAY recipient</a>
-                    <a class="dropdown-item" href="/paybankrecipient">Add Bank PAY recipient</a>
-                    <a class="dropdown-item" href="/paytillrecipient">Add Till PAY recipient</a>
-                    <a class="dropdown-item" href="/paypaybillrecipient">Add Paybill PAY recipient</a>
-                    <a class="dropdown-item" href="/status">Payment status</a>
+                    <a class="dropdown-item" href="/send_money">Create a Payment</a>
+                    <a class="dropdown-item" href="/merchantwallet">Create Merchant Wallet</a>
+                    <a class="dropdown-item" href="/merchantbankaccount">Create Merchant Bank Account</a>
+                    <a class="dropdown-item" href="/paymobilerecipient">Create External Wallet Recipient</a>
+                    <a class="dropdown-item" href="/paybankrecipient">Create Bank Recipient</a>
+                    <a class="dropdown-item" href="/paytillrecipient">Create Till Recipient</a>
+                    <a class="dropdown-item" href="/paypaybillrecipient">Create Paybill Recipient</a>
+                    <a class="dropdown-item" href="/status">Query Send Money Status</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Settlement
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Reversals
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="/transfer">Initiate a transfer</a>
-                    <a class="dropdown-item" href="/merchantwallet">Create a Merchant Wallet</a>
-                    <a class="dropdown-item" href="/merchantbankaccount">Create a Merchant Bank Account</a>
-                    <a class="dropdown-item" href="/status">Query Transfer status</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
+                    <a class="dropdown-item" href="/reversals">Reverse Transaction</a>
+                    <a class="dropdown-item" href="/status">Query Reversal Status</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Payment Links
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
+                    <a class="dropdown-item" href="/payment_links">Create Payment Link</a>
+                    <a class="dropdown-item" href="/cancel_payment_links">Cancel Payment Link</a>
+                    <a class="dropdown-item" href="/status">Query Payment Link Status</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -58,15 +68,6 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="/polling">Poll Transactions</a>
                     <a class="dropdown-item" href="/status">Query Polling status</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Sms Notification
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="/smsnotification">Send sms Notifications</a>
-                    <a class="dropdown-item" href="/status">Query Sms Notification status</a>
                 </div>
             </li>
         </ul>

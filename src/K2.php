@@ -12,18 +12,26 @@ class K2
     protected $client;
     protected $tokenClient;
     public $baseUrl;
+    protected $version;
 
-    public function __construct($options)
+    /**
+     * @param array $options
+     */
+    public function __construct(array $options)
     {
         $k2InitialiseRequest = new K2InitialiseRequest($options);
 
         $this->baseUrl = $k2InitialiseRequest->getBaseUrl();
+        $source = $k2InitialiseRequest->getSource();
         $this->options = $k2InitialiseRequest->getOptions();
 
-        $this->version = 'v1/';
+        $this->version = 'v2/';
 
         $this->client = new Client([
             'base_uri' => $this->baseUrl . "/api/" . $this->version,
+            'headers' => [
+                'User-Agent' => $source,
+            ]
         ]);
 
         $this->tokenClient = new Client([
@@ -35,52 +43,58 @@ class K2
         ]);
     }
 
-    public function TokenService()
+    public function TokenService(): TokenService
     {
         $token = new TokenService($this->tokenClient, $this->options);
 
         return $token;
     }
 
-    public function Webhooks()
+    public function Webhooks(): Webhooks
     {
         $webhooks = new Webhooks($this->client, $this->options);
 
         return $webhooks;
     }
 
-    public function StkService()
+    public function StkService(): StkService
     {
         $stk = new StkService($this->client, $this->options);
 
         return $stk;
     }
 
-    public function PayService()
+    public function ExternalRecipientService(): ExternalRecipientService
     {
-        $pay = new PayService($this->client, $this->options);
-
-        return $pay;
+        return new ExternalRecipientService($this->client, $this->options);
     }
 
-    public function SettlementTransferService()
+    public function SettlementTransferService(): SettlementTransferService
     {
         $transfer = new SettlementTransferService($this->client, $this->options);
 
         return $transfer;
     }
 
-    public function PollingService()
+    public function SendMoneyService(): SendMoneyService
+    {
+        return new SendMoneyService($this->client, $this->options);
+    }
+
+    public function PollingService(): PollingService
     {
         $poll = new PollingService($this->client, $this->options);
 
         return $poll;
     }
 
-    public function SmsNotificationService()
+    public function ReversalService(): ReversalService
     {
-        $smsNotify = new SmsNotificationService($this->client, $this->options);
+        return new ReversalService($this->client, $this->options);
+    }
 
-        return $smsNotify;
+    public function PaymentLinkService(): PaymentLinkService
+    {
+        return new PaymentLinkService($this->client, $this->options);
     }
 }

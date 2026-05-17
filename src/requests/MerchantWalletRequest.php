@@ -16,7 +16,11 @@ class MerchantWalletRequest extends BaseRequest
 
     public function getPhoneNumber()
     {
-        return $this->getRequestData('phoneNumber');
+        $validate = new Validate();
+
+        if ($validate->isPhoneValid($this->getRequestData('phoneNumber'))) {
+            return $this->getRequestData('phoneNumber');
+        }
     }
 
     public function getNetwork()

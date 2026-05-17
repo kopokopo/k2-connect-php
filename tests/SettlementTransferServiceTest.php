@@ -269,73 +269,33 @@ class SettlementTransferServiceTest extends TestCase
         $this->assertEquals('You have to provide the phoneNumber', $response['data']);
     }
 
-    /*
-    *   Settle Funds tests
-    */
+    public function testCreateMerchantWalletWithShorterPhoneLengthFails()
+        {
+            $response = $this->merchantWalletClient->createMerchantWallet([
+                'firstName' => 'Jane',
+                'lastName' => 'Doe',
+                'phoneNumber' => '+25470137',
+                'network' => 'Safaricom',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+            ]);
 
-    public function testTargettedSettleFundsSucceeds()
-    {
-        $response = $this->settleFundsClient->settleFunds([
-            'amount' => 333,
-            'currency' => 'KES',
-            'destinationType' => 'merchant_wallet',
-            'destinationReference' => 'my_destination_ref',
-            'accessToken' => 'myRand0mAcc3ssT0k3n',
-            'callbackUrl' => 'http://localhost:8000/test',
-        ]);
+            $this->assertArrayHasKey('data', $response);
+            $this->assertEquals('Invalid phone number format', $response['data']);
+        }
 
-        $this->assertArrayHasKey('status', $response);
-        $this->assertEquals('success', $response['status']);
-    }
+        public function testCreateMerchantWalletWithLongerPhoneLengthFails()
+        {
+            $response = $this->merchantWalletClient->createMerchantWallet([
+                'firstName' => 'Jane',
+                'lastName' => 'Doe',
+                'phoneNumber' => '+2547013788077777',
+                'network' => 'Safaricom',
+                'accessToken' => 'myRand0mAcc3ssT0k3n',
+            ]);
 
-    public function testBlindSettleFundsSucceeds()
-    {
-        $response = $this->settleFundsClient->settleFunds([
-            'accessToken' => 'myRand0mAcc3ssT0k3n',
-            'callbackUrl' => 'http://localhost:8000/test',
-        ]);
-
-        $this->assertArrayHasKey('status', $response);
-        $this->assertEquals('success', $response['status']);
-    }
-
-    public function testBlindSettleFundsWithNocallbackUrlFails()
-    {
-        $response = $this->settleFundsClient->settleFunds([
-            'accessToken' => 'myRand0mAcc3ssT0k3n',
-        ]);
-
-        $this->assertArrayHasKey('data', $response);
-        $this->assertEquals('You have to provide the callbackUrl', $response['data']);
-    }
-
-    public function testTargettedSettleFundsWithNoAccessTokenFails()
-    {
-        $response = $this->settleFundsClient->settleFunds([
-            'amount' => 333,
-            'currency' => 'KES',
-            'destinationType' => 'merchant_wallet',
-            'destinationReference' => 'my_destination_ref',
-            'callbackUrl' => 'http://localhost:8000/test',
-        ]);
-
-        $this->assertArrayHasKey('data', $response);
-        $this->assertEquals('You have to provide the accessToken', $response['data']);
-    }
-
-    public function testTargettedSettleFundsWithNocallbackUrlFails()
-    {
-        $response = $this->settleFundsClient->settleFunds([
-            'amount' => 333,
-            'currency' => 'KES',
-            'destinationType' => 'merchant_wallet',
-            'destinationReference' => 'my_destination_ref',
-            'accessToken' => 'myRand0mAcc3ssT0k3n',
-        ]);
-
-        $this->assertArrayHasKey('data', $response);
-        $this->assertEquals('You have to provide the callbackUrl', $response['data']);
-    }
+            $this->assertArrayHasKey('data', $response);
+            $this->assertEquals('Invalid phone number format', $response['data']);
+        }
 
     /*
     *   Settlement Status tests

@@ -2,7 +2,7 @@
 
 namespace Kopokopo\SDK\Requests;
 
-class PayRecipientMobileRequest extends BaseRequest
+class ExternalMobileWalletRequest extends BaseRequest
 {
     public function getType()
     {
@@ -42,11 +42,11 @@ class PayRecipientMobileRequest extends BaseRequest
         return $this->getRequestData('network');
     }
 
-    public function getPayRecipientBody()
+    public function getExternalRecipientBody()
     {
         return [
             'type' => $this->getType(),
-            'pay_recipient' => [
+            'external_recipient' => [
                 'first_name' => $this->getFirstName(),
                 'last_name' => $this->getLastName(),
                 'email' => $this->getEmail(),
